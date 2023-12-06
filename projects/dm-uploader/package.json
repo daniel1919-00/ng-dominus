@@ -1,6 +1,6 @@
 {
     "name": "@ng-dominus/dm-uploader",
-    "version": "17.0.0",
+    "version": "17.0.1",
     "description": "Dominus angular material uploader extension",
     "publishConfig": {
         "access": "public"
