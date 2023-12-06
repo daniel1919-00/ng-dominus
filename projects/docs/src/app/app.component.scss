@@ -1,0 +1,31 @@
+.header {
+    height: var(--app-header-height);
+    align-items: center;
+    justify-content: space-between;
+
+    .header-items {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.app-container {
+    height: 100%;
+
+    .app-drawer {
+        width: var(--app-sidenav-menu-width);
+    }
+
+    .app-content-container {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+
+        .app-content {
+            width: 100%;
+            max-width: var(--app-sidenav-content-max-width);
+            overflow-x: hidden;
+            padding: var(--app-sidenav-content-padding);
+        }
+    }
+}

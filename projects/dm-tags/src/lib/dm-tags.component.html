@@ -1,0 +1,32 @@
+<mat-chip-grid #tagList>
+    <mat-chip-row *ngFor="let item of value; index as i" (removed)="remove(item, i)">
+        {{item}}
+        <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </mat-chip-row>
+    <ng-container *ngIf="!filteredAutocompleteOptions$; else autocomplete">
+        <input #tagInput autocomplete="off"
+               [disabled]="disabled"
+               [placeholder]="placeholder"
+               [matChipInputFor]="tagList"
+               [matChipInputSeparatorKeyCodes]="addOnKeycodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event)">
+    </ng-container>
+    <ng-template #autocomplete>
+        <input #tagInput autocomplete="off"
+               [disabled]="disabled"
+               [placeholder]="placeholder"
+               [matChipInputFor]="tagList"
+               [matAutocomplete]="auto"
+               [matChipInputSeparatorKeyCodes]="addOnKeycodes"
+               [matChipInputAddOnBlur]="false">
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let option of filteredAutocompleteOptions$ | async" [value]="option">
+                {{ option }}
+            </mat-option>
+        </mat-autocomplete>
+    </ng-template>
+</mat-chip-grid>
