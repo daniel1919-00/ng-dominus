@@ -2,7 +2,7 @@
 
 Angular library based on angular material used to handle file uploads.
 
-Part of [Dominus angular extensions](https://github.com/daniel1919-00/ng-dominus).
+Part of [Dominus angular extensions](https://daniel1919-00.github.io/ng-dominus).
 
 ## Usage
 
