@@ -1,6 +1,6 @@
 # Dominus uploader
 
-Angular library based on angular material used to handle file uploads.
+Angular material based library that handles file uploads.
 
 Part of [Dominus angular extensions](https://daniel1919-00.github.io/ng-dominus).
 

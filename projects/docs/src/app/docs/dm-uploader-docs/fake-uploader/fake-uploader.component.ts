@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldControl} from "@angular/material/form-field";
@@ -86,38 +86,38 @@ import {DominusQueuedFile} from "../../../../../../dm-uploader/src/lib/dm-upload
                     </div>
                     <ng-container *ngIf="hasFiles || filesQueue.has(lastFileId); else noFilesMultiple">
                         <dominus-uploader-file
-                            *ngFor="let file of _value; let i = index"
-                            [fileIndex]="i"
-                            [imagePreviewStyles]="imagePreviewStyles"
-                            [file]="file"
-                            error=""
-                            [progressBarColor]="progressBarColor"
-                            [allowDeleteAction]="allowDeleteAction"
-                            [showImagePreview]="showImagePreview"
-                            (fileDelete)="removeFile($event)"
+                                *ngFor="let file of _value; let i = index"
+                                [fileIndex]="i"
+                                [imagePreviewStyles]="imagePreviewStyles"
+                                [file]="file"
+                                error=""
+                                [progressBarColor]="progressBarColor"
+                                [allowDeleteAction]="allowDeleteAction"
+                                [showImagePreview]="showImagePreview"
+                                (fileDelete)="removeFile($event)"
                         ></dominus-uploader-file>
 
                         <dominus-uploader-file
-                            *ngFor="let queuedFile of filesQueue.entries()"
-                            [fileIndex]="queuedFile[0]"
-                            [error]="queuedFile[1].error"
-                            [imagePreviewStyles]="imagePreviewStyles"
-                            [uploadProgress]="queuedFile[1].progress"
-                            [file]="queuedFile[1]"
-                            [progressBarColor]="progressBarColor"
-                            [allowDeleteAction]="allowDeleteAction"
-                            [showImagePreview]="showImagePreview"
-                            (fileRetry)="retryUpload($event)"
+                                *ngFor="let queuedFile of filesQueue.entries()"
+                                [fileIndex]="queuedFile[0]"
+                                [error]="queuedFile[1].error"
+                                [imagePreviewStyles]="imagePreviewStyles"
+                                [uploadProgress]="queuedFile[1].progress"
+                                [file]="queuedFile[1]"
+                                [progressBarColor]="progressBarColor"
+                                [allowDeleteAction]="allowDeleteAction"
+                                [showImagePreview]="showImagePreview"
+                                (fileRetry)="retryUpload($event)"
                         ></dominus-uploader-file>
                     </ng-container>
                     <ng-template #noFilesMultiple>
                         <div class="no-files-multiple">
                             <h3>{{ intl[DominusUploaderIntl.MULTIPLE_NO_FILES_MESSAGE] }}</h3>
                             <span *ngIf="allowedExtensions.length" class="allowed-extensions">
-                        <span>{{intl[DominusUploaderIntl.ALLOWED_EXTENSIONS]}}</span> {{ allowedExtensions.join(', ') }}
+                        <span>{{ intl[DominusUploaderIntl.ALLOWED_EXTENSIONS] }}</span> {{ allowedExtensions.join(', ') }}
                     </span>
                             <span
-                                *ngIf="maxImageSizeText">{{ intl[DominusUploaderIntl.IMAGE_SIZE_CHECK_TEXT] }} {{ maxImageSizeText }}</span>
+                                    *ngIf="maxImageSizeText">{{ intl[DominusUploaderIntl.IMAGE_SIZE_CHECK_TEXT] }} {{ maxImageSizeText }}</span>
                         </div>
                     </ng-template>
                 </ng-container>
@@ -135,15 +135,15 @@ import {DominusQueuedFile} from "../../../../../../dm-uploader/src/lib/dm-upload
                     </div>
 
                     <dominus-uploader-file
-                        *ngIf="hasFiles || filesQueue.has(lastFileId);"
-                        [fileIndex]="0"
-                        [imagePreviewStyles]="imagePreviewStyles"
-                        [error]="filesQueue.get(lastFileId)?.error || ''"
-                        [uploadProgress]="filesQueue.get(lastFileId)?.progress"
-                        [file]="hasFiles ? _value[0] : $any(filesQueue.get(lastFileId))"
-                        [progressBarColor]="progressBarColor"
-                        (fileDelete)="removeFile($event)"
-                        (fileRetry)="retryUpload($event)"
+                            *ngIf="hasFiles || filesQueue.has(lastFileId);"
+                            [fileIndex]="0"
+                            [imagePreviewStyles]="imagePreviewStyles"
+                            [error]="filesQueue.get(lastFileId)?.error || ''"
+                            [uploadProgress]="filesQueue.get(lastFileId)?.progress"
+                            [file]="hasFiles ? _value[0] : $any(filesQueue.get(lastFileId))"
+                            [progressBarColor]="progressBarColor"
+                            (fileDelete)="removeFile($event)"
+                            (fileRetry)="retryUpload($event)"
                     ></dominus-uploader-file>
                 </ng-container>
 
@@ -157,26 +157,26 @@ import {DominusQueuedFile} from "../../../../../../dm-uploader/src/lib/dm-upload
                         <div class="image-previews">
                             <ng-container *ngIf="multiple || filesQueue.size === 0">
                                 <dominus-uploader-image
-                                    *ngFor="let file of _value; let i = index"
-                                    [fileIndex]="i"
-                                    [file]="file"
-                                    error=""
-                                    [progressBarColor]="progressBarColor"
-                                    [imagePreviewStyles]="imagePreviewStyles"
-                                    [allowDeleteAction]="allowDeleteAction"
-                                    (fileDelete)="removeFile($event)"></dominus-uploader-image>
+                                        *ngFor="let file of _value; let i = index"
+                                        [fileIndex]="i"
+                                        [file]="file"
+                                        error=""
+                                        [progressBarColor]="progressBarColor"
+                                        [imagePreviewStyles]="imagePreviewStyles"
+                                        [allowDeleteAction]="allowDeleteAction"
+                                        (fileDelete)="removeFile($event)"></dominus-uploader-image>
                             </ng-container>
 
                             <dominus-uploader-image
-                                *ngFor="let queuedFile of filesQueue.entries()"
-                                [fileIndex]="queuedFile[0]"
-                                [error]="queuedFile[1].error"
-                                [uploadProgress]="queuedFile[1].progress"
-                                [file]="queuedFile[1]"
-                                [progressBarColor]="progressBarColor"
-                                [imagePreviewStyles]="imagePreviewStyles"
-                                [allowDeleteAction]="allowDeleteAction"
-                                (fileRetry)="retryUpload($event)"></dominus-uploader-image>
+                                    *ngFor="let queuedFile of filesQueue.entries()"
+                                    [fileIndex]="queuedFile[0]"
+                                    [error]="queuedFile[1].error"
+                                    [uploadProgress]="queuedFile[1].progress"
+                                    [file]="queuedFile[1]"
+                                    [progressBarColor]="progressBarColor"
+                                    [imagePreviewStyles]="imagePreviewStyles"
+                                    [allowDeleteAction]="allowDeleteAction"
+                                    (fileRetry)="retryUpload($event)"></dominus-uploader-image>
                         </div>
                     </ng-container>
                 </ng-container>
@@ -185,10 +185,10 @@ import {DominusQueuedFile} from "../../../../../../dm-uploader/src/lib/dm-upload
                     <div class="no-files-multiple">
                         <h3>{{ intl[DominusUploaderIntl.NO_IMAGE_MESSAGE] }}</h3>
                         <span *ngIf="allowedExtensions.length" class="allowed-extensions">
-                    <span>{{intl[DominusUploaderIntl.ALLOWED_EXTENSIONS]}}</span> {{ allowedExtensions.join(', ') }}
+                    <span>{{ intl[DominusUploaderIntl.ALLOWED_EXTENSIONS] }}</span> {{ allowedExtensions.join(', ') }}
                 </span>
                         <span
-                            *ngIf="maxImageSizeText">{{ intl[DominusUploaderIntl.IMAGE_SIZE_CHECK_TEXT] }} {{ maxImageSizeText }}</span>
+                                *ngIf="maxImageSizeText">{{ intl[DominusUploaderIntl.IMAGE_SIZE_CHECK_TEXT] }} {{ maxImageSizeText }}</span>
                     </div>
                 </ng-template>
             </ng-container>
@@ -205,8 +205,7 @@ export class FakeUploaderComponent extends DmUploaderComponent {
         let loaded = 0;
 
         interval(1000).pipe(takeUntil(this.componentDestroyed$), take(duration), finalize(() => {
-            if(!this.multiple)
-            {
+            if (!this.multiple) {
                 this._value = [];
             }
             this._value.push({
@@ -222,9 +221,9 @@ export class FakeUploaderComponent extends DmUploaderComponent {
             this.filesQueue.delete(queuedDominusFile.id);
             this.hasFiles = true;
             this.changeDetector.markForCheck();
-            this._onChange(this.value);
-            if(this.isInAngularForm && !this.filesQueue.size)
-            {
+            this.onChange(this.value);
+            this.stateChanges.next();
+            if (this.isInAngularForm && !this.filesQueue.size) {
                 this.uploadFinished.next(this.value);
             }
         })).subscribe(() => {
@@ -233,15 +232,18 @@ export class FakeUploaderComponent extends DmUploaderComponent {
             this.changeDetector.markForCheck();
         });
 
-        return new Promise(() => {}) as Promise<void>;
+        return new Promise(() => {
+        }) as Promise<void>;
     }
 
     override removeFile(fileIndex: number) {
         this._value.splice(fileIndex, 1);
         this.hasFiles = this._value.length > 0;
         this.changeDetector.markForCheck();
-        this._onChange(this.value);
+        this.onChange(this.value);
+        this.stateChanges.next();
 
-        return new Promise(() => {}) as Promise<void>;
+        return new Promise(() => {
+        }) as Promise<void>;
     }
 }

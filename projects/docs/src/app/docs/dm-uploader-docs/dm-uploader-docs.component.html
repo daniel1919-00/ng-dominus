@@ -8,15 +8,14 @@
 
                     <section formGroupName="config">
                         <mat-checkbox color="primary" formControlName="multiple">Multiple</mat-checkbox>
+                        <mat-form-field>
+                            <mat-label>Type</mat-label>
+                            <mat-select formControlName="type">
+                                <mat-option value="file-uploader">file-uploader</mat-option>
+                                <mat-option value="image-uploader">image-uploader</mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </section>
-
-                    <mat-form-field formGroupName="config">
-                        <mat-label>Type</mat-label>
-                        <mat-select formControlName="type">
-                            <mat-option value="file-uploader">file-uploader</mat-option>
-                            <mat-option value="image-uploader">image-uploader</mat-option>
-                        </mat-select>
-                    </mat-form-field>
 
                     <br>
                     <h2>Result</h2>

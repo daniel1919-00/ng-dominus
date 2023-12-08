@@ -2,22 +2,45 @@
     <mat-tab-group animationDuration="0">
         <mat-tab label="Overview">
             <mat-card-content>
-                <form [formGroup]="form">
+                <app-code-example [code]="dmTagsExampleCode">
+                    <form [formGroup]="form">
 
-                    <h2>Configuration</h2>
+                        <h2>Configuration</h2>
 
+                        <section formGroupName="config">
+                            <mat-form-field>
+                                <mat-label>autocompleteOptions</mat-label>
+                                <dm-tags formControlName="autocompleteOptions"></dm-tags>
+                            </mat-form-field>
 
+                            <mat-form-field>
+                                <mat-label>addOnKeycodes</mat-label>
+                                <mat-select [multiple]="true" formControlName="addOnKeycodes">
+                                    <mat-option [value]="ENTER">ENTER</mat-option>
+                                    <mat-option [value]="COMMA">COMMA</mat-option>
+                                    <mat-option [value]="SEMICOLON">SEMICOLON</mat-option>
+                                </mat-select>
+                            </mat-form-field>
 
-                    <br>
-                    <h2>Result</h2>
-                    <mat-form-field>
-                        <mat-label>Tags</mat-label>
-                        <dm-tags formControlName="value"></dm-tags>
-                    </mat-form-field>
-                </form>
-                <br><br>
-                Form Value:
-                <pre>{{ form.get('value')?.value | json }}</pre>
+                            <mat-checkbox color="primary" formControlName="addOnBlur">addOnBlur</mat-checkbox>
+                        </section>
+
+                        <br>
+                        <h2>Result</h2>
+                        <mat-form-field>
+                            <mat-label>Tags</mat-label>
+                            <dm-tags
+                                formControlName="value"
+                                [autocompleteOptions]="form.get('config.autocompleteOptions')?.value || []"
+                                [addOnKeycodes]="form.get('config.addOnKeycodes')?.value || [ENTER]"
+                                [addOnBlur]="form.get('config.addOnBlur')?.value || true"
+                            ></dm-tags>
+                        </mat-form-field>
+                    </form>
+                    <br><br>
+                    <h2>Form Value</h2>
+                    <pre>{{ form.get('value')?.value | json }}</pre>
+                </app-code-example>
             </mat-card-content>
         </mat-tab>
         <mat-tab label="Api">

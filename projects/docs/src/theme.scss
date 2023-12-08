@@ -1,0 +1,37 @@
+@use '@angular/material' as mat;
+
+@mixin material-components($theme) {
+    @include mat.core-theme($theme);
+    @include mat.card-theme($theme);
+    @include mat.select-theme($theme);
+    @include mat.option-theme($theme);
+    @include mat.tabs-theme($theme);
+    @include mat.button-theme($theme);
+    @include mat.icon-button-theme($theme);
+    @include mat.input-theme($theme);
+    @include mat.checkbox-theme($theme);
+    @include mat.autocomplete-theme($theme);
+    @include mat.chips-theme($theme);
+    @include mat.menu-theme($theme);
+    @include mat.toolbar-theme($theme);
+    @include mat.sidenav-theme($theme);
+    @include mat.form-field-theme($theme);
+}
+
+@mixin material-components-colors($theme) {
+    @include mat.core-color($theme);
+    @include mat.card-color($theme);
+    @include mat.select-color($theme);
+    @include mat.option-color($theme);
+    @include mat.tabs-color($theme);
+    @include mat.button-color($theme);
+    @include mat.icon-button-color($theme);
+    @include mat.input-color($theme);
+    @include mat.checkbox-color($theme);
+    @include mat.autocomplete-color($theme);
+    @include mat.chips-color($theme);
+    @include mat.menu-color($theme);
+    @include mat.toolbar-color($theme);
+    @include mat.sidenav-color($theme);
+    @include mat.form-field-color($theme);
+}

@@ -5,13 +5,13 @@
             The current value. Must be an array of DominusFile objects.
 
             <pre>
-export interface DominusFile {{'{'}}
+export interface DominusFile {{ '{' }}
                 name: string; // Displayed file name
     size?: number;
     type?: string;
     imagePreviewUrl?: string; // will be used to generate a preview
-    data?: {{'{'}} [key: string]: any {{'}'}};
-                {{'}'}}
+    data?: {{ '{' }} [key: string]: any {{ '}' }};
+                {{ '}' }}
             </pre>
         </app-component-docs-section-item>
 
@@ -60,7 +60,7 @@ export interface DominusFile {{'{'}}
         <app-component-docs-section-item label="maxImageSize">
             Limits the maximum width and/or height of uploaded images.
             Multiple sizes can be added in the array, for example you can
-            check if the uploaded image has a width of 100 by passing [maxImageSize]="[{{'{'}}width: 100{{'}'}}]"
+            check if the uploaded image has a width of 100 by passing [maxImageSize]="[{{ '{' }}width: 100{{ '}' }}]"
         </app-component-docs-section-item>
 
         <app-component-docs-section-item label="maxFileSize">
@@ -100,19 +100,19 @@ export interface DominusFile {{'{'}}
             Internationalization can be achieved by using the <strong>DOMINUS_UPLOADER_INTL</strong> injection token,
             and passing an object of strings using the <strong>DominusUploaderIntl</strong> members as keys.
             <pre>
-&#64;Component({{'{'}}
+&#64;Component({{ '{' }}
                 ...
-    providers: [{{'{'}}
+    providers: [{{ '{' }}
                 provide: DOMINUS_UPLOADER_INTL,
-        useValue: {{'{'}}
+        useValue: {{ '{' }}
                 [DominusUploaderIntl.UNKNOWN_ERROR]: 'Upload Failed'
                 ...
-                {{'}'}}
-                {{'}'}}]
-                {{'}'}})
-export class UploaderDemoComponent {{'{'}}
+                {{ '}' }}
+                {{ '}' }}]
+                {{ '}' }})
+export class UploaderDemoComponent {{ '{' }}
                 ...
-                {{'}'}}
+                {{ '}' }}
             </pre>
         </app-component-docs-section-item>
     </app-component-docs-section>

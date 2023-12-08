@@ -1,23 +1,21 @@
 import {
-    ChangeDetectorRef,
     Component,
     ElementRef,
     Input, OnChanges,
-    OnDestroy,
-    Optional,
-    Self, SimpleChanges,
+    OnDestroy, Optional, Self,
+    SimpleChanges,
     ViewChild
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatFormField, MatFormFieldControl} from "@angular/material/form-field";
-import {ControlValueAccessor, NgControl, Validators} from "@angular/forms";
-import {BehaviorSubject, Subject, takeUntil} from "rxjs";
-import {FocusMonitor} from "@angular/cdk/a11y";
+import {MatFormFieldControl} from "@angular/material/form-field";
+import {BehaviorSubject, startWith, Subject, Subscription} from "rxjs";
 import {ENTER} from "@angular/cdk/keycodes";
-import {coerceBooleanProperty} from "@angular/cdk/coercion";
 import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatIconModule} from "@angular/material/icon";
+import {CustomAngularMaterialFormControl} from "../../../shared/custom-angular-material-form-control";
+import {FocusMonitor, FocusOrigin} from "@angular/cdk/a11y";
+import {NgControl} from "@angular/forms";
 
 @Component({
     selector: 'dm-tags',
@@ -32,168 +30,172 @@ import {MatIconModule} from "@angular/material/icon";
     templateUrl: './dm-tags.component.html',
     styles: ``
 })
-export class DmTagsComponent implements OnChanges, OnDestroy, MatFormFieldControl<any>, ControlValueAccessor {
+export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> implements OnChanges, OnDestroy {
     static nextId = 0;
 
-    @ViewChild('tagsInput') tagInput!: ElementRef;
-
-    @Input() autocompleteOptions?: string[] | Promise<string[]>;
-    @Input() placeholder = '';
-    @Input() value: string[] = [];
-    @Input() addOnKeycodes: number[] = [ENTER];
-    @Input() addOnBlur: boolean = true;
-
     readonly id = `dm-tags-${DmTagsComponent.nextId++}`;
-    focused = false;
-    stateChanges = new Subject<void>();
 
-    protected filteredAutocompleteOptions$?: BehaviorSubject<string[]>;
+    /**
+     * If set then an autocomplete list is appended to the tags input.
+     * Can be a function that will be called initially and whenever the users inputs text, and should return a promise with the filtered list items.
+     */
+    @Input() autocompleteOptions?: string[] | ((searchString: string) => Promise<string[]>);
+    /**
+     * Keycode presses to add the current input string as a tag
+     */
+    @Input() addOnKeycodes: number[] = [ENTER];
+    /**
+     * Add the current input string on element blur
+     */
+    @Input() addOnBlur: boolean = true;
+    /**
+     * Whether duplicate values are allowed
+     */
+    @Input() allowDuplicates: boolean = false;
+    /**
+     * Function that returns true to allow the item or false to reject it
+     */
+    @Input() onBeforeAdd?: (item: string) => boolean;
 
-    private touched: boolean = false;
-    private onChange = (tags: string[]) => tags;
-    private onTouched = () => {
-    };
-    private componentDestroyed$: Subject<void> = new Subject<void>();
-    private _required: boolean = false;
-    private _disabled = false;
+    /**
+     * Function that returns true to allow the deletion or false to reject it
+     */
+    @Input() onBeforeRemove?: (item: string) => boolean;
+
+    protected filteredAutocompleteOptions$ = new BehaviorSubject<string[]>([]);
+
+    @ViewChild('tagInput') private readonly tagInput?: ElementRef;
+    private _value: string[] = [];
+    private autocomplete$?: Subject<string>;
+    private autocompleteSub?: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private fm: FocusMonitor,
-        @Optional() @Self() public ngControl: NgControl,
-        @Optional() public parentFormField: MatFormField,
-        private elRef: ElementRef
+        @Optional() @Self() ngControl: NgControl,
+        selfElementRef: ElementRef,
+        focusMonitor: FocusMonitor,
     ) {
-        if (this.ngControl) {
-            this.ngControl.valueAccessor = this;
-            const ngFormControl = this.ngControl.control;
-            if (ngFormControl) {
-                this._required = ngFormControl.hasValidator(Validators.required) ?? false;
-                ngFormControl.statusChanges.pipe(takeUntil(this.componentDestroyed$)).subscribe(() => {
-                    this._required = ngFormControl.hasValidator(Validators.required) ?? false;
-                    this.changeDetector.markForCheck();
-                    this.stateChanges.next();
-                });
-            }
-        }
-
-        if (this.parentFormField) {
-            this.fm.monitor(elRef.nativeElement, true).subscribe(origin => this.focused = !!origin);
-        }
+        super(ngControl, focusMonitor, selfElementRef);
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        if(changes['value'] && !changes['value'].firstChange) {
+            this.onChange(this._value);
+        }
+
         if(changes['autocompleteOptions']) {
+            if(!changes['autocompleteOptions'].firstChange) {
+                this.autocompleteSub?.unsubscribe();
+            }
+
             if(this.autocompleteOptions) {
-                this.filteredAutocompleteOptions$ = new BehaviorSubject<string[]>(Array.isArray(this.autocompleteOptions) ? this.autocompleteOptions : []);
+                this.autocomplete$ = new Subject<string>();
+
+                this.autocompleteSub = this.autocomplete$.pipe(startWith('')).subscribe((searchString) => {
+                    if(Array.isArray(this.autocompleteOptions)) {
+                        if(searchString === '') {
+                            this.filteredAutocompleteOptions$.next(this.autocompleteOptions);
+                            return;
+                        }
+
+                        this.filteredAutocompleteOptions$.next(this.autocompleteOptions.filter(item => item.includes(searchString)));
+                        return;
+                    }
+
+                    this.autocompleteOptions && this.autocompleteOptions(searchString).then(results => this.filteredAutocompleteOptions$.next(results));
+                });
             } else {
-                this.filteredAutocompleteOptions$ = undefined;
+                this.autocomplete$ = undefined;
             }
         }
     }
 
-    add(ev: MatChipInputEvent) {
-        ev.chipInput!.clear();
-        this.addValue((ev.value || '').trim());
-    }
-
-    remove(item: string, itemIndex: number) {
-        const currentValues = this.value;
-        currentValues.splice(itemIndex, 1);
-        this.onChange(currentValues);
-        this.setTouched();
-        this.changeDetector.markForCheck();
-        this.stateChanges.next();
-    }
-
-    selected(event: MatAutocompleteSelectedEvent) {
-        this.tagInput.nativeElement.value = '';
-        this.addValue(event.option.viewValue);
-    }
-
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-
-    registerOnTouched(fn: any): void {
-        this.onTouched = fn;
-    }
-
-    setTouched() {
-        if (!this.touched) {
-            this.onTouched();
-        }
-    }
-
-    setDescribedByIds(): void {
-    }
-
-    onContainerClick(): void {
-        this.setTouched();
+    override onContainerClick(): void {
+        super.onContainerClick();
+        this.tagInput && (this.tagInput.nativeElement as HTMLInputElement).focus();
     }
 
     @Input()
-    get disabled() {
-        return this._disabled;
-    }
-
-    set disabled(dis) {
-        this._disabled = coerceBooleanProperty(dis);
+    set value(val: string[] | null) {
+        this._value = val || [];
         this.stateChanges.next();
     }
 
-    @Input()
-    get required(): boolean {
-        return this._required;
-    }
-
-    set required(req: any) {
-        this._required = coerceBooleanProperty(req);
-        this.stateChanges.next();
-    }
-
-    get errorState(): boolean {
-        return (this.ngControl && this.ngControl.invalid && this.ngControl.touched) as boolean;
+    get value(): string[] {
+        return this._value;
     }
 
     get empty() {
-        return this.value.length === 0 && this.tagInput?.nativeElement.value === '';
+        return this.value.length === 0 && (this.tagInput?.nativeElement.value || '') === '';
     }
 
-    get shouldLabelFloat() {
-        return this.focused || !this.empty;
-    }
+    protected add(ev: MatChipInputEvent) {
+        const value = (ev.value || '').trim();
+        ev.chipInput!.clear();
 
-    setDisabledState(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
-
-    writeValue(value: string[] | null): void {
-        if (value === null) {
-            this.value = [];
-        } else if (Array.isArray(value)) {
-            this.value = value || [];
-        } else {
-            throw new Error('TagEditorComponent input value must be an array!');
+        if(this.onBeforeAdd && !this.onBeforeAdd(value)) {
+            return;
         }
 
-        this.changeDetector.markForCheck();
+        this.addValue(value);
+    }
+
+    protected remove(item: string, itemIndex: number) {
+        if(this.onBeforeRemove && !this.onBeforeRemove(item)) {
+            return;
+        }
+
+        const currentValues = this.value;
+        currentValues.splice(itemIndex, 1);
+        this.onChange(currentValues);
+        this.controlTouched();
         this.stateChanges.next();
     }
 
-    private addValue(value: string) {
-        const currentValues = this.value;
-        if (value && currentValues.indexOf(value) === -1) {
-            currentValues.push(value);
-            this.onChange(currentValues);
-            this.stateChanges.next();
+    protected selected(event: MatAutocompleteSelectedEvent) {
+        if(this.tagInput) {
+            this.tagInput.nativeElement.value = '';
         }
+        this.addValue(event.option.viewValue);
+        this.autocomplete$?.next('');
     }
 
-    ngOnDestroy() {
-        this.componentDestroyed$.next();
-        this.componentDestroyed$.complete();
-        this.fm.stopMonitoring(this.elRef.nativeElement);
-        this.stateChanges.complete();
+    protected autoComplete(event: KeyboardEvent) {
+        const value = (event.target as HTMLInputElement)?.value || '';
+        this.autocomplete$?.next(value.trim().toLowerCase());
+    }
+
+    private addValue(value: string) {
+        if(!value) {
+            return;
+        }
+
+        const currentValues = this.value;
+        if(!this.allowDuplicates && currentValues.indexOf(value) !== -1) {
+            return;
+        }
+
+        currentValues.push(value);
+        this.onChange(currentValues);
+        this.stateChanges.next();
+    }
+
+    protected override onFocusLost(origin: FocusOrigin) {
+        if(this.addOnBlur) {
+            const tagInputEl: HTMLInputElement = this.tagInput?.nativeElement;
+            if(tagInputEl) {
+                const value = tagInputEl.value.trim();
+                if(value !== '') {
+                    tagInputEl.value = '';
+                    this.addValue(value);
+                }
+            }
+        }
+
+        super.onFocusLost(origin);
+    }
+
+    override ngOnDestroy() {
+        super.ngOnDestroy();
+        this.autocompleteSub?.unsubscribe();
     }
 }

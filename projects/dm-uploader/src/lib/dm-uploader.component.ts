@@ -5,7 +5,6 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    HostBinding,
     Inject,
     Input, OnChanges,
     OnDestroy,
@@ -20,7 +19,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {DominusUploaderImageComponent} from "./components/dominus-uploader-image/dominus-uploader-image.component";
 import {MAT_FORM_FIELD, MatFormField, MatFormFieldControl} from "@angular/material/form-field";
-import {ControlValueAccessor, NgControl} from "@angular/forms";
+import {NgControl} from "@angular/forms";
 import {
     DOMINUS_UPLOADER_INTL,
     DominusFile,
@@ -31,7 +30,7 @@ import {
 import {HttpClient, HttpEventType, HttpHeaders} from "@angular/common/http";
 import {ThemePalette} from "@angular/material/core";
 import {catchError, fromEvent, of, Subject, takeUntil} from "rxjs";
-import {coerceBooleanProperty} from "@angular/cdk/coercion";
+import {CustomAngularMaterialFormControl} from "../../../shared/custom-angular-material-form-control";
 
 @Component({
     selector: 'dm-uploader',
@@ -53,11 +52,10 @@ import {coerceBooleanProperty} from "@angular/cdk/coercion";
         DominusUploaderImageComponent
     ],
 })
-export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit, ControlValueAccessor, MatFormFieldControl<DominusFile[]> {
+export class DmUploaderComponent extends CustomAngularMaterialFormControl<DominusFile[]> implements OnChanges, OnDestroy, AfterViewInit {
     static nextId = 0;
 
-    @ViewChild('uploaderContainer') uploaderContainer!: ElementRef;
-    @ViewChild('fileInput') fileInput!: ElementRef;
+    id = `dm-uploader-${DmUploaderComponent.nextId++}`;
 
     /**
      * Endpoint that handles storing the file
@@ -126,11 +124,6 @@ export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit,
      */
     @Output() uploadFinished = new EventEmitter<DominusFile[]>();
 
-    @HostBinding() id = `dm-uploader-${DmUploaderComponent.nextId++}`;
-
-    stateChanges = new Subject<void>();
-    focused = false;
-
     protected containerClasses: { [klass: string]: boolean } = {
         'container': true,
         'multiple': false,
@@ -144,28 +137,23 @@ export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit,
     protected uploaderType: string = '';
     protected maxImageSizeText: string = '';
     protected hasFiles = false;
-    protected _onChange = (files: DominusFile[]) => files;
-    protected _onTouched = () => {};
     protected isInAngularForm = false;
     protected readonly DominusUploaderIntl = DominusUploaderIntl;
-    protected readonly componentDestroyed$ = new Subject<void>();
+    protected componentDestroyed$ = new Subject<void>();
 
-    private _disabled: boolean = false;
-    private _required: boolean = false;
-    private _placeholder: string = '';
+    @ViewChild('uploaderContainer') private readonly uploaderContainer!: ElementRef;
+    @ViewChild('fileInput') private readonly fileInput!: ElementRef;
 
     constructor(
         protected readonly http: HttpClient,
         protected readonly changeDetector: ChangeDetectorRef,
         @Optional() @Inject(DOMINUS_UPLOADER_INTL) public readonly intl: Record<DominusUploaderIntl, string>,
-        @Optional() @Inject(MAT_FORM_FIELD) public matFormField: MatFormField,
-        @Optional() @Self() public ngControl: NgControl,
+        @Optional() @Self() ngControl: NgControl,
+        @Optional() @Inject(MAT_FORM_FIELD) public readonly parentFormField?: MatFormField,
     ) {
-        if (this.ngControl != null) {
-            this.ngControl.valueAccessor = this;
-        }
+        super(ngControl);
 
-        this.containerClasses['mat-form-field'] = !!this.matFormField;
+        this.containerClasses['mat-form-field'] = !!parentFormField;
 
         this.intl = {
             [DominusUploaderIntl.UNKNOWN_ERROR]: 'Upload Failed!',
@@ -185,8 +173,7 @@ export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit,
         }
     }
 
-    ngOnChanges()
-    {
+    ngOnChanges() {
         this.uploaderType = this.type + (this.multiple ? '-multiple' : '-single');
         this.containerClasses['multiple'] = this.multiple;
         this.containerClasses['image-uploader'] = this.type === 'image-uploader';
@@ -196,10 +183,11 @@ export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit,
         }
 
         this.changeDetector.markForCheck();
+        this.stateChanges.next();
     }
 
     ngAfterViewInit() {
-        const uploaderContainer = this.matFormField?._elementRef.nativeElement || this.uploaderContainer.nativeElement;
+        const uploaderContainer = this.parentFormField?._elementRef.nativeElement || this.uploaderContainer.nativeElement;
         fromEvent<DragEvent>(uploaderContainer, 'dragover').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onDragOver(evt));
         fromEvent<DragEvent>(uploaderContainer, 'dragleave').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onDragLeave(evt));
         fromEvent<DragEvent>(uploaderContainer, 'drop').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onFilesDropped(evt));
@@ -230,67 +218,12 @@ export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit,
         this.stateChanges.next();
     }
 
-    get errorState(): boolean {
-        return (this.ngControl && this.ngControl.invalid && this.ngControl.touched) as boolean;
-    }
-
-    setDescribedByIds() {
-    }
-
-    onContainerClick() {
-        this._onTouched();
-    }
-
-    @HostBinding('class.floating')
-    get shouldLabelFloat() {
+    override get shouldLabelFloat() {
         return true;
     }
 
     get empty() {
         return this.value.length === 0;
-    }
-
-    get placeholder() {
-        return this._placeholder;
-    }
-
-    @Input()
-    set placeholder(plh) {
-        this._placeholder = plh;
-        this.stateChanges.next();
-    }
-
-    @Input()
-    set disabled(state: boolean) {
-        this._disabled = coerceBooleanProperty(state);
-        this.stateChanges.next();
-    }
-
-    get disabled() {
-        return this._disabled;
-    }
-
-    @Input()
-    set required(state: boolean) {
-        this._required = coerceBooleanProperty(state);
-        this.stateChanges.next();
-    }
-
-    get required() {
-        return this._required;
-    }
-
-    registerOnChange(fn: any): void {
-        this._onChange = fn;
-        this.isInAngularForm = true;
-    }
-
-    registerOnTouched(fn: any): void {
-        this._onTouched = fn;
-    }
-
-    writeValue(val: DominusFile[]): void {
-        this.value = val;
     }
 
     protected async onFilesAdded(addedFiles: FileList) {
@@ -369,9 +302,10 @@ export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit,
 
                         this.filesQueue.delete(queuedDominusFile.id);
                         this.hasFiles = true;
-                        this.changeDetector.markForCheck();
-                        this._onChange(this.value);
                         this.uploadFinished.next(this.value);
+                        this.changeDetector.markForCheck();
+                        this.onChange(this.value);
+                        this.stateChanges.next();
                         break;
                 }
             }
@@ -498,7 +432,6 @@ export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit,
         return '';
     }
 
-
     private async getImageSize(url: string): Promise<{ width: number; height: number; }> {
         return new Promise((resolve, reject) => {
             const img = new Image();
@@ -518,10 +451,9 @@ export class DmUploaderComponent implements OnChanges, OnDestroy, AfterViewInit,
         });
     }
 
-
-    ngOnDestroy() {
+    override ngOnDestroy() {
+        super.ngOnDestroy();
         this.componentDestroyed$.next();
         this.componentDestroyed$.complete();
-        this.stateChanges.complete();
     }
 }

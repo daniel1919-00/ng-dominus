@@ -1,19 +1,7 @@
 @use '@angular/material' as mat;
+@use './theme';
 
 @include mat.core();
-
-$primary-palette: mat.define-palette(mat.$indigo-palette, 500);
-$accent-palette: mat.define-palette(mat.$lime-palette, A200, A100, A400);
-$warn-palette: mat.define-palette(mat.$red-palette);
-@include mat.all-component-themes(mat.define-light-theme((
-    color: (
-        primary: $primary-palette,
-        accent: $accent-palette,
-        warn: $warn-palette,
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-)));
 
 :root {
     --app-sidenav-content-max-width: 100%;
@@ -23,10 +11,6 @@ $warn-palette: mat.define-palette(mat.$red-palette);
     --app-sidenav-menu-item-padding: 10px;
     --app-sidenav-menu-item-margin: 8px;
     --app-sidenav-menu-item-border-radius: 4px;
-    --app-sidenav-menu-active-hover-background: #{mat.get-color-from-palette($primary-palette)};
-    --app-sidenav-menu-active-hover-color: #{mat.get-color-from-palette($primary-palette, 'default-contrast')};
-    --app-color-warn: #{mat.get-color-from-palette($warn-palette)};
-    --app-color-primary: #{mat.get-color-from-palette($primary-palette)};
 }
 
 @media only screen and (min-width: 1400px) {
@@ -41,4 +25,42 @@ body {
     width: 100%;
     height: calc(100vh - var(--app-header-height));
     font-family: Roboto, "Helvetica Neue", sans-serif;
+
+    $primary-palette: mat.define-palette(mat.$indigo-palette, 500);
+    $accent-palette: mat.define-palette(mat.$light-blue-palette, A200, A100, A400);
+    $warn-palette: mat.define-palette(mat.$red-palette);
+    @include theme.material-components(mat.define-light-theme((
+        color: (
+            primary: $primary-palette,
+            accent: $accent-palette,
+            warn: $warn-palette,
+        ),
+        typography: mat.define-typography-config(),
+        density: 0,
+    )));
+
+    --app-sidenav-menu-active-hover-background: #{mat.get-color-from-palette($primary-palette)};
+    --app-sidenav-menu-active-hover-color: #{mat.get-color-from-palette($primary-palette, 'default-contrast')};
+    --app-color-warn: #{mat.get-color-from-palette($warn-palette)};
+    --app-color-primary: #{mat.get-color-from-palette($primary-palette)};
+
+    &.dark {
+        $primary-palette: mat.define-palette(mat.$indigo-palette, 400);
+        $accent-palette: mat.define-palette(mat.$light-blue-palette, A200, A100, A400);
+        $warn-palette: mat.define-palette(mat.$red-palette);
+        @include theme.material-components-colors(mat.define-dark-theme((
+            color: (
+                primary: $primary-palette,
+                accent: $accent-palette,
+                warn: $warn-palette,
+            ),
+            typography: mat.define-typography-config(),
+            density: 0,
+        )));
+
+        --app-sidenav-menu-active-hover-background: #{mat.get-color-from-palette($primary-palette)};
+        --app-sidenav-menu-active-hover-color: #{mat.get-color-from-palette($primary-palette, 'default-contrast')};
+        --app-color-warn: #{mat.get-color-from-palette($warn-palette)};
+        --app-color-primary: #{mat.get-color-from-palette($primary-palette)};
+    }
 }

@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject} from '@angular/core';
 import {menuItem} from "./sidenav";
 import {routes} from "./app.routes";
-import {CommonModule} from "@angular/common";
+import {CommonModule, DOCUMENT} from "@angular/common";
 import {RouterOutlet} from "@angular/router";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {SidenavMenuItemComponent} from "./components/sidenav-menu-item/sidenav-menu-item.component";
@@ -22,11 +22,14 @@ export class AppComponent {
     menuItems: menuItem[] = [];
     sideMenuOpen = true;
     mobileScreenSize = false;
+    isDarkMode = false;
 
     constructor(
         protected breakpointObserver: BreakpointObserver,
-        private changeDetector: ChangeDetectorRef
+        private changeDetector: ChangeDetectorRef,
+        @Inject(DOCUMENT) private document: Document
     ) {
+        this.setDarkMode(localStorage.getItem('darkModeEnabled') === '1');
         const menuItems: menuItem[] = [];
         for (let i = routes.length; i--;) {
             const route = routes[i];
@@ -43,7 +46,7 @@ export class AppComponent {
             });
         }
 
-        menuItems.sort((a, b) => {
+        this.menuItems = menuItems.sort((a, b) => {
             if (a.title < b.title) {
                 return -1;
             }
@@ -55,13 +58,27 @@ export class AppComponent {
             return 0;
         });
 
-        this.menuItems = menuItems;
-
         breakpointObserver.observe('(max-width: 768px)').subscribe(mobileSize => {
             const mobileScreenSize = mobileSize.matches;
             this.sideMenuOpen = !mobileScreenSize;
             this.mobileScreenSize = mobileScreenSize;
             this.changeDetector.markForCheck();
         });
+    }
+
+    protected setDarkMode(state: boolean) {
+        if(this.isDarkMode === state) {
+            return;
+        }
+
+        const body = this.document.body;
+        if(state) {
+            body.classList.add('dark');
+        } else {
+            body.classList.remove('dark');
+        }
+
+        this.isDarkMode = state;
+        localStorage.setItem('darkModeEnabled', state ? '1' : '0');
     }
 }

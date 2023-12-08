@@ -5,28 +5,20 @@
             <mat-icon>cancel</mat-icon>
         </button>
     </mat-chip-row>
-    <ng-container *ngIf="!filteredAutocompleteOptions$; else autocomplete">
-        <input #tagInput autocomplete="off"
-               [disabled]="disabled"
-               [placeholder]="placeholder"
-               [matChipInputFor]="tagList"
-               [matChipInputSeparatorKeyCodes]="addOnKeycodes"
-               [matChipInputAddOnBlur]="addOnBlur"
-               (matChipInputTokenEnd)="add($event)">
-    </ng-container>
-    <ng-template #autocomplete>
-        <input #tagInput autocomplete="off"
-               [disabled]="disabled"
-               [placeholder]="placeholder"
-               [matChipInputFor]="tagList"
-               [matAutocomplete]="auto"
-               [matChipInputSeparatorKeyCodes]="addOnKeycodes"
-               [matChipInputAddOnBlur]="false">
 
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let option of filteredAutocompleteOptions$ | async" [value]="option">
-                {{ option }}
-            </mat-option>
-        </mat-autocomplete>
-    </ng-template>
+    <input #tagInput autocomplete="off"
+           [disabled]="disabled"
+           [placeholder]="placeholder"
+           [matChipInputFor]="tagList"
+           [matAutocomplete]="autocomplete"
+           [matChipInputSeparatorKeyCodes]="addOnKeycodes"
+           [matChipInputAddOnBlur]="false"
+           (keyup)="autoComplete($event)"
+           (matChipInputTokenEnd)="add($event)">
+
+    <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let option of filteredAutocompleteOptions$ | async" [value]="option">
+            {{ option }}
+        </mat-option>
+    </mat-autocomplete>
 </mat-chip-grid>
