@@ -1,0 +1,23 @@
+.important {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 600;
+    padding: .25em;
+    border-radius: var(--app-border-radius);
+    color: var(--app-color-primary);
+    border: 1px solid var(--app-color-primary);
+}
+
+.box {
+    display: inline-block;
+    padding: 20px;
+    border-radius: var(--app-border-radius);
+    background: var(--app-color-primary-muted);
+    color: var(--app-color-primary-contrast);
+    border: 1px solid var(--app-color-primary);
+    margin: .4em;
+
+    &.no-bg {
+        background: transparent;
+    }
+}

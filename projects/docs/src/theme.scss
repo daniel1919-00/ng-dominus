@@ -1,37 +1,59 @@
+@use "sass:map";
 @use '@angular/material' as mat;
 
-@mixin material-components($theme) {
-    @include mat.core-theme($theme);
-    @include mat.card-theme($theme);
-    @include mat.select-theme($theme);
-    @include mat.option-theme($theme);
-    @include mat.tabs-theme($theme);
-    @include mat.button-theme($theme);
-    @include mat.icon-button-theme($theme);
-    @include mat.input-theme($theme);
-    @include mat.checkbox-theme($theme);
-    @include mat.autocomplete-theme($theme);
-    @include mat.chips-theme($theme);
-    @include mat.menu-theme($theme);
-    @include mat.toolbar-theme($theme);
-    @include mat.sidenav-theme($theme);
-    @include mat.form-field-theme($theme);
-}
+@mixin define($themeConfig, $darkTheme, $colorsOnly) {
+    $matTheme: null;
 
-@mixin material-components-colors($theme) {
-    @include mat.core-color($theme);
-    @include mat.card-color($theme);
-    @include mat.select-color($theme);
-    @include mat.option-color($theme);
-    @include mat.tabs-color($theme);
-    @include mat.button-color($theme);
-    @include mat.icon-button-color($theme);
-    @include mat.input-color($theme);
-    @include mat.checkbox-color($theme);
-    @include mat.autocomplete-color($theme);
-    @include mat.chips-color($theme);
-    @include mat.menu-color($theme);
-    @include mat.toolbar-color($theme);
-    @include mat.sidenav-color($theme);
-    @include mat.form-field-color($theme);
+    @if $darkTheme {
+        $matTheme: mat.define-dark-theme($themeConfig);
+    } @else {
+        $matTheme: mat.define-light-theme($themeConfig);
+    }
+
+    @if not $colorsOnly {
+        @include mat.core-theme($matTheme);
+        @include mat.card-theme($matTheme);
+        @include mat.select-theme($matTheme);
+        @include mat.option-theme($matTheme);
+        @include mat.tabs-theme($matTheme);
+        @include mat.button-theme($matTheme);
+        @include mat.icon-button-theme($matTheme);
+        @include mat.input-theme($matTheme);
+        @include mat.checkbox-theme($matTheme);
+        @include mat.autocomplete-theme($matTheme);
+        @include mat.chips-theme($matTheme);
+        @include mat.menu-theme($matTheme);
+        @include mat.toolbar-theme($matTheme);
+        @include mat.sidenav-theme($matTheme);
+        @include mat.form-field-theme($matTheme);
+    }
+
+    @include mat.core-color($matTheme);
+    @include mat.card-color($matTheme);
+    @include mat.select-color($matTheme);
+    @include mat.option-color($matTheme);
+    @include mat.tabs-color($matTheme);
+    @include mat.button-color($matTheme);
+    @include mat.icon-button-color($matTheme);
+    @include mat.input-color($matTheme);
+    @include mat.checkbox-color($matTheme);
+    @include mat.autocomplete-color($matTheme);
+    @include mat.chips-color($matTheme);
+    @include mat.menu-color($matTheme);
+    @include mat.toolbar-color($matTheme);
+    @include mat.sidenav-color($matTheme);
+    @include mat.form-field-color($matTheme);
+
+    $primary-palette: map.get($themeConfig, 'color', 'primary');
+    $accent-palette: map.get($themeConfig, 'color', 'accent');
+    $warn-palette: map.get($themeConfig, 'color', 'warn');
+
+    --app-sidenav-menu-active-hover-background: #{mat.get-color-from-palette($primary-palette)};
+    --app-sidenav-menu-active-hover-color: #{mat.get-color-from-palette($primary-palette, 'default-contrast')};
+    --app-color-primary: #{mat.get-color-from-palette($primary-palette)};
+    --app-color-primary-muted: #{mat.get-color-from-palette($primary-palette, .8)};
+    --app-color-primary-contrast: #{mat.get-color-from-palette($primary-palette, 'default-contrast')};
+    --app-color-accent-muted: #{mat.get-color-from-palette($accent-palette, .8)};
+    --app-color-accent-contrast: #{mat.get-color-from-palette($accent-palette, 'default-contrast')};
+    --app-color-warn: #{mat.get-color-from-palette($warn-palette)};
 }

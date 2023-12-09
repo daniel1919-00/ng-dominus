@@ -1,4 +1,53 @@
+// Based on bootstrap's grid system
+// https://getbootstrap.com/docs/4.0/layout/grid/
+// Also very cool guide on flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+@use 'config';
+
+@mixin grid-col {
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: config.$grid-columns-padding;
+}
+
+@mixin grid-col-fixed {
+    flex: 0 0 auto;
+    padding: config.$grid-columns-padding;
+}
+
+@mixin configure-grid-col($width) {
+    flex: 0 0 auto;
+    padding: #{config.$grid-columns-padding};
+    width: #{$width};
+}
+
 @mixin grid {
     flex-wrap: wrap;
 
+    @each $col, $width in config.$grid-columns {
+        &.dm-col-#{$col} {
+            @include configure-grid-col($width)
+        }
+    }
+
+    @each $breakpoint, $min-width in config.$responsive-breakpoints {
+        @media screen and (min-width: #{$min-width}) {
+            &.#{$breakpoint}\: {
+                &col {
+                    @include grid-col;
+                }
+
+                &col-fixed {
+                    @include grid-col-fixed;
+                }
+
+                @each $col, $width in config.$grid-columns {
+                    &dm-col-#{$col} {
+                        flex: 0 0 auto;
+                        padding: #{config.$grid-columns-padding};
+                        width: #{$width};
+                    }
+                }
+            }
+        }
+    }
 }

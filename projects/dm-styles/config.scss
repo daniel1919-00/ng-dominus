@@ -1,1 +1,24 @@
-$flex-columns: ()
+// values represent minimum px requirement
+$responsive-breakpoints: (
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px
+);
+
+$grid-columns: (
+    1: 8.33%,
+    2: 16.6667%,
+    3: 25%,
+    4: 33.33%,
+    5: 41.6667%,
+    6: 50%,
+    7: 58.33%,
+    8: 66.6667%,
+    9: 75%,
+    10: 83.33%,
+    11: 91.6667%,
+    12: 100%
+);
+
+$grid-columns-padding: .5rem;

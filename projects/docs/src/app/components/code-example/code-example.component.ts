@@ -10,5 +10,6 @@ import {CodeExample} from "./code-example";
     styleUrl: './code-example.component.scss'
 })
 export class CodeExampleComponent {
+    @Input() title = '';
     @Input({required: true}) code!: CodeExample;
 }

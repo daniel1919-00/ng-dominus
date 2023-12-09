@@ -24,7 +24,7 @@
         flex-wrap: wrap;
     }
 
-    &.grid {
+    &.dm-grid {
         @include grid.grid;
     }
 }
