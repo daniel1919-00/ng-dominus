@@ -42,5 +42,5 @@ testem.log
 Thumbs.db
 
 /projects/**/src/shared
-/projects/dm-styles/dm-styles.css
-/projects/dm-styles/dm-styles.css.map
+/projects/dm-styles/*.css
+/projects/dm-styles/*.css.map

@@ -7,10 +7,9 @@
             <mat-tab label="Flexbox">
                 <p>All flexbox classes required the base class <span class="important">dm-flex</span> to be present.</p>
                 <app-code-example title="Flexbox example" [code]="dmStylesFlexExample">
-                    <div class="dm-flex box no-bg">
-                        <div class="box">1</div>
-                        <div class="box">2</div>
-                        <div class="box">3</div>
+                    <div class="dm-flex dm-grid box no-bg">
+                        <p class="dm-col-12">.dm-flex .dm-grid</p>
+                        <div *ngFor="let col of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" class="box">{{col}}</div>
                     </div>
                 </app-code-example>
             </mat-tab>

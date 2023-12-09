@@ -20,31 +20,37 @@
     width: #{$width};
 }
 
-@mixin grid {
+@mixin main {
     flex-wrap: wrap;
 
+    .dm-col {
+        @include grid-col;
+    }
+
+    .dm-col-fixed {
+        @include grid-col-fixed;
+    }
+
     @each $col, $width in config.$grid-columns {
-        &.dm-col-#{$col} {
+        .dm-col-#{$col} {
             @include configure-grid-col($width)
         }
     }
 
     @each $breakpoint, $min-width in config.$responsive-breakpoints {
-        @media screen and (min-width: #{$min-width}) {
-            &.#{$breakpoint}\: {
-                &col {
+        @media (min-width: #{$min-width}) {
+            .#{$breakpoint}\: {
+                &dm-col {
                     @include grid-col;
                 }
 
-                &col-fixed {
+                &dm-col-fixed {
                     @include grid-col-fixed;
                 }
 
                 @each $col, $width in config.$grid-columns {
                     &dm-col-#{$col} {
-                        flex: 0 0 auto;
-                        padding: #{config.$grid-columns-padding};
-                        width: #{$width};
+                        @include configure-grid-col($width);
                     }
                 }
             }

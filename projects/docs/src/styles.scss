@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use './theme';
-@import "./../../dm-styles/dm-styles.scss";
+@import "../../dm-styles/src/dm-styles";
 
 @include mat.core();
 
@@ -14,7 +14,7 @@
     --app-border-radius: 4px;
 }
 
-@media only screen and (min-width: 1400px) {
+@media (min-width: 1400px) {
     :root {
         --app-sidenav-content-max-width: 1400px;
     }
