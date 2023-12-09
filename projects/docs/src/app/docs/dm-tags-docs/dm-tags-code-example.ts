@@ -1,6 +1,6 @@
 import {CodeExample} from "../../components/code-example/code-example";
 
-export const dmTagsExampleCode: CodeExample = {
+export const dmTagsCodeExample: CodeExample = {
     html: ``,
     styles: ``,
     ts: ``

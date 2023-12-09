@@ -1,0 +1,30 @@
+@use 'config';
+@use 'grid';
+
+.dm-flex {
+    display: flex;
+
+    &.dm-flex-row {
+        flex-direction: row;
+    }
+
+    &.dm-flex-row-reverse {
+        flex-direction: row-reverse;
+    }
+
+    &.dm-flex-column {
+        flex-direction: column;
+    }
+
+    &.dm-flex-column-reverse {
+        flex-direction: column-reverse;
+    }
+
+    &.dm-flex-wrap {
+        flex-wrap: wrap;
+    }
+
+    &.grid {
+        @include grid.grid;
+    }
+}

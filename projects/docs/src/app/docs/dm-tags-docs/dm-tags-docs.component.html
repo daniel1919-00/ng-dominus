@@ -1,59 +1,65 @@
-<mat-card class="card">
-    <mat-tab-group animationDuration="0">
-        <mat-tab label="Overview">
-            <mat-card-content>
-                <app-code-example [code]="dmTagsExampleCode">
-                    <form [formGroup]="form">
+<app-component-doc-header title="Dominus tags">
+    Angular material based library that manages tags.
+</app-component-doc-header>
 
-                        <h2>Configuration</h2>
+<mat-card>
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Overview">
+                <mat-card-content>
+                    <app-code-example [code]="dmTagsCodeExample">
+                        <form [formGroup]="form">
 
-                        <section formGroupName="config">
+                            <h2>Configuration</h2>
+
+                            <section formGroupName="config">
+                                <mat-form-field>
+                                    <mat-label>autocompleteOptions</mat-label>
+                                    <dm-tags formControlName="autocompleteOptions"></dm-tags>
+                                </mat-form-field>
+
+                                <mat-form-field>
+                                    <mat-label>addOnKeycodes</mat-label>
+                                    <mat-select [multiple]="true" formControlName="addOnKeycodes">
+                                        <mat-option [value]="ENTER">ENTER</mat-option>
+                                        <mat-option [value]="COMMA">COMMA</mat-option>
+                                        <mat-option [value]="SEMICOLON">SEMICOLON</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-checkbox color="primary" formControlName="addOnBlur">addOnBlur</mat-checkbox>
+                                <mat-checkbox color="primary" formControlName="allowDuplicates">allowDuplicates</mat-checkbox>
+                            </section>
+
+                            <br>
+                            <h2>Result</h2>
                             <mat-form-field>
-                                <mat-label>autocompleteOptions</mat-label>
-                                <dm-tags formControlName="autocompleteOptions"></dm-tags>
+                                <mat-label>Tags</mat-label>
+                                <dm-tags
+                                    formControlName="value"
+                                    [autocompleteOptions]="form.get('config.autocompleteOptions')?.value"
+                                    [addOnKeycodes]="form.get('config.addOnKeycodes')?.value || [ENTER]"
+                                    [addOnBlur]="form.get('config.addOnBlur')?.value"
+                                    [allowDuplicates]="form.get('config.allowDuplicates')?.value"
+                                ></dm-tags>
                             </mat-form-field>
+                        </form>
+                        <br><br>
+                        <h2>Form Value</h2>
+                        <pre>{{ form.get('value')?.value | json }}</pre>
+                    </app-code-example>
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Api">
+                <mat-card-content>
+                    <app-tags-docs></app-tags-docs>
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Styling">
+                <mat-card-content>
 
-                            <mat-form-field>
-                                <mat-label>addOnKeycodes</mat-label>
-                                <mat-select [multiple]="true" formControlName="addOnKeycodes">
-                                    <mat-option [value]="ENTER">ENTER</mat-option>
-                                    <mat-option [value]="COMMA">COMMA</mat-option>
-                                    <mat-option [value]="SEMICOLON">SEMICOLON</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-
-                            <mat-checkbox color="primary" formControlName="addOnBlur">addOnBlur</mat-checkbox>
-                            <mat-checkbox color="primary" formControlName="allowDuplicates">allowDuplicates</mat-checkbox>
-                        </section>
-
-                        <br>
-                        <h2>Result</h2>
-                        <mat-form-field>
-                            <mat-label>Tags</mat-label>
-                            <dm-tags
-                                formControlName="value"
-                                [autocompleteOptions]="form.get('config.autocompleteOptions')?.value"
-                                [addOnKeycodes]="form.get('config.addOnKeycodes')?.value || [ENTER]"
-                                [addOnBlur]="form.get('config.addOnBlur')?.value"
-                                [allowDuplicates]="form.get('config.allowDuplicates')?.value"
-                            ></dm-tags>
-                        </mat-form-field>
-                    </form>
-                    <br><br>
-                    <h2>Form Value</h2>
-                    <pre>{{ form.get('value')?.value | json }}</pre>
-                </app-code-example>
-            </mat-card-content>
-        </mat-tab>
-        <mat-tab label="Api">
-            <mat-card-content>
-                <app-tags-docs></app-tags-docs>
-            </mat-card-content>
-        </mat-tab>
-        <mat-tab label="Styling">
-            <mat-card-content>
-
-            </mat-card-content>
-        </mat-tab>
-    </mat-tab-group>
+                </mat-card-content>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
 </mat-card>

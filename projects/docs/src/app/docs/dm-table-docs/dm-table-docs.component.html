@@ -1,1 +1,38 @@
-<dm-table></dm-table>
+<app-component-doc-header title="Dominus data table">
+    Angular material based library used to create data tables.
+</app-component-doc-header>
+
+<mat-card>
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Overview">
+                <mat-card-content>
+                    <app-code-example [code]="dmTagsCodeExample">
+                        <form [formGroup]="form">
+
+                            <h2>Configuration</h2>
+
+                            <section formGroupName="config">
+
+                            </section>
+
+                            <br>
+                            <h2>Result</h2>
+                            <dm-table></dm-table>
+                        </form>
+                    </app-code-example>
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Api">
+                <mat-card-content>
+
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Styling">
+                <mat-card-content>
+
+                </mat-card-content>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

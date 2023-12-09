@@ -10,11 +10,12 @@ import {FakeUploaderComponent} from "./fake-uploader/fake-uploader.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatSelectModule} from "@angular/material/select";
+import {ComponentDocHeaderComponent} from "../../components/component-doc-header/component-doc-header.component";
 
 @Component({
     selector: 'app-dm-uploader-docs',
     standalone: true,
-    imports: [CommonModule, MatCardModule, MatTabsModule, ReactiveFormsModule, DmUploaderComponent, UploaderDocsComponent, HttpClientModule, FakeUploaderComponent, MatInputModule, MatCheckboxModule, MatSelectModule],
+    imports: [CommonModule, MatCardModule, MatTabsModule, ReactiveFormsModule, DmUploaderComponent, UploaderDocsComponent, HttpClientModule, FakeUploaderComponent, MatInputModule, MatCheckboxModule, MatSelectModule, ComponentDocHeaderComponent],
     templateUrl: './dm-uploader-docs.component.html',
     styleUrl: './dm-uploader-docs.component.scss'
 })

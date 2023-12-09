@@ -4,6 +4,7 @@ import {provideRouter} from '@angular/router';
 import {routes} from './app.routes';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {HIGHLIGHT_OPTIONS} from "ngx-highlightjs";
+import {MAT_TABS_CONFIG} from "@angular/material/tabs";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -20,6 +21,12 @@ export const appConfig: ApplicationConfig = {
                     xml: () => import('highlight.js/lib/languages/xml')
                 },
                 themePath: 'path-to-theme.css' // Optional, and useful if you want to change the theme dynamically
+            }
+        },
+        {
+            provide: MAT_TABS_CONFIG,
+            useValue: {
+                animationDuration: '0'
             }
         }
     ]

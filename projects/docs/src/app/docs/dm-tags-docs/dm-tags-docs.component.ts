@@ -13,12 +13,13 @@ import {TagsDocsComponent} from "./tags-docs/tags-docs.component";
 import {DmTagsComponent} from "../../../../../dm-tags/src/lib/dm-tags.component";
 import {COMMA, ENTER, SEMICOLON} from "@angular/cdk/keycodes";
 import {CodeExampleComponent} from "../../components/code-example/code-example.component";
-import {dmTagsExampleCode} from "./dm-tags-example-code";
+import {dmTagsCodeExample} from "./dm-tags-code-example";
+import {ComponentDocHeaderComponent} from "../../components/component-doc-header/component-doc-header.component";
 
 @Component({
     selector: 'app-dm-tags-docs',
     standalone: true,
-    imports: [CommonModule, FakeUploaderComponent, MatCardModule, MatCheckboxModule, MatFormFieldModule, MatOptionModule, MatSelectModule, MatTabsModule, ReactiveFormsModule, UploaderDocsComponent, TagsDocsComponent, DmTagsComponent, CodeExampleComponent],
+    imports: [CommonModule, FakeUploaderComponent, MatCardModule, MatCheckboxModule, MatFormFieldModule, MatOptionModule, MatSelectModule, MatTabsModule, ReactiveFormsModule, UploaderDocsComponent, TagsDocsComponent, DmTagsComponent, CodeExampleComponent, ComponentDocHeaderComponent],
     templateUrl: './dm-tags-docs.component.html',
     styleUrl: './dm-tags-docs.component.scss'
 })
@@ -42,5 +43,5 @@ export class DmTagsDocsComponent {
     protected readonly ENTER = ENTER;
     protected readonly COMMA = COMMA;
     protected readonly SEMICOLON = SEMICOLON;
-    protected readonly dmTagsExampleCode = dmTagsExampleCode;
+    protected readonly dmTagsCodeExample = dmTagsCodeExample;
 }
