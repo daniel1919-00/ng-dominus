@@ -31,9 +31,10 @@ export class DmTagsDocsComponent {
         this.form = fb.group({
             value: [null],
             config: fb.group({
-                autocompleteOptions: [],
+                autocompleteOptions: [null],
                 addOnKeycodes: [[ENTER]],
-                addOnBlur: [true]
+                addOnBlur: [true],
+                allowDuplicates: [true],
             })
         });
     }

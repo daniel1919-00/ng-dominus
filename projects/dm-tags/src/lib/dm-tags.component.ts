@@ -45,7 +45,8 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
      */
     @Input() addOnKeycodes: number[] = [ENTER];
     /**
-     * Add the current input string on element blur
+     * Add the current input string on element blur.
+     * This is ignored when autocomplete options are shown, since the input loses focus when selecting the options.
      */
     @Input() addOnBlur: boolean = true;
     /**
@@ -180,7 +181,7 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
     }
 
     protected override onFocusLost(origin: FocusOrigin) {
-        if(this.addOnBlur) {
+        if(this.addOnBlur && !this.filteredAutocompleteOptions$.getValue().length) {
             const tagInputEl: HTMLInputElement = this.tagInput?.nativeElement;
             if(tagInputEl) {
                 const value = tagInputEl.value.trim();

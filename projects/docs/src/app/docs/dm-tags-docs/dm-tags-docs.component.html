@@ -23,6 +23,7 @@
                             </mat-form-field>
 
                             <mat-checkbox color="primary" formControlName="addOnBlur">addOnBlur</mat-checkbox>
+                            <mat-checkbox color="primary" formControlName="allowDuplicates">allowDuplicates</mat-checkbox>
                         </section>
 
                         <br>
@@ -31,9 +32,10 @@
                             <mat-label>Tags</mat-label>
                             <dm-tags
                                 formControlName="value"
-                                [autocompleteOptions]="form.get('config.autocompleteOptions')?.value || []"
+                                [autocompleteOptions]="form.get('config.autocompleteOptions')?.value"
                                 [addOnKeycodes]="form.get('config.addOnKeycodes')?.value || [ENTER]"
-                                [addOnBlur]="form.get('config.addOnBlur')?.value || true"
+                                [addOnBlur]="form.get('config.addOnBlur')?.value"
+                                [allowDuplicates]="form.get('config.allowDuplicates')?.value"
                             ></dm-tags>
                         </mat-form-field>
                     </form>
