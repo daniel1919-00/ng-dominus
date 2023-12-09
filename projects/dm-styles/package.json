@@ -1,5 +1,5 @@
 {
-    "name": "@ng-dominus/dm-flex",
+    "name": "@ng-dominus/dm-styles",
     "version": "1.0.0",
     "description": "Dominus css flex utilities",
     "publishConfig": {
@@ -13,8 +13,9 @@
     "keywords": [
         "ng-dominus",
         "dominus",
-        "dm-flex",
-        "flex"
+        "dm-styles",
+        "flex",
+        "css"
     ],
     "license": "MIT",
     "bugs": {
@@ -23,7 +24,6 @@
     "peerDependencies": {
     },
     "dependencies": {
-        "tslib": "^2.3.0"
     },
     "sideEffects": false
 }
