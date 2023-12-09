@@ -3,12 +3,30 @@
 
 @mixin define($themeConfig, $darkTheme, $colorsOnly) {
     $matTheme: null;
+    $primary-palette: map.get($themeConfig, 'color', 'primary');
+    $accent-palette: map.get($themeConfig, 'color', 'accent');
+    $warn-palette: map.get($themeConfig, 'color', 'warn');
 
     @if $darkTheme {
         $matTheme: mat.define-dark-theme($themeConfig);
     } @else {
         $matTheme: mat.define-light-theme($themeConfig);
     }
+
+    --app-color-primary: #{mat.get-color-from-palette($primary-palette)};
+    --app-color-primary-lighter: #{mat.get-color-from-palette($primary-palette, 'lighter')};
+    --app-color-primary-darker: #{mat.get-color-from-palette($primary-palette, 'darker')};
+    --app-color-primary-contrast: #{mat.get-color-from-palette($primary-palette, 'default-contrast')};
+
+    --app-color-accent: #{mat.get-color-from-palette($accent-palette)};
+    --app-color-accent-lighter: #{mat.get-color-from-palette($accent-palette, 'lighter')};
+    --app-color-accent-darker: #{mat.get-color-from-palette($accent-palette, 'darker')};
+    --app-color-accent-contrast: #{mat.get-color-from-palette($accent-palette, 'default-contrast')};
+
+    --app-color-warn: #{mat.get-color-from-palette($warn-palette)};
+    --app-color-warn-lighter: #{mat.get-color-from-palette($warn-palette, 'lighter')};
+    --app-color-warn-darker: #{mat.get-color-from-palette($warn-palette, 'darker')};
+    --app-color-warn-contrast: #{mat.get-color-from-palette($warn-palette, 'default-contrast')};
 
     @if not $colorsOnly {
         @include mat.core-theme($matTheme);
@@ -43,17 +61,4 @@
     @include mat.toolbar-color($matTheme);
     @include mat.sidenav-color($matTheme);
     @include mat.form-field-color($matTheme);
-
-    $primary-palette: map.get($themeConfig, 'color', 'primary');
-    $accent-palette: map.get($themeConfig, 'color', 'accent');
-    $warn-palette: map.get($themeConfig, 'color', 'warn');
-
-    --app-sidenav-menu-active-hover-background: #{mat.get-color-from-palette($primary-palette)};
-    --app-sidenav-menu-active-hover-color: #{mat.get-color-from-palette($primary-palette, 'default-contrast')};
-    --app-color-primary: #{mat.get-color-from-palette($primary-palette)};
-    --app-color-primary-muted: #{mat.get-color-from-palette($primary-palette, .8)};
-    --app-color-primary-contrast: #{mat.get-color-from-palette($primary-palette, 'default-contrast')};
-    --app-color-accent-muted: #{mat.get-color-from-palette($accent-palette, .8)};
-    --app-color-accent-contrast: #{mat.get-color-from-palette($accent-palette, 'default-contrast')};
-    --app-color-warn: #{mat.get-color-from-palette($warn-palette)};
 }

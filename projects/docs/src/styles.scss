@@ -27,8 +27,8 @@ body {
     height: calc(100vh - var(--app-header-height));
     font-family: Roboto, "Helvetica Neue", sans-serif;
 
-    $primary-palette: mat.define-palette(mat.$indigo-palette, 500);
-    $accent-palette: mat.define-palette(mat.$light-blue-palette, A200, A100, A400);
+    $primary-palette: mat.define-palette(mat.$indigo-palette);
+    $accent-palette: mat.define-palette(mat.$light-blue-palette, 600);
     $warn-palette: mat.define-palette(mat.$red-palette);
 
     @include theme.define((
@@ -42,6 +42,8 @@ body {
     ), false, false);
 
     &.dark {
+        $primary-palette: mat.define-palette(mat.$indigo-palette, 400);
+        $accent-palette: mat.define-palette(mat.$light-blue-palette);
         @include theme.define((
             color: (
                 primary: $primary-palette,
