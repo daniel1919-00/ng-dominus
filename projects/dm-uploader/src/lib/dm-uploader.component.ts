@@ -30,7 +30,7 @@ import {
 import {HttpClient, HttpEventType, HttpHeaders} from "@angular/common/http";
 import {ThemePalette} from "@angular/material/core";
 import {catchError, fromEvent, of, Subject, takeUntil} from "rxjs";
-import {CustomAngularMaterialFormControl} from "../../../shared/custom-angular-material-form-control";
+import {CustomAngularMaterialFormControl} from "../shared/custom-angular-material-form-control";
 
 @Component({
     selector: 'dm-uploader',

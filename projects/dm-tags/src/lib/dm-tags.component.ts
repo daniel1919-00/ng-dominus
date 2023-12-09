@@ -13,9 +13,9 @@ import {ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatIconModule} from "@angular/material/icon";
-import {CustomAngularMaterialFormControl} from "../../../shared/custom-angular-material-form-control";
 import {FocusMonitor, FocusOrigin} from "@angular/cdk/a11y";
 import {NgControl} from "@angular/forms";
+import {CustomAngularMaterialFormControl} from "../shared/custom-angular-material-form-control";
 
 @Component({
     selector: 'dm-tags',

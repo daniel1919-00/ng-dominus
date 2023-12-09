@@ -1,0 +1,29 @@
+{
+    "name": "@ng-dominus/dm-flex",
+    "version": "1.0.0",
+    "description": "Dominus css flex utilities",
+    "publishConfig": {
+        "access": "public"
+    },
+    "author": "Daniel",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/daniel1919-00/ng-dominus"
+    },
+    "keywords": [
+        "ng-dominus",
+        "dominus",
+        "dm-flex",
+        "flex"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/daniel1919-00/ng-dominus/issues"
+    },
+    "peerDependencies": {
+    },
+    "dependencies": {
+        "tslib": "^2.3.0"
+    },
+    "sideEffects": false
+}

@@ -3,8 +3,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve docs",
-        "build": "ng build dm-table",
-        "watch": "ng build --watch --configuration development",
+        "build": "ng build dm-table && ng build dm-tags && ng build dm-uploader",
         "test": "ng test",
         "deploy-docs": "ng build docs --base-href /ng-dominus/ && npx angular-cli-ghpages docs --dir=dist/docs/browser --base-href=https://github.com/daniel1919-00/ng-dominus"
     },
