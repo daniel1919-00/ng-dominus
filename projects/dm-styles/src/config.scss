@@ -1,3 +1,6 @@
+$namespace: 'dm';
+$namespace-separator: \:;
+
 // values represent minimum px requirement
 // Values taken from: https://tailwindcss.com/docs/responsive-design
 $responsive-breakpoints: (
@@ -7,6 +10,7 @@ $responsive-breakpoints: (
     xl: 1280px,
     xxl: 1536px
 );
+$responsive-namespace-separator: \:;
 
 $grid-columns: (
     1: 8.33%,
@@ -23,4 +27,4 @@ $grid-columns: (
     12: 100%
 );
 
-$grid-columns-padding: .5rem;
+$grid-columns-padding: .4rem;

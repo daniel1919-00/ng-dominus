@@ -1,32 +1,27 @@
-@use 'config';
-@use 'grid';
+@use 'utilities';
 
 @mixin main {
-    .dm-flex {
-        display: flex;
-    }
+    @include utilities.generate-class('flex', (
+        'display': flex
+    ), true);
 
-    .dm-flex-row {
-        flex-direction: row;
-    }
+    @include utilities.generate-class('flex-row', (
+        'flex-direction': row
+    ), true);
 
-    .dm-flex-row-reverse {
-        flex-direction: row-reverse;
-    }
+    @include utilities.generate-class('flex-row-reverse', (
+        'flex-direction': row-reverse
+    ), true);
 
-    .dm-flex-column {
-        flex-direction: column;
-    }
+    @include utilities.generate-class('flex-column', (
+        'flex-direction': column
+    ), true);
 
-    .dm-flex-column-reverse {
-        flex-direction: column-reverse;
-    }
+    @include utilities.generate-class('flex-column-reverse', (
+        'flex-direction': column-reverse
+    ), true);
 
-    .dm-flex-wrap {
-        flex-wrap: wrap;
-    }
-
-    .dm-grid {
-        @include grid.main;
-    }
+    @include utilities.generate-class('flex-wrap', (
+        'flex-wrap': wrap
+    ), true);
 }

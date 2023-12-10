@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use './theme';
-@import "../../dm-styles/src/dm-styles";
+@import "../../dm-styles/dm-styles";
 
 @include mat.core();
 

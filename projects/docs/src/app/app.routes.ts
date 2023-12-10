@@ -41,7 +41,7 @@ export const routes: DocRoute[] = [
         }
     },
     {
-        title: 'CSS utility library',
+        title: 'CSS library',
         path: 'dm-styles',
         loadComponent: () => import('./docs/dm-styles-docs/dm-styles-docs.component').then(c => c.DmStylesDocsComponent),
         data: {

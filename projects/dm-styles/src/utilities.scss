@@ -1,0 +1,55 @@
+@use 'config';
+
+@function generate-class-name($base-class-name, $forced-version) {
+    $force-flag: '';
+
+    @if $forced-version {
+        $force-flag: '-f';
+    }
+
+    @return config.$namespace + config.$namespace-separator + $base-class-name + $force-flag;
+}
+
+@mixin generate-class($class-name, $properties, $generate-forced-version) {
+    $class-name: generate-class-name($class-name, false);
+    $class-name-f: generate-class-name($class-name, true);
+
+    @if $properties != null {
+        .#{$class-name} {
+            @each $property, $value in $properties {
+                #{$property}: #{$value};
+            }
+        }
+
+        @if $generate-forced-version {
+            .#{$class-name-f} {
+                @each $property, $value in $properties {
+                    #{$property}: #{$value} !important;
+                }
+            }
+        }
+    }
+
+    .#{$class-name},
+    .#{$class-name-f} {
+        @content;
+    }
+}
+
+@mixin generate-responsive-media() {
+    @each $breakpoint, $min-width in config.$responsive-breakpoints {
+        @media (min-width: #{$min-width}) {
+            @content($breakpoint);
+        }
+    }
+}
+
+@mixin generate-responsive-class($class-name, $properties) {
+    @include generate-responsive-media using($breakpoint) {
+        .#{generate-class-name($breakpoint + '' + config.$responsive-namespace-separator + $class-name, false)} {
+            @each $property, $value in $properties {
+                #{$property}: #{$value};
+            }
+        }
+    }
+}

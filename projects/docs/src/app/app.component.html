@@ -3,7 +3,7 @@
         <button mat-icon-button (click)="sideMenuOpen = !sideMenuOpen">
             <mat-icon>menu</mat-icon>
         </button>
-        <span>Dominus Components</span>
+        <span>{{appConfig.baseTitle}}</span>
     </div>
     <div class="header-items">
         <button mat-icon-button aria-label="Dark mode toggle" (click)="setDarkMode(!isDarkMode)">

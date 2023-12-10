@@ -1,20 +1,38 @@
-<app-component-doc-header title="Dominus css utilities">
-    Lightweight library mainly build to style the dominus components demo page, but can be used on any site along any other css libraries.
+<app-component-doc-header title="Dominus css library">
+    <p>Lightweight library mainly build to style the dominus components demo page, but can be used on any site along any other css libraries.</p>
+    <p>The library takes a utility-first approach containing only structural syles and does not require a theme.</p>
 </app-component-doc-header>
 <mat-card>
     <mat-card-content>
         <mat-tab-group>
+            <mat-tab label="Introduction">
+                <p>All classes are prefixed with the <span class="decorated">dm:*</span> which is used as a namespace. As such, the library can be used alongside any other css frameworks/libraries as long as this namespace is unique.</p>
+                <p>Some classes have a "forced" version, suffixed with <span class="decorated">*-f</span> which makes their properties <span class="decorated">!important</span>.</p>
+            </mat-tab>
             <mat-tab label="Flexbox">
-                <p>All flexbox classes required the base class <span class="important">dm-flex</span> to be present.</p>
+                <h3>Classes</h3>
+                <app-dm-styles-class-list-table [classes]="classList" filterCategory="flexbox"></app-dm-styles-class-list-table>
+
                 <app-code-example title="Flexbox example" [code]="dmStylesFlexExample">
-                    <div class="dm-flex dm-grid box no-bg">
-                        <p class="dm-col-12">.dm-flex .dm-grid</p>
-                        <div *ngFor="let col of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" class="box">{{col}}</div>
+                    <div class="box no-bg">
+                        <p>
+                            <span class="decorated">.dm-flex</span>
+                            <span class="decorated">.dm-flex-wrap</span>
+                        </p>
+                        <div class="dm-flex dm-flex-wrap">
+                            <div *ngFor="let col of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" class="box">{{col}}</div>
+                        </div>
                     </div>
                 </app-code-example>
             </mat-tab>
-            <mat-tab label="Grid">  </mat-tab>
-            <mat-tab label="Events">  </mat-tab>
+            <mat-tab label="Grid">
+                <h3>Classes</h3>
+                <app-dm-styles-class-list-table [classes]="classList" filterCategory="grid"></app-dm-styles-class-list-table>
+            </mat-tab>
+            <mat-tab label="Events">
+                <h3>Classes</h3>
+                <app-dm-styles-class-list-table [classes]="classList" filterCategory="events"></app-dm-styles-class-list-table>
+            </mat-tab>
         </mat-tab-group>
     </mat-card-content>
 </mat-card>

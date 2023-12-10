@@ -44,6 +44,8 @@
         @include mat.toolbar-theme($matTheme);
         @include mat.sidenav-theme($matTheme);
         @include mat.form-field-theme($matTheme);
+        @include mat.list-theme($matTheme);
+        @include mat.table-theme($matTheme);
     }
 
     @include mat.core-color($matTheme);
@@ -61,4 +63,6 @@
     @include mat.toolbar-color($matTheme);
     @include mat.sidenav-color($matTheme);
     @include mat.form-field-color($matTheme);
+    @include mat.list-color($matTheme);
+    @include mat.table-color($matTheme);
 }

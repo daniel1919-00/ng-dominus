@@ -9,6 +9,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {BreakpointObserver} from "@angular/cdk/layout";
+import {APP_CONFIG} from "./injection-tokens";
+import {AppConfig} from "./interfaces/app-config.interface";
 
 @Component({
     selector: 'app-root',
@@ -27,7 +29,8 @@ export class AppComponent {
     constructor(
         protected breakpointObserver: BreakpointObserver,
         private changeDetector: ChangeDetectorRef,
-        @Inject(DOCUMENT) private document: Document
+        @Inject(DOCUMENT) private document: Document,
+        @Inject(APP_CONFIG) protected appConfig: AppConfig
     ) {
         this.setDarkMode(localStorage.getItem('darkModeEnabled') === '1');
         const menuItems: menuItem[] = [];
