@@ -1,7 +1,9 @@
+@use 'src/general';
 @use 'src/flex';
 @use 'src/grid';
 @use 'src/events';
 
+@include general.main;
 @include flex.main;
 @include grid.main;
 @include events.main;

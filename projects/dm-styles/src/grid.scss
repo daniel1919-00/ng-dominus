@@ -1,6 +1,6 @@
 // Based on bootstrap's grid system
 // https://getbootstrap.com/docs/4.0/layout/grid/
-// Also checkout this very cool guide on flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+// Also checkout this very good guide on flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 @use 'config';
 @use 'utilities';
 
@@ -26,7 +26,11 @@ $col-fixed-props: (
 @mixin main {
     @include utilities.generate-class('grid', (
         'display': flex,
-        'flex-wrap': wrap
+        'flex-wrap': wrap,
+        'margin-top': -1 * config.$grid-columns-padding,
+        'margin-right': -1 * config.$grid-columns-padding,
+        'margin-down': -1 * config.$grid-columns-padding,
+        'margin-left': -1 * config.$grid-columns-padding,
     ), false);
 
     @include utilities.generate-class('col', $col-props, false);

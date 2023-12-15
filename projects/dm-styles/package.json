@@ -1,7 +1,7 @@
 {
     "name": "@ng-dominus/dm-styles",
     "version": "1.0.0",
-    "description": "Dominus css flex utilities",
+    "description": "Dominus css library",
     "publishConfig": {
         "access": "public"
     },

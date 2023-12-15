@@ -24,4 +24,8 @@
     @include utilities.generate-class('flex-wrap', (
         'flex-wrap': wrap
     ), true);
+
+    @include utilities.generate-class('flex-nowrap', (
+        'flex-wrap': nowrap
+    ), true);
 }

@@ -1,3 +1,11 @@
-.dm-no-padding {
-    padding: 0;
+@use 'utilities';
+
+@mixin main {
+    @include utilities.generate-class('no-padding', (
+        'padding': 0
+    ), true);
+
+    @include utilities.generate-class('no-margin', (
+        'padding': 0
+    ), true);
 }

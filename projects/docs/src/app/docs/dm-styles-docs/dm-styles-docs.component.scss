@@ -15,13 +15,12 @@
     background: var(--app-color-primary);
     color: var(--app-color-primary-contrast);
     border: 1px solid var(--app-color-primary);
-    margin: 0;
+    margin: .4em;
+}
 
-    &.no-bg {
-        background: transparent;
-    }
-
-    .box {
-        margin: .5em;
-    }
+.box-container {
+    padding: 5px;
+    border-radius: var(--app-border-radius);
+    color: var(--app-color-primary-contrast);
+    border: 1px solid var(--app-color-primary);
 }

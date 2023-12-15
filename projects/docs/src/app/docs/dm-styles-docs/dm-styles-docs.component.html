@@ -13,14 +13,17 @@
                 <h3>Classes</h3>
                 <app-dm-styles-class-list-table [classes]="classList" filterCategory="flexbox"></app-dm-styles-class-list-table>
 
+
+                <h3>Examples</h3>
                 <app-code-example title="Flexbox example" [code]="dmStylesFlexExample">
-                    <div class="box no-bg">
-                        <p>
-                            <span class="decorated">.dm-flex</span>
-                            <span class="decorated">.dm-flex-wrap</span>
-                        </p>
-                        <div class="dm-flex dm-flex-wrap">
-                            <div *ngFor="let col of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" class="box">{{col}}</div>
+                    <div class="box-container no-bg">
+                        <span class="decorated box-container-class">.dm:flex</span>
+                        <span class="decorated box-container-class">.dm:flex-wrap</span>
+
+                        <div class="dm:flex dm:flex-wrap">
+                            <div *ngFor="let col of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" class="box">
+                                {{col}}
+                            </div>
                         </div>
                     </div>
                 </app-code-example>
@@ -28,11 +31,27 @@
             <mat-tab label="Grid">
                 <h3>Classes</h3>
                 <app-dm-styles-class-list-table [classes]="classList" filterCategory="grid"></app-dm-styles-class-list-table>
+
+                <h3>Examples</h3>
+                <app-code-example title="Flexbox example" [code]="dmStylesFlexExample">
+                    <div class="box-container no-bg">
+                        <div class="decorated box-container-class">.dm:grid</div>
+
+                        <div class="dm:grid">
+                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
+                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
+                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
+                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
+                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
+                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
+                        </div>
+                    </div>
+                </app-code-example>
             </mat-tab>
-            <mat-tab label="Events">
-                <h3>Classes</h3>
-                <app-dm-styles-class-list-table [classes]="classList" filterCategory="events"></app-dm-styles-class-list-table>
-            </mat-tab>
+<!--            <mat-tab label="Events">-->
+<!--                <h3>Classes</h3>-->
+<!--                <app-dm-styles-class-list-table [classes]="classList" filterCategory="events"></app-dm-styles-class-list-table>-->
+<!--            </mat-tab>-->
         </mat-tab-group>
     </mat-card-content>
 </mat-card>
