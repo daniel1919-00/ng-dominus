@@ -4,40 +4,48 @@
 @use 'config';
 @use 'utilities';
 
-$col-props: (
-    'flex-grow': 1,
-    'flex-basis': 0,
-    'padding': config.$grid-columns-padding
-);
-
-$col-fixed-props: (
-    'flex': 0 0 auto,
-    'padding': config.$grid-columns-padding
-);
-
-@function configure-grid-col($width) {
-    @return (
-        'flex': 0 0 auto,
-        'padding': config.$grid-columns-padding,
-        'width': $width
-    );
-}
-
 @mixin main {
     @include utilities.generate-class('grid', (
         'display': flex,
         'flex-wrap': wrap,
-        'margin-top': -1 * config.$grid-columns-padding,
-        'margin-right': -1 * config.$grid-columns-padding,
-        'margin-down': -1 * config.$grid-columns-padding,
-        'margin-left': -1 * config.$grid-columns-padding,
+        'box-sizing': border-box,
+        'padding-top': calc(var(--dm-config-grid-columns-padding) * -1),
+        'padding-right': calc(var(--dm-config-grid-columns-padding) * -1),
+        'padding-left': calc(var(--dm-config-grid-columns-padding) * -1),
+    ), false) {
+        --dm-config-grid-columns-padding: .35rem;
+
+        &> * {
+            box-sizing: border-box;
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 100%;
+            padding-top: var(--dm-config-grid-columns-padding);
+            padding-right: var(--dm-config-grid-columns-padding);
+            padding-left: var(--dm-config-grid-columns-padding);
+        }
+    };
+
+    @include utilities.generate-class('col', (
+        'flex-grow': 1,
+        'flex-basis': 0
     ), false);
 
-    @include utilities.generate-class('col', $col-props, false);
-    @include utilities.generate-class('col-fixed', $col-fixed-props, false);
+    @include utilities.generate-class('col-fixed', (
+        'flex': 0 0 auto
+    ), false);
 
     @each $col, $width in config.$grid-columns {
-        @include utilities.generate-class(col-#{$col}, configure-grid-col($width), false);
-        @include utilities.generate-responsive-class(col-#{$col}, configure-grid-col($width));
+        @include utilities.generate-class(col-#{$col}, (
+            'width': $width
+        ), false);
+    }
+
+    @include utilities.generate-responsive-media using($breakpoint)  {
+        @each $col, $width in config.$grid-columns {
+            @include utilities.generate-class($breakpoint + '' + config.$responsive-namespace-separator + 'col-' + $col, null, false) {
+                width: $width;
+            }
+        }
     }
 }

@@ -8,6 +8,21 @@
             <mat-tab label="Introduction">
                 <p>All classes are prefixed with the <span class="decorated">dm:*</span> which is used as a namespace. As such, the library can be used alongside any other css frameworks/libraries as long as this namespace is unique.</p>
                 <p>Some classes have a "forced" version, suffixed with <span class="decorated">*-f</span> which makes their properties <span class="decorated">!important</span>.</p>
+                <h3>Responsive namespaces</h3>
+                <p>Some classes supports responsive namespaces which are prefixed with <span class="decorated">dm:[responsive-namespace]:*</span>, the classes after the breakpoint only applies when that breakpoint is active.</p>
+                For example the following classes applied on an element: <span class="decorated">dm:col-12 dm:md:col-6</span> would apply like so:
+                <ul>
+                    <li><span class="decorated">dm:col-12</span> will apply the <span class="decorated">col-12</span> class all the time</li>
+                    <li><span class="decorated">dm:md:col-6</span> will only apply the <span class="decorated">col-6</span> class when the <span class="decorated">md</span> breakpoint is active!</li>
+                </ul>
+                <h4>Available namespaces</h4>
+                <ul>
+                    <li><span class="decorated">sm</span>: 640px</li>
+                    <li><span class="decorated">md</span>: 768px</li>
+                    <li><span class="decorated">lg</span>: 1024px</li>
+                    <li><span class="decorated">xl</span>: 1280px</li>
+                    <li><span class="decorated">xxl</span>: 1536px</li>
+                </ul>
             </mat-tab>
             <mat-tab label="Flexbox">
                 <h3>Classes</h3>
@@ -38,12 +53,12 @@
                         <div class="decorated box-container-class">.dm:grid</div>
 
                         <div class="dm:grid">
-                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
-                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
-                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
-                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
-                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
-                            <div class="dm:col-2"><div class="box">.dm:col-2</div></div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
                         </div>
                     </div>
                 </app-code-example>

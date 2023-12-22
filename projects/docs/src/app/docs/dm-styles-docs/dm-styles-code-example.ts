@@ -13,6 +13,7 @@ export interface ClassList {
     class: string;
     properties: string;
     forceFlagSupport: boolean;
+    responsiveNamespacesSupport: boolean;
 }
 
 function getGridColumnClasses() {
@@ -40,7 +41,8 @@ function getGridColumnClasses() {
             padding: config.$grid-columns-padding;
             width: ${columnWidths[i]};
         `,
-            forceFlagSupport: false
+            forceFlagSupport: false,
+            responsiveNamespacesSupport: true
         });
     }
 
@@ -53,37 +55,43 @@ export const classList: ClassList[] = [
         category: 'flexbox',
         class: namespace + 'flex',
         properties: 'display: flex;',
-        forceFlagSupport: true
+        forceFlagSupport: true,
+        responsiveNamespacesSupport: false
     },
     {
         category: 'flexbox',
         class: namespace + 'flex-row',
         properties: 'flex-direction: row;',
-        forceFlagSupport: true
+        forceFlagSupport: true,
+        responsiveNamespacesSupport: false
     },
     {
         category: 'flexbox',
         class: namespace + 'flex-row-reverse',
         properties: 'flex-direction: row;',
-        forceFlagSupport: true
+        forceFlagSupport: true,
+        responsiveNamespacesSupport: false
     },
     {
         category: 'flexbox',
         class: namespace + 'flex-column',
         properties: 'flex-direction: column;',
-        forceFlagSupport: true
+        forceFlagSupport: true,
+        responsiveNamespacesSupport: false
     },
     {
         category: 'flexbox',
         class: namespace + 'flex-column-reverse',
         properties: 'flex-direction: column-reverse;',
-        forceFlagSupport: true
+        forceFlagSupport: true,
+        responsiveNamespacesSupport: false
     },
     {
         category: 'flexbox',
         class: namespace + 'flex-wrap',
         properties: 'flex-wrap: wrap;',
-        forceFlagSupport: true
+        forceFlagSupport: true,
+        responsiveNamespacesSupport: false
     },
 
     // Grid
@@ -94,7 +102,8 @@ export const classList: ClassList[] = [
             display: flex;
             flex-wrap: wrap;
         `,
-        forceFlagSupport: false
+        forceFlagSupport: false,
+        responsiveNamespacesSupport: false
     },
     {
         category: 'grid',
@@ -104,7 +113,8 @@ export const classList: ClassList[] = [
             flex-basis: 0;
             padding: config.$grid-columns-padding;
         `,
-        forceFlagSupport: false
+        forceFlagSupport: false,
+        responsiveNamespacesSupport: false
     },
     {
         category: 'grid',
@@ -113,7 +123,8 @@ export const classList: ClassList[] = [
             flex: 0 0 auto;
             padding: config.$grid-columns-padding;
         `,
-        forceFlagSupport: false
+        forceFlagSupport: false,
+        responsiveNamespacesSupport: false
     },
     ...getGridColumnClasses(),
 

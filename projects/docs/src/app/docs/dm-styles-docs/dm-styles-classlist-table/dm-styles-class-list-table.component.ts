@@ -13,7 +13,7 @@ import {ClassList} from "../dm-styles-code-example";
 export class DmStylesClassListTableComponent implements OnInit {
     @Input({required: true}) classes!: ClassList[];
     @Input() filterCategory = '';
-    displayedColumns = ['class', 'properties', 'forceFlagSupport'];
+    displayedColumns = ['class', 'properties', 'forceFlagSupport', 'responsiveNamespacesSupport'];
 
     ngOnInit() {
         if(this.filterCategory !== '') {

@@ -2,3 +2,16 @@
     max-height: 300px;
     overflow: auto;
 }
+
+.css-lib-feature-supported,
+.css-lib-feature-not-supported {
+    font-size: 1.7em;
+}
+
+.css-lib-feature-supported {
+    color: green;
+}
+
+.css-lib-feature-not-supported {
+    color: var(--app-color-warn);
+}

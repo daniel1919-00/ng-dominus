@@ -12,7 +12,16 @@
 
         <ng-container matColumnDef="forceFlagSupport">
             <th mat-header-cell *matHeaderCellDef> -f suffix support</th>
-            <td mat-cell *matCellDef="let item"> {{ item.forceFlagSupport ? '&#10003;' : '' }}</td>
+            <td mat-cell *matCellDef="let item">
+                <span [ngClass]="item.forceFlagSupport ? 'css-lib-feature-supported' : 'css-lib-feature-not-supported'">{{ item.forceFlagSupport ? '&#10003;' : '&#10008;' }}</span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="responsiveNamespacesSupport">
+            <th mat-header-cell *matHeaderCellDef> Responsive namespaces support</th>
+            <td mat-cell *matCellDef="let item">
+                <span [ngClass]="item.responsiveNamespacesSupport ? 'css-lib-feature-supported' : 'css-lib-feature-not-supported'">{{ item.responsiveNamespacesSupport ? '&#10003;' : '&#10008;' }}</span>
+            </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

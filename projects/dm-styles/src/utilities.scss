@@ -30,9 +30,16 @@
         }
     }
 
-    .#{$class-name},
-    .#{$class-name-f} {
-        @content;
+    @if $generate-forced-version {
+        .#{$class-name},
+        .#{$class-name-f} {
+            @content;
+        }
+    }
+    @else {
+        .#{$class-name} {
+            @content;
+        }
     }
 }
 
@@ -44,12 +51,10 @@
     }
 }
 
-@mixin generate-responsive-class($class-name, $properties) {
+@mixin generate-responsive-class($class-name, $properties, $generate-forced-version) {
     @include generate-responsive-media using($breakpoint) {
-        .#{generate-class-name($breakpoint + '' + config.$responsive-namespace-separator + $class-name, false)} {
-            @each $property, $value in $properties {
-                #{$property}: #{$value};
-            }
+        @include generate-class($breakpoint + '' + config.$responsive-namespace-separator + $class-name, $properties, $generate-forced-version) {
+            @content;
         }
     }
 }
