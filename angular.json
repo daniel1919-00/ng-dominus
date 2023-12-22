@@ -12,7 +12,7 @@
             "projectType": "library",
             "root": "projects/dm-table",
             "sourceRoot": "projects/dm-table/src",
-            "prefix": "dmx",
+            "prefix": "lib",
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:ng-packagr",

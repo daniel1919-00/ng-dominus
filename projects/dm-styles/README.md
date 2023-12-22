@@ -4,6 +4,8 @@ Lightweight library used to style the dominus components demo page. It can be us
 
 ## Usage
 
+Check out the [documentation and demo](https://daniel1919-00.github.io/ng-dominus/dm-styles).
+
 ### Angular 
 Add the css file path in `angular.json`:
 ``` json

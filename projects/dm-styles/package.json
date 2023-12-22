@@ -1,6 +1,6 @@
 {
     "name": "@ng-dominus/dm-styles",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Dominus css library",
     "publishConfig": {
         "access": "public"

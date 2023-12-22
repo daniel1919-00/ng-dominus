@@ -1,12 +1,36 @@
 {
-    "name": "dm-tags",
+    "name": "@ng-dominus/dm-tags",
     "version": "17.1.0",
-    "peerDependencies": {
-        "tslib": "^2.3.0"
+    "description": "Dominus angular material tags extension",
+    "publishConfig": {
+        "access": "public"
     },
-    "dependencies": {
+    "author": "Daniel",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/daniel1919-00/ng-dominus"
+    },
+    "keywords": [
+        "ng-dominus",
+        "dominus",
+        "files",
+        "uploader",
+        "dm-uploader",
+        "angular",
+        "angular-material",
+        "angular-components",
+        "angular-material-extensions"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/daniel1919-00/ng-dominus/issues"
+    },
+    "peerDependencies": {
         "@angular/core": ">=17.0.0",
         "@angular/material": ">=17.0.0"
+    },
+    "dependencies": {
+        "tslib": "^2.3.0"
     },
     "sideEffects": false
 }
