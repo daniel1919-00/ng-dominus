@@ -1,6 +1,6 @@
 # Dominus css utilities
 
-Lightweight library mainly build to style the dominus components demo page, but can be used on any site along any other css libraries.
+Lightweight library used to style the dominus components demo page. It can be used on any site along any other css libraries since all classes are prefixed with the `dm:` namespace.
 
 ## Usage
 
@@ -27,4 +27,4 @@ Add the css file path in `angular.json`:
 ```
 
 ### Static website
-Append the css file in your site header.
+Append `dm-styles.css` in your site header.
