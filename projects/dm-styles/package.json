@@ -2,6 +2,7 @@
     "name": "@ng-dominus/dm-styles",
     "version": "1.0.1",
     "description": "Dominus css library",
+    "homepage": "https://daniel1919-00.github.io/ng-dominus/dm-styles",
     "publishConfig": {
         "access": "public"
     },
