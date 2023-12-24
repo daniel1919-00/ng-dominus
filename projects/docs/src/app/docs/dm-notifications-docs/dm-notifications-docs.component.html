@@ -9,13 +9,13 @@
                 <mat-card-content>
                     <app-code-example title="Alert dialog" [code]="dmNotificationsCodeExample">
                         <div class="dm:grid">
-                            <button class="dm:col-fixed" mat-raised-button (click)="alert()">Show alert</button>
+                            <button class="dm:col-fixed" color="primary" mat-raised-button (click)="alert()">Show alert</button>
                         </div>
                     </app-code-example>
 
                     <app-code-example title="Confirm dialog" [code]="dmNotificationsCodeExample">
                         <div class="dm:grid">
-                            <button class="dm:col-fixed" mat-raised-button (click)="confirm()">Show confirmation dialog</button>
+                            <button class="dm:col-fixed" color="primary" mat-raised-button (click)="confirm()">Show confirmation dialog</button>
                         </div>
                         <br>
                         <h3>Result</h3>
@@ -58,9 +58,9 @@
                             </mat-form-field>
                         </form>
                         <div class="example-buttons dm:align-content-center">
-                            <button class="dm:col-fixed" mat-raised-button (click)="exampleNotification()">Show notification</button>
-                            <button class="dm:col-fixed" mat-raised-button (click)="notifyUsingComponent()">Show notification using custom component</button>
-                            <button class="dm:col-fixed" mat-raised-button (click)="notifyWithCustomButton()">Show notification with an action button</button>
+                            <button class="dm:col-fixed" color="primary" mat-raised-button (click)="exampleNotification()">Show notification</button>
+                            <button class="dm:col-fixed" color="primary" mat-raised-button (click)="notifyUsingComponent()">Show notification using custom component</button>
+                            <button class="dm:col-fixed" color="primary" mat-raised-button (click)="notifyWithCustomButton()">Show notification with an action button</button>
                         </div>
                     </app-code-example>
                 </mat-card-content>
