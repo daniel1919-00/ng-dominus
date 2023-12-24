@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatTableModule} from "@angular/material/table";
-import {ClassList} from "../dm-styles-code-example";
+import {DmStylesClass} from "../dm-styles-code-example";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
+import {DmNotificationsService} from "../../../../../../dm-notifications/src/lib/dm-notifications.service";
 
 @Component({
     selector: 'app-dm-styles-class-list-table',
@@ -14,9 +15,13 @@ import {MatButtonModule} from "@angular/material/button";
     styleUrl: './dm-styles-class-list-table.component.scss'
 })
 export class DmStylesClassListTableComponent implements OnInit {
-    @Input({required: true}) classes!: ClassList[];
+    @Input({required: true}) classes!: DmStylesClass[];
     @Input() filterCategory = '';
     displayedColumns = ['class', 'description', 'properties', 'forceFlagSupport', 'responsiveNamespacesSupport', 'modifiers'];
+
+    constructor(
+       private notifications: DmNotificationsService
+    ) {}
 
     ngOnInit() {
         if (this.filterCategory !== '') {
@@ -39,7 +44,10 @@ export class DmStylesClassListTableComponent implements OnInit {
         return '';
     }
 
-    seeProperties(properties: string) {
-
+    seeProperties(item: DmStylesClass) {
+        this.notifications.alert({
+            title: item.class,
+            content: item.properties.replaceAll('\n', '<br>')
+        });
     }
 }

@@ -8,7 +8,7 @@ export const dmStylesFlexExample: CodeExample = {
 
 const namespace = 'dm:';
 
-export interface ClassList {
+export interface DmStylesClass {
     category: string;
     class: string;
     description: string;
@@ -38,7 +38,7 @@ function getGridColumnClasses() {
         12: '100%'
     };
 
-    const classes: ClassList[] = [];
+    const classes: DmStylesClass[] = [];
     for (let i = 1; i <= maxColumns; ++i) {
         classes.push({
             category: 'grid',
@@ -56,7 +56,7 @@ function getGridColumnClasses() {
     return classes;
 }
 
-export const classList: ClassList[] = [
+export const classList: DmStylesClass[] = [
     // General
     {
         category: 'general',
