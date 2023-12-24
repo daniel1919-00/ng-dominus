@@ -12,13 +12,13 @@
 
                             <h2>Configuration</h2>
 
-                            <section formGroupName="config">
-                                <mat-form-field>
+                            <section formGroupName="config" class="dm:grid">
+                                <mat-form-field class="dm:col-6">
                                     <mat-label>autocompleteOptions</mat-label>
                                     <dm-tags formControlName="autocompleteOptions"></dm-tags>
                                 </mat-form-field>
 
-                                <mat-form-field>
+                                <mat-form-field class="dm:col-6">
                                     <mat-label>addOnKeycodes</mat-label>
                                     <mat-select [multiple]="true" formControlName="addOnKeycodes">
                                         <mat-option [value]="ENTER">ENTER</mat-option>
@@ -27,8 +27,9 @@
                                     </mat-select>
                                 </mat-form-field>
 
-                                <mat-checkbox color="primary" formControlName="addOnBlur">addOnBlur</mat-checkbox>
-                                <mat-checkbox color="primary" formControlName="allowDuplicates">allowDuplicates</mat-checkbox>
+                                <mat-checkbox class="dm:col-6" color="primary" formControlName="addOnBlur">addOnBlur</mat-checkbox>
+                                <mat-checkbox class="dm:col-6" color="primary" formControlName="allowDuplicates">allowDuplicates
+                                </mat-checkbox>
                             </section>
 
                             <br>
@@ -53,11 +54,6 @@
             <mat-tab label="Api">
                 <mat-card-content>
                     <app-tags-docs></app-tags-docs>
-                </mat-card-content>
-            </mat-tab>
-            <mat-tab label="Styling">
-                <mat-card-content>
-
                 </mat-card-content>
             </mat-tab>
         </mat-tab-group>

@@ -1,0 +1,83 @@
+.ng-dominus-notification-container {
+    &.info {
+        > * {
+            background: var(--dominus-notifications-info-background, #cce5ff) !important;
+            border: 1px solid var(--dominus-notifications-info-border-color, #b8daff) !important;
+        }
+
+        .ng-dominus-notification {
+            .ng-dominus-notification-content {
+                color: var(--dominus-notifications-info-text-color, #004085);
+            }
+
+            .ng-dominus-notification-actions > * {
+                color: var(--dominus-notifications-info-btn-color, #004085);
+            }
+        }
+    }
+
+    &.success {
+        > * {
+            background: var(--dominus-notifications-success-background, #d4edda) !important;
+            border: 1px solid var(--dominus-notifications-success-border-color, #c3e6cb) !important;
+        }
+
+        .ng-dominus-notification {
+            .ng-dominus-notification-content {
+                color: var(--dominus-notifications-success-text-color, #155724);
+            }
+
+            .ng-dominus-notification-actions > * {
+                color: var(--dominus-notifications-success-btn-color, #155724);
+            }
+        }
+    }
+
+    &.warn {
+        > * {
+            background: var(--dominus-notifications-warn-background, #fff3cd) !important;
+            border: 1px solid var(--dominus-notifications-warn-border-color, #ffeeba) !important;
+        }
+
+        .ng-dominus-notification {
+            .ng-dominus-notification-content {
+                color: var(--dominus-notifications-warn-text-color, #856404);
+            }
+
+            .ng-dominus-notification-actions > * {
+                color: var(--dominus-notifications-warn-btn-color, #856404);
+            }
+        }
+    }
+
+    &.danger {
+        > * {
+            background-color: var(--dominus-notifications-danger-background, #f8d7da) !important;
+            border: 1px solid var(--dominus-notifications-danger-border-color, #f5c6cb) !important;
+        }
+
+        .ng-dominus-notification {
+            .ng-dominus-notification-content {
+                color: var(--dominus-notifications-danger-text-color, #721c24);
+            }
+
+            .ng-dominus-notification-actions > * {
+                color: var(--dominus-notifications-danger-btn-color, #721c24);
+            }
+        }
+    }
+
+    .ng-dominus-notification {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+
+        .ng-dominus-notification-actions {
+            padding-left: 1rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+    }
+}

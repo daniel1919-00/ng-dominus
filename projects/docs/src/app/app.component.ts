@@ -70,12 +70,12 @@ export class AppComponent {
     }
 
     protected setDarkMode(state: boolean) {
-        if(this.isDarkMode === state) {
+        if (this.isDarkMode === state) {
             return;
         }
 
         const body = this.document.body;
-        if(state) {
+        if (state) {
             body.classList.add('dark');
         } else {
             body.classList.remove('dark');

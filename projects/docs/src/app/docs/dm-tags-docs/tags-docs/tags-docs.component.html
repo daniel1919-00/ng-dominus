@@ -1,17 +1,37 @@
 <app-component-docs>
-    <app-component-docs-section label="Inputs">
+    <app-component-docs-code>
+        import &#123; DmTagsComponent &#125; from '&#64;ng-dominus/dm-tags';
+    </app-component-docs-code>
 
+    <app-component-docs-section label="Inputs">
         <app-component-docs-section-item label="value">
-            The current value. Must be an array of DominusFile objects.
+            Set the initial tags.
         </app-component-docs-section-item>
 
-    </app-component-docs-section>
+        <app-component-docs-section-item label="autocompleteOptions">
+            <p>If set then an autocomplete list is appended to the tags input.</p>
+            Can be a function that will be called initially and whenever the users inputs text, and should return a promise with the filtered list items.
+        </app-component-docs-section-item>
 
-    <app-component-docs-section label="Outputs">
+        <app-component-docs-section-item label="addOnKeycodes">
+            Keycode presses to add the current input string as a tag
+        </app-component-docs-section-item>
 
-    </app-component-docs-section>
+        <app-component-docs-section-item label="addOnBlur">
+            <p>Add the current input string on element blur.</p>
+            This is ignored when autocomplete options are shown, since the input loses focus when selecting the options.
+        </app-component-docs-section-item>
 
-    <app-component-docs-section label="Public methods">
+        <app-component-docs-section-item label="allowDuplicates">
+            Whether duplicate values are allowed
+        </app-component-docs-section-item>
 
+        <app-component-docs-section-item label="onBeforeAdd">
+            Function that returns true to allow the item or false to reject it
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="onBeforeRemove">
+            Function that returns true to allow the deletion or false to reject it
+        </app-component-docs-section-item>
     </app-component-docs-section>
 </app-component-docs>

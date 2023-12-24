@@ -51,6 +51,17 @@ export const routes: DocRoute[] = [
         }
     },
     {
+        title: 'Notifications',
+        path: 'dm-notifications',
+        loadComponent: () => import('./docs/dm-notifications-docs/dm-notifications-docs.component').then(c => c.DmNotificationsDocsComponent),
+        data: {
+            icon: {
+                src: 'campaign'
+            }
+        }
+    },
+
+    {
         title: 'Intro',
         path: '**',
         component: DmIntroComponent,

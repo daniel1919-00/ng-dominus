@@ -1,0 +1,121 @@
+<app-component-doc-header title="Dominus notifications">
+    <p>Angular material based library used to handle user notifications.</p>
+</app-component-doc-header>
+
+<mat-card>
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Overview">
+                <mat-card-content>
+                    <app-code-example title="Alert dialog" [code]="dmNotificationsCodeExample">
+                        <div class="dm:grid">
+                            <button class="dm:col-fixed" mat-raised-button (click)="alert()">Show alert</button>
+                        </div>
+                    </app-code-example>
+
+                    <app-code-example title="Confirm dialog" [code]="dmNotificationsCodeExample">
+                        <div class="dm:grid">
+                            <button class="dm:col-fixed" mat-raised-button (click)="confirm()">Show confirmation dialog</button>
+                        </div>
+                        <br>
+                        <h3>Result</h3>
+                        <pre>Confirmed: {{ confirmResult$ | async | json }}</pre>
+                    </app-code-example>
+
+                    <app-code-example title="Notifications" [code]="dmNotificationsCodeExample">
+                        <form class="dm:grid" [formGroup]="notificationConfig">
+                            <mat-form-field class="dm:col-12 dm:md:col-6">
+                                <mat-label>Duration(ms)</mat-label>
+                                <input type="number" matInput formControlName="duration">
+                            </mat-form-field>
+                            <mat-form-field class="dm:col-12 dm:md:col-6">
+                                <mat-label>Notification Type</mat-label>
+                                <mat-select formControlName="type">
+                                    <mat-option value="info">info</mat-option>
+                                    <mat-option value="success">success</mat-option>
+                                    <mat-option value="warn">warn</mat-option>
+                                    <mat-option value="danger">danger</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="dm:col-12 dm:md:col-6">
+                                <mat-label>Vertical Position</mat-label>
+                                <mat-select formControlName="verticalPosition">
+                                    <mat-option value="top">top</mat-option>
+                                    <mat-option value="bottom">bottom</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="dm:col-12 dm:md:col-6">
+                                <mat-label>Horizontal Position</mat-label>
+                                <mat-select formControlName="horizontalPosition">
+                                    <mat-option value="start">start</mat-option>
+                                    <mat-option value="center">center</mat-option>
+                                    <mat-option value="end">end</mat-option>
+                                    <mat-option value="left">left</mat-option>
+                                    <mat-option value="right">right</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </form>
+                        <div class="example-buttons dm:align-content-center">
+                            <button class="dm:col-fixed" mat-raised-button (click)="exampleNotification()">Show notification</button>
+                            <button class="dm:col-fixed" mat-raised-button (click)="notifyUsingComponent()">Show notification using custom component</button>
+                            <button class="dm:col-fixed" mat-raised-button (click)="notifyWithCustomButton()">Show notification with an action button</button>
+                        </div>
+                    </app-code-example>
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Api">
+                <mat-card-content>
+                    <app-dm-notifications-api-docs></app-dm-notifications-api-docs>
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Styling">
+                <mat-card-content>
+                    <p>Override colors using the following css variables:</p>
+                    <ul>
+                        <li>
+                            Info notification type
+                            <ul>
+                                <li><span class="dm:quote">--dominus-notifications-info-background</span>: Background color</li>
+                                <li><span class="dm:quote">--dominus-notifications-info-border-color</span>: Border color</li>
+                                <li><span class="dm:quote">--dominus-notifications-info-text-color</span>: Text color</li>
+                                <li><span class="dm:quote">--dominus-notifications-info-btn-color</span>: Action button color</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            Success notification type
+                            <ul>
+                                <li><span class="dm:quote">--dominus-notifications-success-background</span>: Background color</li>
+                                <li><span class="dm:quote">--dominus-notifications-success-border-color</span>: Border color</li>
+                                <li><span class="dm:quote">--dominus-notifications-success-text-color</span>: Text color</li>
+                                <li><span class="dm:quote">--dominus-notifications-success-btn-color</span>: Action button color</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            Warning notification type
+                            <ul>
+                                <li><span class="dm:quote">--dominus-notifications-warn-background</span>: Background color</li>
+                                <li><span class="dm:quote">--dominus-notifications-warn-border-color</span>: Border color</li>
+                                <li><span class="dm:quote">--dominus-notifications-warn-text-color</span>: Text color</li>
+                                <li><span class="dm:quote">--dominus-notifications-warn-btn-color</span>: Action button color</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            Danger notification type
+                            <ul>
+                                <li><span class="dm:quote">--dominus-notifications-danger-background</span>: Background color</li>
+                                <li><span class="dm:quote">--dominus-notifications-danger-border-color</span>: Border color</li>
+                                <li><span class="dm:quote">--dominus-notifications-danger-text-color</span>: Text color</li>
+                                <li><span class="dm:quote">--dominus-notifications-danger-btn-color</span>: Action button color</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </mat-card-content>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

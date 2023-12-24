@@ -1,0 +1,7 @@
+<h2 *ngIf="data.title" mat-dialog-title [ngClass]="data.titleClass || ''" [innerHTML]="data.title"></h2>
+<div mat-dialog-content [innerHTML]="data.content"></div>
+<mat-dialog-actions [align]="data.buttonAlignment">
+    <button type="button" mat-raised-button [color]="data.closeButtonColor"
+            (click)="dialogRef.close()">{{ data.closeButtonText }}
+    </button>
+</mat-dialog-actions>

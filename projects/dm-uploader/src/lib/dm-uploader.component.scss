@@ -11,6 +11,7 @@ input[type="file"] {
     &.multiple:not(.mat-form-field),
     &.image-uploader:not(.mat-form-field) {
         border: 1px dotted var(--dominus-uploader-file-default-border-color, #cecece);
+
         &.dragover {
             border-color: var(--dominus-uploader-file-hover-border-color, #6495EDFF);
         }
@@ -31,7 +32,8 @@ input[type="file"] {
     .no-files-single {
         display: flex;
         align-items: center;
-        >button {
+
+        > button {
             margin-left: 15px;
         }
     }
@@ -39,7 +41,8 @@ input[type="file"] {
     .actions {
         display: flex;
         margin-bottom: 25px;
-        >button {
+
+        > button {
             &:not(:last-child) {
                 margin-right: 8px;
             }

@@ -4,6 +4,9 @@
     "compilerOptions": {
         "outDir": "./dist/out-tsc",
         "paths": {
+          "dm-notifications": [
+            "./dist/dm-notifications"
+          ],
             "dm-table": [
                 "./dist/dm-table"
             ],

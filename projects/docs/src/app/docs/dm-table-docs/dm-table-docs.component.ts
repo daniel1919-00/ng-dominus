@@ -6,7 +6,7 @@ import {ComponentDocHeaderComponent} from "../../components/component-doc-header
 import {MatTabsModule} from "@angular/material/tabs";
 import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {CodeExampleComponent} from "../../components/code-example/code-example.component";
-import {dmTagsCodeExample} from "../dm-tags-docs/dm-tags-code-example";
+import {dmTableDocsCodeExample} from "./dm-table-docs-code-example";
 
 @Component({
     selector: 'app-dm-table-docs',
@@ -16,17 +16,14 @@ import {dmTagsCodeExample} from "../dm-tags-docs/dm-tags-code-example";
     styleUrl: './dm-table-docs.component.scss'
 })
 export class DmTableDocsComponent {
+    protected readonly dmTagsCodeExample = dmTableDocsCodeExample;
     form: UntypedFormGroup;
 
     constructor(
         fb: UntypedFormBuilder
     ) {
         this.form = fb.group({
-            config: fb.group({
-
-            })
+            config: fb.group({})
         });
     }
-
-    protected readonly dmTagsCodeExample = dmTagsCodeExample;
 }

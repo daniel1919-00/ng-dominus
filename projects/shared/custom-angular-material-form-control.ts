@@ -39,7 +39,7 @@ export abstract class CustomAngularMaterialFormControl<T> extends CustomAngularF
 
     ngOnInit() {
         if (this.focusMonitor && this.selfElementRef) {
-           this.focusMonSub = this.focusMonitor.monitor(this.selfElementRef.nativeElement, true).subscribe(origin => this.onFocusLost(origin));
+            this.focusMonSub = this.focusMonitor.monitor(this.selfElementRef.nativeElement, true).subscribe(origin => this.onFocusLost(origin));
         }
 
         if (this.ngControl) {
@@ -48,7 +48,7 @@ export abstract class CustomAngularMaterialFormControl<T> extends CustomAngularF
                 this._required = ngFormControl.hasValidator(Validators.required) ?? false;
                 this.formControlStatusChangesSub = ngFormControl.statusChanges.subscribe(() => {
                     const required = ngFormControl.hasValidator(Validators.required) ?? false;
-                    if(required !== this._required) {
+                    if (required !== this._required) {
                         this._required = required;
                         this.stateChanges.next();
                     }
@@ -96,8 +96,7 @@ export abstract class CustomAngularMaterialFormControl<T> extends CustomAngularF
 
     ngOnDestroy() {
         this.stateChanges.complete();
-        if(this.focusMonitor)
-        {
+        if (this.focusMonitor) {
             this.focusMonitor.stopMonitoring((this.selfElementRef as ElementRef).nativeElement);
             (this.focusMonSub as Subscription).unsubscribe();
         }

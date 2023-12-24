@@ -1,14 +1,3 @@
-.decorated {
-    display: inline-block;
-    vertical-align: middle;
-    font-weight: 600;
-    padding: .1em .3em;
-    border-radius: var(--app-border-radius);
-    color: var(--app-color-accent);
-    border: 1px solid var(--app-color-accent);
-    margin: 0 .2rem;
-}
-
 .box {
     padding: 20px;
     border-radius: var(--app-border-radius);
@@ -23,8 +12,4 @@
     border-radius: var(--app-border-radius);
     color: var(--app-color-primary-contrast);
     border: 1px solid var(--app-color-primary);
-}
-
-ul li {
-    margin: 8px 0;
 }

@@ -1,8 +1,11 @@
 import {
     Component,
     ElementRef,
-    Input, OnChanges,
-    OnDestroy, Optional, Self,
+    Input,
+    OnChanges,
+    OnDestroy,
+    Optional,
+    Self,
     SimpleChanges,
     ViewChild
 } from '@angular/core';
@@ -79,21 +82,21 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if(changes['value'] && !changes['value'].firstChange) {
+        if (changes['value'] && !changes['value'].firstChange) {
             this.onChange(this._value);
         }
 
-        if(changes['autocompleteOptions']) {
-            if(!changes['autocompleteOptions'].firstChange) {
+        if (changes['autocompleteOptions']) {
+            if (!changes['autocompleteOptions'].firstChange) {
                 this.autocompleteSub?.unsubscribe();
             }
 
-            if(this.autocompleteOptions) {
+            if (this.autocompleteOptions) {
                 this.autocomplete$ = new Subject<string>();
 
                 this.autocompleteSub = this.autocomplete$.pipe(startWith('')).subscribe((searchString) => {
-                    if(Array.isArray(this.autocompleteOptions)) {
-                        if(searchString === '') {
+                    if (Array.isArray(this.autocompleteOptions)) {
+                        if (searchString === '') {
                             this.filteredAutocompleteOptions$.next(this.autocompleteOptions);
                             return;
                         }
@@ -133,7 +136,7 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
         const value = (ev.value || '').trim();
         ev.chipInput!.clear();
 
-        if(this.onBeforeAdd && !this.onBeforeAdd(value)) {
+        if (this.onBeforeAdd && !this.onBeforeAdd(value)) {
             return;
         }
 
@@ -141,7 +144,7 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
     }
 
     protected remove(item: string, itemIndex: number) {
-        if(this.onBeforeRemove && !this.onBeforeRemove(item)) {
+        if (this.onBeforeRemove && !this.onBeforeRemove(item)) {
             return;
         }
 
@@ -153,7 +156,7 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
     }
 
     protected selected(event: MatAutocompleteSelectedEvent) {
-        if(this.tagInput) {
+        if (this.tagInput) {
             this.tagInput.nativeElement.value = '';
         }
         this.addValue(event.option.viewValue);
@@ -166,12 +169,12 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
     }
 
     private addValue(value: string) {
-        if(!value) {
+        if (!value) {
             return;
         }
 
         const currentValues = this.value;
-        if(!this.allowDuplicates && currentValues.indexOf(value) !== -1) {
+        if (!this.allowDuplicates && currentValues.indexOf(value) !== -1) {
             return;
         }
 
@@ -181,11 +184,11 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
     }
 
     protected override onFocusLost(origin: FocusOrigin) {
-        if(this.addOnBlur && !this.filteredAutocompleteOptions$.getValue().length) {
+        if (this.addOnBlur && !this.filteredAutocompleteOptions$.getValue().length) {
             const tagInputEl: HTMLInputElement = this.tagInput?.nativeElement;
-            if(tagInputEl) {
+            if (tagInputEl) {
                 const value = tagInputEl.value.trim();
-                if(value !== '') {
+                if (value !== '') {
                     tagInputEl.value = '';
                     this.addValue(value);
                 }

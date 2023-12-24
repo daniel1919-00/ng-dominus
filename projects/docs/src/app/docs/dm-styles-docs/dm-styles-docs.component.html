@@ -1,72 +1,134 @@
 <app-component-doc-header title="Dominus css library">
-    <p>Lightweight library mainly build to style the dominus components demo page, but can be used on any site along any other css libraries.</p>
+    <p>Lightweight library mainly build to style the dominus components demo page, but can be used on any site along any
+        other css libraries.</p>
     <p>The library takes a utility-first approach containing only structural syles and does not require a theme.</p>
 </app-component-doc-header>
 <mat-card>
     <mat-card-content>
         <mat-tab-group>
             <mat-tab label="Introduction">
-                <p>All classes are prefixed with the <span class="decorated">dm:*</span> which is used as a namespace. As such, the library can be used alongside any other css frameworks/libraries as long as this namespace is unique.</p>
-                <p>Some classes have a "forced" version, suffixed with <span class="decorated">*-f</span> which makes their properties <span class="decorated">!important</span>.</p>
+                <p>All classes are prefixed with the <span class="dm:quote">dm:*</span> which is used as a namespace. As
+                    such, the library can be used alongside any other css frameworks/libraries as long as this namespace
+                    is unique.</p>
+                <p>Some classes have a "forced" version, suffixed with <span class="dm:quote">*-f</span> which makes
+                    their properties <span class="dm:quote">!important</span>.</p>
                 <h3>Responsive namespaces</h3>
-                <p>Some classes supports responsive namespaces which are prefixed with <span class="decorated">dm:[responsive-namespace]:*</span>, the classes after the breakpoint only applies when that breakpoint is active.</p>
-                For example the following classes applied on an element: <span class="decorated">dm:col-12 dm:md:col-6</span> would apply like so:
+                <p>Some classes supports responsive namespaces which are prefixed with <span class="dm:quote">dm:[responsive-namespace]:*</span>,
+                    the classes after the breakpoint only applies when that breakpoint is active.</p>
+                For example the following classes applied on an element: <span
+                class="dm:quote">dm:col-12 dm:md:col-6</span> would apply like so:
                 <ul>
-                    <li><span class="decorated">dm:col-12</span> will apply the <span class="decorated">col-12</span> class all the time</li>
-                    <li><span class="decorated">dm:md:col-6</span> will only apply the <span class="decorated">col-6</span> class when the <span class="decorated">md</span> breakpoint is active!</li>
+                    <li><span class="dm:quote">dm:col-12</span> will apply the <span class="dm:quote">col-12</span>
+                        class all the time
+                    </li>
+                    <li><span class="dm:quote">dm:md:col-6</span> will only apply the <span
+                        class="dm:quote">col-6</span> class when the <span class="dm:quote">md</span> breakpoint is
+                        active!
+                    </li>
                 </ul>
                 <h4>Available namespaces</h4>
                 <ul>
-                    <li><span class="decorated">sm</span>: 640px</li>
-                    <li><span class="decorated">md</span>: 768px</li>
-                    <li><span class="decorated">lg</span>: 1024px</li>
-                    <li><span class="decorated">xl</span>: 1280px</li>
-                    <li><span class="decorated">xxl</span>: 1536px</li>
+                    <li><span class="dm:quote">sm</span>: 640px</li>
+                    <li><span class="dm:quote">md</span>: 768px</li>
+                    <li><span class="dm:quote">lg</span>: 1024px</li>
+                    <li><span class="dm:quote">xl</span>: 1280px</li>
+                    <li><span class="dm:quote">xxl</span>: 1536px</li>
                 </ul>
             </mat-tab>
-            <mat-tab label="Flexbox">
+            <mat-tab label="General">
+                <h3>Introduction</h3>
+                <p>A series of general purpose/utility classes</p>
+                <br>
                 <h3>Classes</h3>
-                <app-dm-styles-class-list-table [classes]="classList" filterCategory="flexbox"></app-dm-styles-class-list-table>
+                <app-dm-styles-class-list-table [classes]="classList"
+                                                filterCategory="general"></app-dm-styles-class-list-table>
+                <br>
+                <h3>Examples</h3>
+                <app-code-example title="dm:quote" [code]="dmStylesFlexExample">
+                    <div class="dm:quote">
+                        dm:quote example text
+                    </div>
+                    <br>
+                    <div class="dm:quote code">
+                        Code example:
 
-
+                        font-family: var(--dm-quote-font-family);
+                        display: inline-block;
+                        vertical-align: middle;
+                        white-space: pre-wrap;
+                        font-weight: var(--dm-quote-font-weight);
+                        padding: var(--dm-quote-padding);
+                        border-radius: var(--dm-quote-border-radius);
+                        color: var(--dm-quote-color);
+                        border: var(--dm-quote-border);
+                        margin: var(--dm-quote-margin);
+                    </div>
+                </app-code-example>
+            </mat-tab>
+            <mat-tab label="Flexbox">
+                <h3>Introduction</h3>
+                <p>Utility classes to work with flexbox</p>
+                <br>
+                <h3>Classes</h3>
+                <app-dm-styles-class-list-table [classes]="classList"
+                                                filterCategory="flexbox"></app-dm-styles-class-list-table>
+                <br>
                 <h3>Examples</h3>
                 <app-code-example title="Flexbox example" [code]="dmStylesFlexExample">
                     <div class="box-container no-bg">
-                        <span class="decorated box-container-class">.dm:flex</span>
-                        <span class="decorated box-container-class">.dm:flex-wrap</span>
+                        <span class="dm:quote box-container-class">.dm:flex</span>
+                        <span class="dm:quote box-container-class">.dm:flex-wrap</span>
 
                         <div class="dm:flex dm:flex-wrap">
                             <div *ngFor="let col of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" class="box">
-                                {{col}}
+                                {{ col }}
                             </div>
                         </div>
                     </div>
                 </app-code-example>
             </mat-tab>
             <mat-tab label="Grid">
-                <h3>Classes</h3>
-                <app-dm-styles-class-list-table [classes]="classList" filterCategory="grid"></app-dm-styles-class-list-table>
+                <h3>Introduction</h3>
+                <p>Grid is a system based on <a href="https://getbootstrap.com/docs/5.3/layout/grid/" target="_blank">Bootstrap's</a>
+                    12 column grid system.</p>
+                <br>
 
+                <h3>Classes</h3>
+                <app-dm-styles-class-list-table [classes]="classList"
+                                                filterCategory="grid"></app-dm-styles-class-list-table>
+                <br>
                 <h3>Examples</h3>
                 <app-code-example title="Flexbox example" [code]="dmStylesFlexExample">
                     <div class="box-container no-bg">
-                        <div class="decorated box-container-class">.dm:grid</div>
+                        <div class="dm:quote box-container-class">.dm:grid</div>
 
                         <div class="dm:grid">
-                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
-                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
-                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
-                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
-                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
-                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4"><div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div></div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4">
+                                <div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div>
+                            </div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4">
+                                <div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div>
+                            </div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4">
+                                <div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div>
+                            </div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4">
+                                <div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div>
+                            </div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4">
+                                <div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div>
+                            </div>
+                            <div class="dm:col-12 dm:md:col-6 dm:lg:col-4">
+                                <div class="box">.dm:col-12 .dm:md:col-6 .dm:lg:col-4</div>
+                            </div>
                         </div>
                     </div>
                 </app-code-example>
             </mat-tab>
-<!--            <mat-tab label="Events">-->
-<!--                <h3>Classes</h3>-->
-<!--                <app-dm-styles-class-list-table [classes]="classList" filterCategory="events"></app-dm-styles-class-list-table>-->
-<!--            </mat-tab>-->
+            <!--            <mat-tab label="Events">-->
+            <!--                <h3>Classes</h3>-->
+            <!--                <app-dm-styles-class-list-table [classes]="classList" filterCategory="events"></app-dm-styles-class-list-table>-->
+            <!--            </mat-tab>-->
         </mat-tab-group>
     </mat-card-content>
 </mat-card>

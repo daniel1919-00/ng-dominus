@@ -1,0 +1,14 @@
+<div class="ng-dominus-notification">
+    <span class="ng-dominus-notification-content">
+        <ng-container *ngIf="textContent else componentContentTemplate">
+            <span [innerHTML]="data.content"></span>
+        </ng-container>
+    </span>
+    <div *ngIf="data.actionButtons" class="ng-dominus-notification-actions">
+        <button *ngFor="let actionBtn of data.actionButtons" mat-button (click)="actionBtnClicked(actionBtn)">{{actionBtn.label}}</button>
+    </div>
+</div>
+
+<ng-template #componentContentTemplate>
+    <ng-container [ngComponentOutlet]="$any(data.content)"></ng-container>
+</ng-template>

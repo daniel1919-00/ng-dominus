@@ -1,0 +1,36 @@
+{
+    "name": "@ng-dominus/dm-notifications",
+    "version": "17.0.0",
+    "description": "Dominus angular material notifications extension",
+    "homepage": "https://daniel1919-00.github.io/ng-dominus/dm-notifications",
+    "publishConfig": {
+        "access": "public"
+    },
+    "author": "Daniel",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/daniel1919-00/ng-dominus"
+    },
+    "keywords": [
+        "ng-dominus",
+        "dominus",
+        "notifications",
+        "dm-notifications",
+        "angular",
+        "angular-material",
+        "angular-components",
+        "angular-material-extensions"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/daniel1919-00/ng-dominus/issues"
+    },
+    "peerDependencies": {
+        "@angular/core": ">=17.0.0",
+        "@angular/material": "^17.0.0"
+    },
+    "dependencies": {
+        "tslib": "^2.3.0"
+    },
+    "sideEffects": false
+}

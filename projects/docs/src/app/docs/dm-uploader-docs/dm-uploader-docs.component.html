@@ -11,20 +11,20 @@
 
                         <h2>Configuration</h2>
 
-                        <section formGroupName="config">
-                            <mat-checkbox color="primary" formControlName="multiple">Multiple</mat-checkbox>
-                            <mat-form-field>
+                        <section formGroupName="config" class="dm:grid">
+                            <mat-form-field class="dm:col-fixed">
                                 <mat-label>Type</mat-label>
                                 <mat-select formControlName="type">
                                     <mat-option value="file-uploader">file-uploader</mat-option>
                                     <mat-option value="image-uploader">image-uploader</mat-option>
                                 </mat-select>
                             </mat-form-field>
+                            <mat-checkbox color="primary" formControlName="multiple" class="dm:col-fixed">Multiple</mat-checkbox>
                         </section>
 
                         <br>
                         <h2>Result</h2>
-                        <mat-form-field>
+                        <mat-form-field class="dm:col-12">
                             <mat-label>Uploader</mat-label>
                             <app-fake-uploader
                                 formControlName="value"
@@ -48,13 +48,14 @@
             </mat-tab>
             <mat-tab label="Styling">
                 <mat-card-content>
-                    <p>Override colors using the following css vars:</p>
+                    <p>Override colors using the following css variables:</p>
                     <ul>
-                        <li>--dominus-uploader-error-color: Error text color</li>
-                        <li>--dominus-uploader-file-hover-border-color: Border color when hovering over with a file</li>
-                        <li>--dominus-uploader-image-uploading-overlay: Overlay color applied to images that are uploading
+                        <li><span class="dm:quote">--dominus-uploader-error-color</span>: Error text color</li>
+                        <li><span class="dm:quote">--dominus-uploader-file-hover-border-color</span>: Border color when hovering over with a file</li>
+                        <li><span class="dm:quote">--dominus-uploader-image-uploading-overlay</span>: Overlay color applied to images that are
+                            uploading
                         </li>
-                        <li>--dominus-uploader-image-error-container-background: Background colo applied to the error
+                        <li><span class="dm:quote">--dominus-uploader-image-error-container-background</span>: Background colo applied to the error
                             container
                         </li>
                     </ul>

@@ -3,7 +3,8 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve docs",
-        "build": "ng build dm-table && ng build dm-tags && ng build dm-uploader && npm run build-styles",
+        "build": "ng build",
+        "build-all": "ng build dm-table && ng build dm-tags && ng build dm-uploader && ng build dm-notifications && npm run build-styles",
         "build-styles": "sass projects/dm-styles/dm-styles.scss projects/dm-styles/dm-styles.css && sass projects/dm-styles/dm-styles.scss projects/dm-styles/dm-styles.min.css --style compressed",
         "test": "ng test",
         "deploy-docs": "ng build docs --base-href /ng-dominus/ && npx angular-cli-ghpages docs --dir=dist/docs/browser --base-href=https://github.com/daniel1919-00/ng-dominus"
