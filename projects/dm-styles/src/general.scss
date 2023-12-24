@@ -6,6 +6,32 @@
     ), true);
 
     @include utilities.generate-class('no-margin', (
-        'padding': 0
+        'margin': 0
     ), true);
+
+    @include utilities.generate-class('quote', null, false) {
+        --dm-quote-font-family: monospace;
+        --dm-quote-border: 1px solid #77a5e8;
+        --dm-quote-border-radius: .2rem;
+        --dm-quote-font-weight: 500;
+        --dm-quote-padding: .1em .3em;
+        --dm-quote-margin: 0 .2rem;
+        --dm-quote-color: #528bef;
+
+
+        font-family: var(--dm-quote-font-family);
+        display: inline-block;
+        vertical-align: middle;
+        font-size: inherit;
+        font-weight: var(--dm-quote-font-weight);
+        padding: var(--dm-quote-padding);
+        border-radius: var(--dm-quote-border-radius);
+        color: var(--dm-quote-color);
+        border: var(--dm-quote-border);
+        margin: var(--dm-quote-margin);
+
+        &.code {
+            white-space: pre-wrap;
+        }
+    }
 }

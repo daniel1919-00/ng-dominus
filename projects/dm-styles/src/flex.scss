@@ -28,4 +28,72 @@
     @include utilities.generate-class('flex-nowrap', (
         'flex-wrap': nowrap
     ), true);
+
+    @include utilities.generate-class('justify-content-start', (
+        'justify-content': flex-start
+    ), true);
+
+    @include utilities.generate-class('justify-content-end', (
+        'justify-content': flex-end
+    ), true);
+
+    @include utilities.generate-class('justify-content-center', (
+        'justify-content': center
+    ), true);
+
+    @include utilities.generate-class('justify-content-between', (
+        'justify-content': space-between
+    ), true);
+
+    @include utilities.generate-class('justify-content-around', (
+        'justify-content': space-around
+    ), true);
+
+    @include utilities.generate-class('justify-content-evenly', (
+        'justify-content': space-evenly
+    ), true);
+
+    @include utilities.generate-class('align-content-start', (
+        'align-content': flex-start
+    ), true);
+
+    @include utilities.generate-class('align-content-end', (
+        'align-content': flex-end
+    ), true);
+
+    @include utilities.generate-class('align-content-center', (
+        'align-content': center
+    ), true);
+
+    @include utilities.generate-class('align-content-between', (
+        'align-content': space-between
+    ), true);
+
+    @include utilities.generate-class('align-content-around', (
+        'align-content': space-around
+    ), true);
+
+    @include utilities.generate-class('align-content-evenly', (
+        'align-content': space-evenly
+    ), true);
+
+    @include utilities.generate-class('align-items-stretch', (
+        'align-items': stretch
+    ), true);
+
+    @include utilities.generate-class('align-items-start', (
+        'align-items': flex-start
+    ), true);
+
+    @include utilities.generate-class('align-items-center', (
+        'align-items': center
+    ), true);
+
+    @include utilities.generate-class('align-items-end', (
+        'align-items': flex-end
+    ), true);
+
+    @include utilities.generate-class('align-items-baseline', (
+        'align-items': baseline
+    ), true);
 }

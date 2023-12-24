@@ -6,8 +6,10 @@ Lightweight library used to style the dominus components demo page. It can be us
 
 Check out the [documentation and demo](https://daniel1919-00.github.io/ng-dominus/dm-styles).
 
-### Angular 
+### Angular
+
 Add the css file path in `angular.json`:
+
 ``` json
 {
     "projects": {
@@ -29,4 +31,5 @@ Add the css file path in `angular.json`:
 ```
 
 ### Static website
+
 Append `dm-styles.css` in your site header.

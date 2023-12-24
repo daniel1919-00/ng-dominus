@@ -15,16 +15,16 @@
     ), false) {
         --dm-config-grid-columns-padding: .35rem;
 
-        &> * {
+        & > * {
             box-sizing: border-box;
             flex: 0 0 auto;
-            width: 100%;
             max-width: 100%;
             padding-top: var(--dm-config-grid-columns-padding);
             padding-right: var(--dm-config-grid-columns-padding);
             padding-left: var(--dm-config-grid-columns-padding);
         }
-    };
+    }
+;
 
     @include utilities.generate-class('col', (
         'flex-grow': 1,
@@ -41,7 +41,7 @@
         ), false);
     }
 
-    @include utilities.generate-responsive-media using($breakpoint)  {
+    @include utilities.generate-responsive-media using($breakpoint) {
         @each $col, $width in config.$grid-columns {
             @include utilities.generate-class($breakpoint + '' + config.$responsive-namespace-separator + 'col-' + $col, null, false) {
                 width: $width;

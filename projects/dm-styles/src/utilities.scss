@@ -35,8 +35,7 @@
         .#{$class-name-f} {
             @content;
         }
-    }
-    @else {
+    } @else {
         .#{$class-name} {
             @content;
         }
