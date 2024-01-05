@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     Input,
@@ -31,7 +32,8 @@ import {CustomAngularMaterialFormControl} from "../shared/custom-angular-materia
         }
     ],
     templateUrl: './dm-tags.component.html',
-    styles: ``
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> implements OnChanges, OnDestroy {
     static nextId = 0;
