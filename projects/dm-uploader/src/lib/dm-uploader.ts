@@ -32,7 +32,7 @@ export enum DominusUploaderIntl {
     IMAGE_SIZE_CHECK_TEXT
 }
 
-export const DOMINUS_UPLOADER_INTL = new InjectionToken<Record<DominusUploaderIntl, string>>('dominus uploader i18n strings');
+export const DOMINUS_UPLOADER_INTL = new InjectionToken<Record<DominusUploaderIntl, string>>('Dominus uploader i18n strings');
 
 export interface DominusImageSize {
     width?: number;

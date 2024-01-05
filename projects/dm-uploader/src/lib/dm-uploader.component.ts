@@ -138,9 +138,9 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     protected uploaderType: string = '';
     protected maxImageSizeText: string = '';
     protected hasFiles = false;
-    protected isInAngularForm = false;
     protected readonly DominusUploaderIntl = DominusUploaderIntl;
     protected componentDestroyed$ = new Subject<void>();
+    protected readonly intl: Record<DominusUploaderIntl, string>;
 
     @ViewChild('uploaderContainer') private readonly uploaderContainer!: ElementRef;
     @ViewChild('fileInput') private readonly fileInput!: ElementRef;
@@ -148,15 +148,15 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     constructor(
         protected readonly http: HttpClient,
         protected readonly changeDetector: ChangeDetectorRef,
-        @Optional() @Inject(DOMINUS_UPLOADER_INTL) public readonly intl: Record<DominusUploaderIntl, string>,
         @Optional() @Self() ngControl: NgControl,
-        @Optional() @Inject(MAT_FORM_FIELD) public readonly parentFormField?: MatFormField,
+        @Optional() @Inject(DOMINUS_UPLOADER_INTL) intl?: Record<DominusUploaderIntl, string>,
+        @Optional() @Inject(MAT_FORM_FIELD) private readonly parentFormField?: MatFormField,
     ) {
         super(ngControl);
 
         this.containerClasses['mat-form-field'] = !!parentFormField;
 
-        this.intl = {
+        this.intl = Object.assign({
             [DominusUploaderIntl.UNKNOWN_ERROR]: 'Upload Failed!',
             [DominusUploaderIntl.INVALID_EXTENSION]: 'Invalid file extension!',
             [DominusUploaderIntl.MAX_SIZE_EXCEEDED]: 'File size is too big!',
@@ -167,11 +167,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
             [DominusUploaderIntl.NO_IMAGE_MESSAGE]: 'Drop images here.',
             [DominusUploaderIntl.IMAGE_SIZE_CHECK_FAILED]: 'Maximum width or height exceeded.',
             [DominusUploaderIntl.IMAGE_SIZE_CHECK_TEXT]: 'Allowed image dimensions (HxW):',
-        };
-
-        if (intl) {
-            Object.assign(this.intl, intl);
-        }
+        }, intl || {});
     }
 
     ngOnChanges() {
@@ -252,7 +248,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
             this.filesQueue.set(queuedDominusFile.id, queuedDominusFile);
 
             if (error === '') {
-                this.uploadFile(queuedDominusFile);
+                this.uploadFile(queuedDominusFile).then();
             } else {
                 this.changeDetector.markForCheck();
             }
@@ -325,7 +321,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
             return;
         }
 
-        this.uploadFile(queuedFile);
+        this.uploadFile(queuedFile).then();
     }
 
     /**
@@ -372,7 +368,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         if (files) {
             evt.preventDefault();
             evt.stopPropagation();
-            this.onFilesAdded(files);
+            this.onFilesAdded(files).then();
         }
 
         this.containerClasses['dragover'] = false;
