@@ -1,0 +1,43 @@
+.dm-table-container{
+    position: relative;
+
+    .loading-overlay {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background: var(--dm-table-overlay-background, rgba(0, 0, 0, 0.15));
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dm-table-overflow {
+        overflow: auto;
+    }
+
+    .dm-table {
+        width: 100%;
+
+        .dm-table-header-row {
+            .dm-table-row-contextual-menu-column {
+                width: 90px;
+            }
+        }
+
+        .dm-table-row {
+            &.dm-table-row-hover-effect:hover {
+                background: var(--dm-table-hover-background, rgba(0, 0, 0, 0.04));
+            }
+
+            .dm-no-data-cell {
+                padding: 15px 0;
+                text-align: center;
+                font-size: 1rem;
+            }
+        }
+    }
+}

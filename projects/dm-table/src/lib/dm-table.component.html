@@ -1,2 +1,55 @@
-table
-test
+<div class="dm-table-container">
+    <div *ngIf="isLoadingData" class="loading-overlay">
+        <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+    <div class="dm-table-overflow">
+        <table mat-table matSort [dataSource]="dataSourceAdapter" class="dm-table">
+            <!-- ROW SELECTION COLUMN -->
+            <ng-container *ngIf="rowSelectionModel" matColumnDef="dm_table_row_selection_column">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox *ngIf="rowSelectionModel.isMultipleSelection()" color="primary"
+                                  (change)="toggleAllRowsSelection($event)"
+                                  [checked]="masterCheckboxChecked"
+                                  [indeterminate]="masterCheckboxIndeterminate">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox color="primary"
+                                  (change)="toggleRowSelection(row)"
+                                  [checked]="rowSelectionModel.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- NORMAL DATA COLUMN -->
+            <ng-container *ngFor="let column of columns" [matColumnDef]="column.id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="column.classes" [arrowPosition]="sortingArrowPosition" [disabled]="column.sortable === false">
+                    {{ column.name }}
+                </th>
+                <td mat-cell *matCellDef="let row" [ngClass]="column.classes">
+                    {{ row[column.id] }}
+                </td>
+            </ng-container>
+
+            <!-- ROW CONTEXTUAL MENU COLUMN -->
+            <ng-container *ngIf="rowContextMenu" matColumnDef="dm_table_row_contextual_menu_column">
+                <th mat-header-cell *matHeaderCellDef class="dm-table-row-contextual-menu-column">&nbsp;</th>
+                <td mat-cell *matCellDef="let row">
+                    <button *ngIf="rowContextMenuIsVisibleFn(row)" (click)="$event.stopPropagation()"
+                            mat-icon-button [matMenuTriggerFor]="rowContextMenu" [matMenuTriggerData]="{row: row}">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns" class="dm-table-header-row"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                class="dm-table-row" [ngClass]="{'dm-table-row-hover-effect': rowHoverEffectEnabled}" (click)="rowClicked.next(row)"></tr>
+
+            <tr *matNoDataRow class="dm-table-row">
+                <td class="dm-no-data-cell" [attr.colspan]="columns.length">{{ intl[DominusTableIntl.NO_DATA] }}</td>
+            </tr>
+        </table>
+    </div>
+    <mat-paginator *ngIf="paginate" class="paginator" [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" aria-label="Select page"></mat-paginator>
+</div>
