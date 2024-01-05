@@ -75,6 +75,14 @@
                                         <mat-option value="0">Single</mat-option>
                                     </mat-select>
                                 </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>Show (rowClicked) event data</mat-label>
+                                    <mat-select formControlName="rowClicked">
+                                        <mat-option value="1">Show</mat-option>
+                                        <mat-option value="0">Hide</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
                             </section>
 
                             <br>
@@ -83,8 +91,14 @@
                             </div>
 
                             <br>
+                            <div *ngIf="form.get(['config', 'rowClicked'])?.value === '1'">
+                                <pre>Clicked row data: {{clickedRowData | json}}</pre>
+                            </div>
+
+                            <br>
                             <h2>Result</h2>
-                            <dm-table #table
+                            <dm-table
+                                #table
                                 [dataSource]="form.get(['config', 'dataSource'])?.value === 'static' ? tableStaticDataSrc : tableServerSideDataSrc"
                                 [columns]="tableColumns"
                                 [sortingArrowPosition]="form.get(['config', 'sortingArrowPosition'])?.value || 'after'"
@@ -93,7 +107,9 @@
                                 [rowHoverEffectEnabled]="form.get(['config', 'rowHoverEffectEnabled'])?.value === '1'"
                                 [rowSelectionModel]="form.get(['config', 'rowSelectionModel'])?.value === '1' ? rowSelectionModel : undefined"
                                 [pageSize]="5"
+                                (rowClicked)="onRowClicked($event)"
                             ></dm-table>
+
                             <mat-menu #rowContextMenu="matMenu">
                                 <button mat-menu-item>Item 1</button>
                                 <button mat-menu-item>Item 2</button>

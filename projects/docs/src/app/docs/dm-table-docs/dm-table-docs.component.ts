@@ -51,6 +51,7 @@ export class DmTableDocsComponent implements OnDestroy {
     }
 
     rowSelectionModel = new SelectionModel<any>();
+    clickedRowData: any = null;
 
     protected readonly dmTagsCodeExample = dmTableDocsCodeExample;
 
@@ -70,6 +71,7 @@ export class DmTableDocsComponent implements OnDestroy {
                 rowHoverEffectEnabled: ['0'],
                 rowSelectionModel: ['0'],
                 rowSelectionModelMultiple: ['0'],
+                rowClicked: ['0']
             })
         });
 
@@ -115,6 +117,10 @@ export class DmTableDocsComponent implements OnDestroy {
 
                 this.table.changeColumnsVisibility(visibilityConfig);
             });
+    }
+
+    onRowClicked(row: any) {
+        this.clickedRowData = row;
     }
 
     ngOnDestroy() {

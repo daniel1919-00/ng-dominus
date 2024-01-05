@@ -5,7 +5,7 @@ import {
     Component,
     Input,
     OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output,
     SimpleChanges,
     ViewChild
@@ -38,7 +38,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     styleUrl: './dm-table.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DmTableComponent implements OnChanges, AfterViewInit, OnDestroy {
+export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     /**
      * Table column definitions.
      */
@@ -126,6 +126,7 @@ export class DmTableComponent implements OnChanges, AfterViewInit, OnDestroy {
     protected loadingDataSub?: Subscription;
     protected masterCheckboxChecked = false;
     protected masterCheckboxIndeterminate = false;
+    protected rowClickEventObserved = false;
 
     @ViewChild(MatPaginator) private paginator?: MatPaginator;
     @ViewChild(MatSort) private sort!: MatSort;
@@ -135,12 +136,17 @@ export class DmTableComponent implements OnChanges, AfterViewInit, OnDestroy {
         private http: HttpClient,
     ) {}
 
+    ngOnInit() {
+        this.rowClickEventObserved = this.rowClicked.observed;
+        this.prepareDisplayedColumns();
+    }
+
     ngAfterViewInit() {
         this.setDataSrcAdapter(true);
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        const headerNeedsUpdate = changes['columns'] || (changes['rowSelectionModel'] && !changes['rowSelectionModel'].firstChange);
+        const headerNeedsUpdate = (changes['columns'] && !changes['columns'].firstChange) || (changes['rowSelectionModel'] && !changes['rowSelectionModel'].firstChange);
 
         if (
             headerNeedsUpdate
