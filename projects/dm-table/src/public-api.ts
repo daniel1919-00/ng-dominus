@@ -3,3 +3,4 @@
  */
 
 export * from './lib/dm-table.component';
+export * from './lib/dm-table';
