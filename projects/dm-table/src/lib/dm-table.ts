@@ -1,4 +1,4 @@
-import {BehaviorSubject, merge, Observable, Subscription} from "rxjs";
+import {BehaviorSubject, catchError, merge, Observable, Subscription} from "rxjs";
 import {HttpClient, HttpContext, HttpHeaders, HttpParams} from "@angular/common/http";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
@@ -160,7 +160,13 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
         }
 
         this.onBeforeRequest(requestOptions).then(options => {
-            this.http.request<DmTableDataServerResponse>(requestMethod, dataSource, options).subscribe((response) => {
+            this.http.request<DmTableDataServerResponse>(requestMethod, dataSource, options)
+                .pipe(catchError((err, caught) => {
+                    this.data = [];
+                    this.loadingData$.next(false);
+                    return caught;
+                }))
+                .subscribe((response) => {
                 if (response) {
                     if (this.paginatorRef) {
                         this.paginatorRef.length = response.totalResults;
