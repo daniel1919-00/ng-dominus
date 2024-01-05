@@ -44,7 +44,7 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns" class="dm-table-header-row"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                class="dm-table-row" [ngClass]="{'dm-table-row-hover-effect': rowHoverEffectEnabled, 'dm-table-row-hover-pointer': rowClickEventObserved}" (click)="rowClicked.next(row)"></tr>
+                class="dm-table-row" [ngClass]="{'dm-table-row-hover-effect': rowHoverEffectEnabled, 'dm-table-row-hover-pointer': rowClicked$.observed}" (click)="rowClicked$.next(row)"></tr>
 
             <tr *matNoDataRow class="dm-table-row">
                 <td class="dm-no-data-cell" [attr.colspan]="columns.length + (rowContextMenu ? 1 : 0) + (rowSelectionModel ? 1 : 0)">{{ noDataMessage }}</td>

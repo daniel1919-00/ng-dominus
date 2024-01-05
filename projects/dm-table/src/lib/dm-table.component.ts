@@ -118,7 +118,7 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
      * Event triggered when a row has been clicked.
      * The event contains the row data.
      */
-    @Output() rowClicked = new Subject<any>();
+    @Output('rowClicked') rowClicked$ = new Subject<any>();
 
     protected displayedColumns: string[] = [];
     protected dataSourceAdapter!: DmTableDataSourceAdapter;
@@ -126,7 +126,6 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     protected loadingDataSub?: Subscription;
     protected masterCheckboxChecked = false;
     protected masterCheckboxIndeterminate = false;
-    protected rowClickEventObserved = false;
 
     @ViewChild(MatPaginator) private paginator?: MatPaginator;
     @ViewChild(MatSort) private sort!: MatSort;
@@ -137,7 +136,6 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     ) {}
 
     ngOnInit() {
-        this.rowClickEventObserved = this.rowClicked.observed;
         this.prepareDisplayedColumns();
     }
 
@@ -324,7 +322,7 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     }
 
     ngOnDestroy() {
-        this.rowClicked.complete();
+        this.rowClicked$.complete();
         this.loadingDataSub?.unsubscribe();
     }
 }

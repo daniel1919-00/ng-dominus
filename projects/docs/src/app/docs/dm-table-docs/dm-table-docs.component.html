@@ -77,10 +77,10 @@
                                 </mat-form-field>
 
                                 <mat-form-field class="dm:col-fixed">
-                                    <mat-label>Show (rowClicked) event data</mat-label>
+                                    <mat-label>Bind to (rowClicked) event</mat-label>
                                     <mat-select formControlName="rowClicked">
-                                        <mat-option value="1">Show</mat-option>
-                                        <mat-option value="0">Hide</mat-option>
+                                        <mat-option value="1">Bound</mat-option>
+                                        <mat-option value="0">Unbound</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </section>
@@ -107,7 +107,6 @@
                                 [rowHoverEffectEnabled]="form.get(['config', 'rowHoverEffectEnabled'])?.value === '1'"
                                 [rowSelectionModel]="form.get(['config', 'rowSelectionModel'])?.value === '1' ? rowSelectionModel : undefined"
                                 [pageSize]="5"
-                                (rowClicked)="onRowClicked($event)"
                             ></dm-table>
 
                             <mat-menu #rowContextMenu="matMenu">

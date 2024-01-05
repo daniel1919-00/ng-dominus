@@ -15,7 +15,7 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {TableDocsComponent} from "./table-docs/table-docs.component";
 import {MatMenuModule} from "@angular/material/menu";
-import {Subject, takeUntil} from "rxjs";
+import {Subject, Subscription, takeUntil} from "rxjs";
 import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
@@ -57,6 +57,7 @@ export class DmTableDocsComponent implements OnDestroy {
 
     @ViewChild('table') private table!: DmTableComponent;
     private componentDestroyed$ = new Subject<void>();
+    private rowClickedSub?: Subscription;
 
     constructor(
         fb: UntypedFormBuilder
@@ -117,10 +118,19 @@ export class DmTableDocsComponent implements OnDestroy {
 
                 this.table.changeColumnsVisibility(visibilityConfig);
             });
-    }
 
-    onRowClicked(row: any) {
-        this.clickedRowData = row;
+        this.form.get(['config', 'rowClicked'])?.valueChanges
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe(v => {
+                if(v === '1') {
+                    this.rowClickedSub = this.table.rowClicked$.subscribe((row: any) => {
+                        this.clickedRowData = row;
+                    });
+                } else {
+                    this.rowClickedSub?.unsubscribe();
+                    this.clickedRowData = null;
+                }
+            });
     }
 
     ngOnDestroy() {
