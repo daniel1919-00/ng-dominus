@@ -47,7 +47,7 @@
                 class="dm-table-row" [ngClass]="{'dm-table-row-hover-effect': rowHoverEffectEnabled}" (click)="rowClicked.next(row)"></tr>
 
             <tr *matNoDataRow class="dm-table-row">
-                <td class="dm-no-data-cell" [attr.colspan]="columns.length">{{ intl[DominusTableIntl.NO_DATA] }}</td>
+                <td class="dm-no-data-cell" [attr.colspan]="columns.length">{{ noDataMessage }}</td>
             </tr>
         </table>
     </div>

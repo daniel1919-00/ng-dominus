@@ -3,7 +3,6 @@ import {HttpClient, HttpContext, HttpHeaders, HttpParams} from "@angular/common/
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {FormGroup, UntypedFormGroup} from "@angular/forms";
-import {InjectionToken} from "@angular/core";
 import {MatTableDataSource} from "@angular/material/table";
 
 export interface DmTableColumnDefinition {
@@ -62,12 +61,6 @@ export interface DmTableColumnVisibility {
      */
     visible?: boolean;
 }
-
-export enum DominusTableIntl {
-    NO_DATA
-}
-
-export const DOMINUS_TABLE_INTL = new InjectionToken<Record<DominusTableIntl, string>>('Dominus table i18n strings');
 
 export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
     private totalResults = 0;
@@ -161,10 +154,10 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
 
         this.onBeforeRequest(requestOptions).then(options => {
             this.http.request<DmTableDataServerResponse>(requestMethod, dataSource, options)
-                .pipe(catchError((err) => {
+                .pipe(catchError(() => {
                     this.data = [];
                     this.loadingData$.next(false);
-                    return throwError(() => new Error(`Table data request from ${dataSource} failed`));
+                    return throwError(() => new Error(`Table data request from ${dataSource} failed!`));
                 }))
                 .subscribe((response) => {
                     if (response && response.rows) {

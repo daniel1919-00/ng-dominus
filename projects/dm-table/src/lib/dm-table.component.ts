@@ -3,11 +3,9 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Inject,
     Input,
     OnChanges,
     OnDestroy,
-    Optional,
     Output,
     SimpleChanges,
     ViewChild
@@ -20,8 +18,6 @@ import {
     DmTableDataSource,
     DmTableDataSourceAdapter,
     DmTableRequestOptions,
-    DOMINUS_TABLE_INTL,
-    DominusTableIntl
 } from "./dm-table";
 import {Subject, Subscription} from "rxjs";
 import {MatMenu, MatMenuModule} from "@angular/material/menu";
@@ -53,6 +49,7 @@ export class DmTableComponent implements OnChanges, AfterViewInit, OnDestroy {
      * Note: When using server side data source, it is assumed that sorting and pagination is also handled on the server.
      */
     @Input({required: true}) dataSource!: DmTableDataSource;
+    @Input() noDataMessage = 'No data.';
     /**
      * The request method used when calling the server side data source(GET, POST, etc.).
      */
@@ -125,8 +122,6 @@ export class DmTableComponent implements OnChanges, AfterViewInit, OnDestroy {
     protected loadingDataSub?: Subscription;
     protected masterCheckboxChecked = false;
     protected masterCheckboxIndeterminate = false;
-    protected readonly intl: Record<DominusTableIntl, string>;
-    protected readonly DominusTableIntl = DominusTableIntl;
 
     @ViewChild(MatPaginator) private paginator?: MatPaginator;
     @ViewChild(MatSort) private sort!: MatSort;
@@ -134,12 +129,7 @@ export class DmTableComponent implements OnChanges, AfterViewInit, OnDestroy {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private http: HttpClient,
-        @Optional() @Inject(DOMINUS_TABLE_INTL) intl?: Record<DominusTableIntl, string>,
-    ) {
-        this.intl = Object.assign({
-            [DominusTableIntl.NO_DATA]: 'No data'
-        }, intl || {});
-    }
+    ) {}
 
     ngAfterViewInit() {
         this.setDataSrcAdapter(true);
