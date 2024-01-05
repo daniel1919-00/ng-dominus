@@ -107,26 +107,7 @@
                     <app-table-docs></app-table-docs>
                 </mat-card-content>
             </mat-tab>
-            <mat-tab label="Internationalization">
-                <mat-card-content>
-                    <p>Internationalization can be achieved by using the <span class="dm:quote">DOMINUS_TABLE_INTL</span> injection token,
-                        and passing an object of strings using the <span class="dm:quote">DominusTableIntl</span> members as keys.</p>
 
-<pre><code class="dm:quote code">&#64;Component({{ '{' }}
-    ...
-    providers: [{{ '{' }}
-        provide: DOMINUS_TABLE_INTL,
-        useValue: {{ '{' }}
-            [DominusTableIntl.NO_DATA]: 'No Data'
-            ...
-        {{ '}' }}
-    {{ '}' }}]
-{{ '}' }})
-export class TableDemoComponent {{ '{' }}
-    ...
-{{ '}' }}</code></pre>
-                </mat-card-content>
-            </mat-tab>
             <mat-tab label="Styling">
                 <mat-card-content>
                     <p>Override colors using the following css variables:</p>

@@ -49,6 +49,10 @@ export class DmTableComponent implements OnChanges, AfterViewInit, OnDestroy {
      * Note: When using server side data source, it is assumed that sorting and pagination is also handled on the server.
      */
     @Input({required: true}) dataSource!: DmTableDataSource;
+
+    /**
+     * Message shown when there are no rows to render.
+     */
     @Input() noDataMessage = 'No data.';
     /**
      * The request method used when calling the server side data source(GET, POST, etc.).
