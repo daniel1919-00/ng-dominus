@@ -1,4 +1,4 @@
-import {BehaviorSubject, catchError, merge, Observable, Subscription} from "rxjs";
+import {BehaviorSubject, catchError, merge, Observable, Subscription, throwError} from "rxjs";
 import {HttpClient, HttpContext, HttpHeaders, HttpParams} from "@angular/common/http";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
@@ -161,22 +161,22 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
 
         this.onBeforeRequest(requestOptions).then(options => {
             this.http.request<DmTableDataServerResponse>(requestMethod, dataSource, options)
-                .pipe(catchError((err, caught) => {
+                .pipe(catchError((err) => {
                     this.data = [];
                     this.loadingData$.next(false);
-                    return caught;
+                    return throwError(() => new Error(`Table data request from ${dataSource} failed`));
                 }))
                 .subscribe((response) => {
-                if (response) {
-                    if (this.paginatorRef) {
-                        this.paginatorRef.length = response.totalResults;
-                    }
-                    this.totalResults = response.totalResults;
+                    if (response && response.rows) {
+                        if (this.paginatorRef) {
+                            this.paginatorRef.length = response.totalResults;
+                        }
+                        this.totalResults = response.totalResults;
 
-                    this.data = this.mapRowsFn ? this.mapRowsFn(response.rows) : response.rows;
-                }
-                this.loadingData$.next(false);
-            });
+                        this.data = this.mapRowsFn ? this.mapRowsFn(response.rows) : response.rows;
+                    }
+                    this.loadingData$.next(false);
+                });
         });
     }
 
