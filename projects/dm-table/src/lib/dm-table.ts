@@ -143,7 +143,7 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
         requestData['dm_page_index'] = this.paginatorRef?.pageIndex || 0;
         requestData['dm_page_len'] = this.paginatorRef?.pageSize || 0;
 
-        if(requestMethod !== 'GET')
+        if(requestMethod === 'GET')
         {
             requestOptions.params = requestData;
         }
