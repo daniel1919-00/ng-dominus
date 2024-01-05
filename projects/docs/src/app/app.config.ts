@@ -8,6 +8,8 @@ import {MAT_TABS_CONFIG} from "@angular/material/tabs";
 import {APP_CONFIG} from "./injection-tokens";
 import {Title} from "@angular/platform-browser";
 import {AppConfig} from "./interfaces/app-config.interface";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {BackendInterceptor} from "./backend.interceptor";
 
 @Injectable({providedIn: 'root'})
 export class AppTitleStrategy extends TitleStrategy {
@@ -28,6 +30,11 @@ export class AppTitleStrategy extends TitleStrategy {
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: BackendInterceptor,
+            multi: true
+        },
         {
             provide: APP_CONFIG,
             useValue: {

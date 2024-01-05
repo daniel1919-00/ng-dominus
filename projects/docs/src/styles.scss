@@ -2,8 +2,6 @@
 @use './theme';
 @import "../../dm-styles/dm-styles";
 
-@include mat.core();
-
 :root {
     --app-sidenav-content-max-width: 100%;
     --app-header-height: 50px;
@@ -27,28 +25,28 @@ body {
     height: calc(100vh - var(--app-header-height));
     font-family: Roboto, "Helvetica Neue", sans-serif;
 
-    $primary-palette: mat.define-palette(mat.$indigo-palette);
-    $accent-palette: mat.define-palette(mat.$light-blue-palette, 600);
-    $warn-palette: mat.define-palette(mat.$red-palette);
+    @include mat.core();
+
+    $primary-palette: mat.$indigo-palette;
+    $accent-palette: mat.$light-blue-palette;
+    $warn-palette: mat.$red-palette;
 
     @include theme.define((
         color: (
-            primary: $primary-palette,
-            accent: $accent-palette,
-            warn: $warn-palette,
+            primary: mat.define-palette($primary-palette),
+            accent: mat.define-palette($accent-palette, 600),
+            warn: mat.define-palette($warn-palette),
         ),
         typography: mat.define-typography-config(),
         density: 0,
-    ), false, false);
+    ), false);
 
     &.dark {
-        $primary-palette: mat.define-palette(mat.$indigo-palette, 400);
-        $accent-palette: mat.define-palette(mat.$light-blue-palette);
         @include theme.define((
             color: (
-                primary: $primary-palette,
-                accent: $accent-palette,
-                warn: $warn-palette,
+                primary: mat.define-palette($primary-palette, 400),
+                accent: mat.define-palette($accent-palette),
+                warn: mat.define-palette($warn-palette),
             ),
             typography: mat.define-typography-config(),
             density: 0,

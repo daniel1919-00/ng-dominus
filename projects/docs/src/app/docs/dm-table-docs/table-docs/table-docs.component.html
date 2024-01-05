@@ -1,0 +1,103 @@
+<app-component-docs>
+    <pre><code class="dm:quote code">import &#123; DmTableComponent &#125; from '&#64;ng-dominus/dm-table';</code></pre>
+
+    <app-component-docs-section label="Inputs">
+
+        <app-component-docs-section-item label="columns">
+            Table column definitions.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="dataSource">
+            <p>The data source from which rows are fetched.</p>
+            <p>
+                Can be a static array of rows or an url to a server side source.<br>
+                <strong>Note:</strong> When using server side data source, it is assumed that sorting and pagination is also handled on the server.
+            </p>
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="dataSourceRequestMethod">
+            The request method used when calling the server side data source(GET, POST, etc.).
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="filters">
+            Filters that will be sent to the server side data source along with the default parameters (paging, sorting, etc.).
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="onBeforeServerRequestFn">
+            <p>A function that takes the current request options and returns a promise which resolves the final request options to be passed to the angular HttpClient.</p>
+            This is useful if you need to pass additional headers (e.g. Authorization) or modify the data before sending the request to the backend.<br>
+            The same effect can be achieved using an interceptor.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="rowContextMenu">
+            Adds a contextual menu on each row in a special column added at the end of the table.<br>
+            Use the <span class="dm:quote">[rowContextMenuDisplayCondition]</span> &#64;Input to control when this menu is displayed.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="rowContextMenuIsVisibleFn">
+            Function which determines when the contextual menu is displayed
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="rowSelectionModel">
+            If set, a column with checkboxes for each row will be appended at the beginning of the table.<br>
+            The <span class="dm:quote">SelectionModel</span> will be populated with each of the selected row's data.
+            <p><strong>Note:</strong> The table respects whether the selection model supports multiple values or not</p>
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="mapRowsFn">
+            <p>A function that takes the rows as an argument and returns them back.</p>
+            This is useful when you need to alter row data from a server side data source before being rendered.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="rowHoverEffectEnabled">
+            Weather a highlight effect will be rendered when the user hovers the cursor over a row.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="loadingDataOverlay">
+            Whether to display a loading spinner when loading data.<br>
+            This takes effect only when using a server-side data sources.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="paginate">
+            Whether pagination will be enabled.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="pageSize">
+            The default page size.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="pageSizeOptions">
+            The page sizes available to the user.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="sortingArrowPosition">
+            The position of the sorting arrow
+        </app-component-docs-section-item>
+
+    </app-component-docs-section>
+
+    <app-component-docs-section label="Outputs">
+
+        <app-component-docs-section-item label="rowClicked">
+            Event triggered when a row has been clicked.<br>
+            The event contains the row data.
+        </app-component-docs-section-item>
+
+    </app-component-docs-section>
+
+    <app-component-docs-section label="Public methods">
+
+        <app-component-docs-section-item label="refresh">
+            Refreshes the table data
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="changeColumnVisibility">
+            Hides/shows or toggles the specified table column's visibility
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="changeColumnsVisibility">
+            Changes the visibility of multiple columns
+        </app-component-docs-section-item>
+
+    </app-component-docs-section>
+</app-component-docs>

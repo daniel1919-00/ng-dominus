@@ -69,7 +69,6 @@ export const classList: DmStylesClass[] = [
         forceFlagSupport: true,
         responsiveNamespacesSupport: false
     },
-
     {
         category: 'general',
         class: namespace + 'no-margin',
@@ -81,22 +80,21 @@ export const classList: DmStylesClass[] = [
         forceFlagSupport: true,
         responsiveNamespacesSupport: false
     },
-
     {
         category: 'general',
         class: namespace + 'quote',
         description: `Wraps text in a formatted block.`,
         properties: `
-            font-family: var(--dm-quote-font-family);
+            font-family: inherit;
             display: inline-block;
             vertical-align: middle;
-            white-space: pre-wrap;
-            font-weight: var(--dm-quote-font-weight);
-            padding: var(--dm-quote-padding);
-            border-radius: var(--dm-quote-border-radius);
-            color: var(--dm-quote-color);
-            border: var(--dm-quote-border);
-            margin: var(--dm-quote-margin);
+            font-size: inherit;
+            font-weight: var(--dm-quote-font-weight, normal);
+            padding: var(--dm-quote-padding, .1rem .3rem);
+            border-radius: var(--dm-quote-border-radius, .2rem);
+            color: var(--dm-quote-color, #528bef);
+            border: var(--dm-quote-border, 1px solid #77a5e8);
+            margin: var(--dm-quote-margin, 0 .2rem);
         `,
         modifiers: [
             {className: 'code', description: 'Prevents collapsing of whitespace'}

@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {ComponentDocsComponent} from "../../../components/component-docs/component-docs.component";
 import {
     ComponentDocsSectionComponent
@@ -7,13 +7,14 @@ import {
 import {
     ComponentDocsSectionItemComponent
 } from "../../../components/component-docs/components/component-docs-section-item/component-docs-section-item.component";
+
 @Component({
-    selector: 'app-tags-docs',
-    standalone: true,
+  selector: 'app-table-docs',
+  standalone: true,
     imports: [CommonModule, ComponentDocsComponent, ComponentDocsSectionComponent, ComponentDocsSectionItemComponent],
-    templateUrl: './tags-docs.component.html',
-    styleUrl: './tags-docs.component.scss'
+  templateUrl: './table-docs.component.html',
+  styleUrl: './table-docs.component.scss'
 })
-export class TagsDocsComponent {
+export class TableDocsComponent {
 
 }

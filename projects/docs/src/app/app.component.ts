@@ -11,11 +11,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {APP_CONFIG} from "./injection-tokens";
 import {AppConfig} from "./interfaces/app-config.interface";
+import {HttpClientModule} from "@angular/common/http";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CommonModule, RouterOutlet, MatSidenavModule, SidenavMenuItemComponent, MatToolbarModule, MatButtonModule, MatIconModule],
+    imports: [CommonModule, RouterOutlet, MatSidenavModule, SidenavMenuItemComponent, MatToolbarModule, MatButtonModule, MatIconModule, HttpClientModule],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

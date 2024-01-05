@@ -5,8 +5,6 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {DmUploaderComponent} from "../../../../../dm-uploader/src/lib/dm-uploader.component";
 import {UploaderDocsComponent} from "./uploader-docs/uploader-docs.component";
-import {HttpClientModule} from "@angular/common/http";
-import {FakeUploaderComponent} from "./fake-uploader/fake-uploader.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatSelectModule} from "@angular/material/select";
@@ -15,7 +13,7 @@ import {ComponentDocHeaderComponent} from "../../components/component-doc-header
 @Component({
     selector: 'app-dm-uploader-docs',
     standalone: true,
-    imports: [CommonModule, MatCardModule, MatTabsModule, ReactiveFormsModule, DmUploaderComponent, UploaderDocsComponent, HttpClientModule, FakeUploaderComponent, MatInputModule, MatCheckboxModule, MatSelectModule, ComponentDocHeaderComponent],
+    imports: [CommonModule, MatCardModule, MatTabsModule, ReactiveFormsModule, DmUploaderComponent, UploaderDocsComponent, MatInputModule, MatCheckboxModule, MatSelectModule, ComponentDocHeaderComponent],
     templateUrl: './dm-uploader-docs.component.html',
     styleUrl: './dm-uploader-docs.component.scss'
 })

@@ -1,7 +1,14 @@
-.label {
-    font-weight: 500;
-}
-
-.content {
+.section-item {
+    margin-top: 1.4rem;
     padding-left: 10px;
+    border-left: 2px solid var(--app-color-primary);
+
+    .label {
+        font-weight: 500;
+        color: var(--app-color-primary);
+    }
+
+    .content {
+        padding-left: 10px;
+    }
 }

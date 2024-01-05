@@ -26,14 +26,13 @@
                         <h2>Result</h2>
                         <mat-form-field class="dm:col-12">
                             <mat-label>Uploader</mat-label>
-                            <app-fake-uploader
+                            <dm-uploader
                                 formControlName="value"
-                                [multiple]="!!this.form.get(['config', 'multiple'])?.value"
-                                [type]="this.form.get(['config', 'type'])?.value || 'file-uploader'"
-                                [allowedExtensions]="this.form.get(['config', 'allowedExtensions'])?.value || ['txt', 'pdf']"
-                                fileSaveEndpoint="https://endpointurl/upload"
-                                fileDeleteEndpoint="https://endpointurl/delete">
-                            </app-fake-uploader>
+                                [multiple]="!!form.get(['config', 'multiple'])?.value"
+                                [type]="form.get(['config', 'type'])?.value || 'file-uploader'"
+                                [allowedExtensions]="form.get(['config', 'allowedExtensions'])?.value || ['txt', 'pdf']"
+                                fileSaveEndpoint="https://localhost/uploader/upload"
+                                fileDeleteEndpoint="https://localhost/uploader/delete"></dm-uploader>
                         </mat-form-field>
                     </form>
                     <br><br>
@@ -44,6 +43,25 @@
             <mat-tab label="Api">
                 <mat-card-content>
                     <app-uploader-docs></app-uploader-docs>
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Internationalization">
+                <mat-card-content>
+                    <p>Internationalization can be achieved by using the <span class="dm:quote">DOMINUS_UPLOADER_INTL</span> injection token,
+                        and passing an object of strings using the <span class="dm:quote">DominusUploaderIntl</span> members as keys.</p>
+<pre><code class="dm:quote code">&#64;Component({{ '{' }}
+    ...
+    providers: [{{ '{' }}
+        provide: DOMINUS_UPLOADER_INTL,
+        useValue: {{ '{' }}
+            [DominusUploaderIntl.UNKNOWN_ERROR]: 'Upload Failed'
+            ...
+        {{ '}' }}
+    {{ '}' }}]
+{{ '}' }})
+export class UploaderDemoComponent {{ '{' }}
+    ...
+{{ '}' }}</code></pre>
                 </mat-card-content>
             </mat-tab>
             <mat-tab label="Styling">

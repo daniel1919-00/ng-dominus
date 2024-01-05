@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FakeUploaderComponent} from "../dm-uploader-docs/fake-uploader/fake-uploader.component";
 import {MatCardModule} from "@angular/material/card";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -19,7 +18,7 @@ import {ComponentDocHeaderComponent} from "../../components/component-doc-header
 @Component({
     selector: 'app-dm-tags-docs',
     standalone: true,
-    imports: [CommonModule, FakeUploaderComponent, MatCardModule, MatCheckboxModule, MatFormFieldModule, MatOptionModule, MatSelectModule, MatTabsModule, ReactiveFormsModule, UploaderDocsComponent, TagsDocsComponent, DmTagsComponent, CodeExampleComponent, ComponentDocHeaderComponent],
+    imports: [CommonModule, MatCardModule, MatCheckboxModule, MatFormFieldModule, MatOptionModule, MatSelectModule, MatTabsModule, ReactiveFormsModule, UploaderDocsComponent, TagsDocsComponent, DmTagsComponent, CodeExampleComponent, ComponentDocHeaderComponent],
     templateUrl: './dm-tags-docs.component.html',
     styleUrl: './dm-tags-docs.component.scss'
 })
