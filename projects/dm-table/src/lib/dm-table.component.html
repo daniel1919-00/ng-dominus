@@ -47,7 +47,7 @@
                 class="dm-table-row" [ngClass]="{'dm-table-row-hover-effect': rowHoverEffectEnabled}" (click)="rowClicked.next(row)"></tr>
 
             <tr *matNoDataRow class="dm-table-row">
-                <td class="dm-no-data-cell" [attr.colspan]="columns.length">{{ noDataMessage }}</td>
+                <td class="dm-no-data-cell" [attr.colspan]="columns.length + (rowContextMenu ? 1 : 0) + (rowSelectionModel ? 1 : 0)">{{ noDataMessage }}</td>
             </tr>
         </table>
     </div>
