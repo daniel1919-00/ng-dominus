@@ -9,8 +9,6 @@ import {CodeExampleComponent} from "../../components/code-example/code-example.c
 import {dmTableDocsCodeExample} from "./dm-table-docs-code-example";
 import {
     DmTableColumnDefinition, DmTableColumnVisibility,
-    DOMINUS_TABLE_INTL,
-    DominusTableIntl
 } from "../../../../../dm-table/src/lib/dm-table";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
@@ -26,14 +24,6 @@ import {SelectionModel} from "@angular/cdk/collections";
     imports: [CommonModule, DmTableComponent, MatCardModule, ComponentDocHeaderComponent, MatTabsModule, CodeExampleComponent, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatSelectModule, TableDocsComponent, MatMenuModule],
     templateUrl: './dm-table-docs.component.html',
     styleUrl: './dm-table-docs.component.scss',
-    providers: [
-        {
-            provide: DOMINUS_TABLE_INTL,
-            useValue: {
-                [DominusTableIntl.NO_DATA]: 'No data'
-            }
-        }
-    ]
 })
 export class DmTableDocsComponent implements OnDestroy {
     form: UntypedFormGroup;
