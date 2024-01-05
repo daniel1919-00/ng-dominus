@@ -10,28 +10,26 @@
     ), true);
 
     @include utilities.generate-class('quote', null, false) {
-        --dm-quote-font-family: monospace;
-        --dm-quote-border: 1px solid #77a5e8;
-        --dm-quote-border-radius: .2rem;
-        --dm-quote-font-weight: 500;
-        --dm-quote-padding: .1em .3em;
-        --dm-quote-margin: 0 .2rem;
-        --dm-quote-color: #528bef;
-
-
-        font-family: var(--dm-quote-font-family);
+        font-family: inherit;
         display: inline-block;
         vertical-align: middle;
         font-size: inherit;
-        font-weight: var(--dm-quote-font-weight);
-        padding: var(--dm-quote-padding);
-        border-radius: var(--dm-quote-border-radius);
-        color: var(--dm-quote-color);
-        border: var(--dm-quote-border);
-        margin: var(--dm-quote-margin);
+        font-weight: var(--dm-quote-font-weight, normal);
+        padding: var(--dm-quote-padding, .14rem .26rem);
+        border-radius: var(--dm-quote-border-radius, .2rem);
+        color: var(--dm-quote-color, #528bef);
+        border: var(--dm-quote-border, 1px solid #77a5e8);
+        margin: var(--dm-quote-margin, 0 .2rem);
 
         &.code {
+            font-family: var(--dm-quote-code-font-family, monospace);
             white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
+            max-width: 100%;
+            min-width: 100px;
+            padding: var(--dm-quote-code-padding, .6rem);
         }
     }
 }
