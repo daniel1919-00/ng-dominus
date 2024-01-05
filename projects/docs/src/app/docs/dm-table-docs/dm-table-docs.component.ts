@@ -136,5 +136,6 @@ export class DmTableDocsComponent implements OnDestroy {
     ngOnDestroy() {
         this.componentDestroyed$.next();
         this.componentDestroyed$.complete();
+        this.rowClickedSub?.unsubscribe();
     }
 }
