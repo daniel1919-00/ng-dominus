@@ -47,9 +47,9 @@ import {CustomAngularMaterialFormControl} from "../shared/custom-angular-materia
     ],
     imports: [
         CommonModule,
-        DominusUploaderFileComponent,
         MatIconModule,
         MatButtonModule,
+        DominusUploaderFileComponent,
         DominusUploaderImageComponent
     ],
 })
@@ -95,7 +95,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     @Input() allowedExtensions: string[] = [];
 
     /**
-     * Maximum file size in bytes
+     * Maximum file size in bytes. Default: 5MB
      */
     @Input() maxFileSize = 5 * 1024 * 1024;
 
@@ -125,7 +125,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
      */
     @Output() uploadFinished = new EventEmitter<DominusFile[]>();
 
-    protected containerClasses: { [klass: string]: boolean } = {
+    protected containerClasses: { [className: string]: boolean } = {
         'container': true,
         'multiple': false,
         'mat-form-field': false,
@@ -211,6 +211,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
 
         this._value = value;
         this.hasFiles = this._value.length > 0;
+        this.onChange(value);
         this.changeDetector.markForCheck();
         this.stateChanges.next();
     }
@@ -223,35 +224,34 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         return this.value.length === 0;
     }
 
-    protected async onFilesAdded(addedFiles: FileList) {
+    protected onFilesAdded(addedFiles: FileList) {
         if (!(addedFiles && addedFiles.length)) {
             return;
         }
 
         const files = this.multiple ? addedFiles : [addedFiles[0]];
-
         for (let i = files.length; i--;) {
             const file: File = files[i];
-            const error = await this.checkFile(file);
+            this.checkFile(file).then(error => {
+                const queuedDominusFile: DominusQueuedFile = {
+                    id: ++this.lastFileId,
+                    name: file.name,
+                    progress: 0,
+                    size: file.size,
+                    error: error,
+                    canRetryUpload: error === '',
+                    imagePreviewUrl: file.type.includes('image') ? URL.createObjectURL(file) : '',
+                    file: file
+                };
 
-            const queuedDominusFile: DominusQueuedFile = {
-                id: ++this.lastFileId,
-                name: file.name,
-                progress: 0,
-                size: file.size,
-                error: error,
-                canRetryUpload: error === '',
-                imagePreviewUrl: file.type.includes('image') ? URL.createObjectURL(file) : '',
-                file: file
-            };
+                this.filesQueue.set(queuedDominusFile.id, queuedDominusFile);
 
-            this.filesQueue.set(queuedDominusFile.id, queuedDominusFile);
-
-            if (error === '') {
-                this.uploadFile(queuedDominusFile).then();
-            } else {
-                this.changeDetector.markForCheck();
-            }
+                if (error === '') {
+                    this.uploadFile(queuedDominusFile).then();
+                } else {
+                    this.changeDetector.markForCheck();
+                }
+            });
         }
 
         this.fileInput.nativeElement.value = '';
@@ -289,6 +289,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
                         if (!this.multiple) {
                             this._value = [];
                         }
+
                         this._value.push({
                             name: file.name,
                             size: file.size,
@@ -299,10 +300,10 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
 
                         this.filesQueue.delete(queuedDominusFile.id);
                         this.hasFiles = true;
-                        this.uploadFinished.next(this.value);
                         this.changeDetector.markForCheck();
-                        this.onChange(this.value);
                         this.stateChanges.next();
+                        this.onChange(this.value);
+                        this.uploadFinished.next(this.value);
                         break;
                 }
             }
@@ -331,18 +332,15 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     protected async removeFile(fileIndex: number) {
         const file = this._value.splice(fileIndex, 1)[0];
 
-        const requestHeaders = this.fileDeleteEndpointRequestHeaders instanceof Promise ? await this.fileDeleteEndpointRequestHeaders : this.fileDeleteEndpointRequestHeaders;
-
         if (this.fileDeleteEndpoint) {
+            const requestHeaders = this.fileDeleteEndpointRequestHeaders instanceof Promise ? await this.fileDeleteEndpointRequestHeaders : this.fileDeleteEndpointRequestHeaders;
             this.http.request(
                 this.fileDeleteEndpointRequestMethod,
                 this.fileDeleteEndpoint,
                 {
                     body: [file],
                     headers: requestHeaders
-                }).subscribe(() => {
-
-            });
+                }).subscribe();
         }
 
         this.hasFiles = this._value.length > 0;
@@ -368,7 +366,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         if (files) {
             evt.preventDefault();
             evt.stopPropagation();
-            this.onFilesAdded(files).then();
+            this.onFilesAdded(files);
         }
 
         this.containerClasses['dragover'] = false;

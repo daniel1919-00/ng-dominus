@@ -2,9 +2,18 @@ import {InjectionToken} from "@angular/core";
 
 export interface DominusFile {
     name: string;
+    /**
+     * bytes
+     */
     size?: number;
+    /**
+     * A string containing the file's MIME type, or an empty string if the type could not be determined.
+     */
     type?: string;
     imagePreviewUrl?: string;
+    /**
+     * Custom data attached to this file(usually the response body from the server after upload).
+     */
     data?: { [key: string]: any };
 }
 
