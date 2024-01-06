@@ -1,3 +1,14 @@
 .card {
     margin-bottom: 1.6em;
 }
+
+.title-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--app-color-primary);
+
+    .title-link-icon {
+        padding-left: 8px;
+    }
+}

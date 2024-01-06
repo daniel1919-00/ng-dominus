@@ -44,7 +44,7 @@ body {
     &.dark {
         @include theme.define((
             color: (
-                primary: mat.define-palette($primary-palette, 400),
+                primary: mat.define-palette($primary-palette, 300),
                 accent: mat.define-palette($accent-palette),
                 warn: mat.define-palette($warn-palette),
             ),
