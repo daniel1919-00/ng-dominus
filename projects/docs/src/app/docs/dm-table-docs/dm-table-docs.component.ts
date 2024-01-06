@@ -17,11 +17,12 @@ import {TableDocsComponent} from "./table-docs/table-docs.component";
 import {MatMenuModule} from "@angular/material/menu";
 import {Subject, Subscription, takeUntil} from "rxjs";
 import {SelectionModel} from "@angular/cdk/collections";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @Component({
     selector: 'app-dm-table-docs',
     standalone: true,
-    imports: [CommonModule, DmTableComponent, MatCardModule, ComponentDocHeaderComponent, MatTabsModule, CodeExampleComponent, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatSelectModule, TableDocsComponent, MatMenuModule],
+    imports: [CommonModule, DmTableComponent, MatCardModule, ComponentDocHeaderComponent, MatTabsModule, CodeExampleComponent, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatSelectModule, TableDocsComponent, MatMenuModule, MatSlideToggleModule],
     templateUrl: './dm-table-docs.component.html',
     styleUrl: './dm-table-docs.component.scss',
 })
@@ -72,7 +73,8 @@ export class DmTableDocsComponent implements OnDestroy {
                 rowHoverEffectEnabled: ['0'],
                 rowSelectionModel: ['0'],
                 rowSelectionModelMultiple: ['0'],
-                rowClicked: ['0']
+                rowClicked: ['0'],
+                isLoading: [false]
             })
         });
 
@@ -130,6 +132,12 @@ export class DmTableDocsComponent implements OnDestroy {
                     this.rowClickedSub?.unsubscribe();
                     this.clickedRowData = null;
                 }
+            });
+
+        this.form.get(['config', 'isLoading'])?.valueChanges
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe(v => {
+                this.table.isLoading = v;
             });
     }
 

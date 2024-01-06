@@ -12,7 +12,7 @@
 
                             <h2>Configuration</h2>
 
-                            <section formGroupName="config" class="dm:grid">
+                            <section formGroupName="config" class="dm:grid dm:align-items-center">
                                 <mat-form-field class="dm:col-fixed">
                                     <mat-label>Visible columns</mat-label>
                                     <mat-select formControlName="tableColumns" [multiple]="true">
@@ -83,6 +83,8 @@
                                         <mat-option value="0">Unbound</mat-option>
                                     </mat-select>
                                 </mat-form-field>
+
+                                <mat-slide-toggle class="dm:col-fixed" formControlName="isLoading" color="primary">[isLoading]</mat-slide-toggle>
                             </section>
 
                             <br>
@@ -129,6 +131,7 @@
                     <ul>
                         <li><span class="dm:quote">--dm-table-overlay-background</span>: Background color of the data loading overlay</li>
                         <li><span class="dm:quote">--dm-table-hover-background</span>: Background color of a hovered row</li>
+                        <li><span class="dm:quote">--dm-table-border-color</span>: Color of the table outline</li>
                     </ul>
                 </mat-card-content>
             </mat-tab>

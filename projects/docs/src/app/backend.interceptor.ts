@@ -14,7 +14,7 @@ export class BackendInterceptor implements HttpInterceptor {
         //const endpointMethod = requestedEndpoint[1];
         switch (requestedEndpoint[0]) {
             case 'uploader': return await this.getUploaderResponse();
-            case 'table': return await this.getTableResponse(req.body);
+            case 'table': return await this.getTableResponse(req);
             default: return await lastValueFrom(next.handle(req));
         }
     }
@@ -23,11 +23,27 @@ export class BackendInterceptor implements HttpInterceptor {
         return new HttpResponse({status: 200, body: {}});
     }
 
-    private async getTableResponse(requestBody: any) {
+    private async getTableResponse(request: HttpRequest<any>) {
+
+        let pageIndex: number, pageLen: number, sortCol: string, sortDir: string;
+        if(request.method === 'GET') {
+            pageIndex = +(request.params.get('dm_page_index') || 0);
+            pageLen = +(request.params.get('dm_page_len') || 0);
+            sortCol = request.params.get('dm_sort_col') || '';
+            sortDir = request.params.get('dm_sort_dir') || '';
+        } else {
+            const requestBody = request.body;
+
+            pageIndex = requestBody.dm_page_index;
+            pageLen = requestBody.dm_page_len;
+            sortCol = requestBody.dm_sort_col;
+            sortDir = requestBody.dm_sort_dir
+        }
+
         const data = [];
         const maxResults = 100;
-        let startRow = requestBody.dm_page_index * requestBody.dm_page_len;
-        let endRow = startRow + requestBody.dm_page_len;
+        let startRow = pageIndex * pageLen;
+        let endRow = startRow + pageLen;
         if(endRow > maxResults) {
             endRow = maxResults;
         }
@@ -41,19 +57,19 @@ export class BackendInterceptor implements HttpInterceptor {
             });
         }
 
-        if(requestBody.dm_sort_col !== '') {
+        if(sortCol !== '') {
 
             let sortOrderAHigher = 1;
             let sortOrderALower = -1;
 
-            if(requestBody.dm_sort_dir === 'desc') {
+            if(sortDir === 'desc') {
                 sortOrderAHigher = -1;
                 sortOrderALower = 1;
             }
 
             data.sort((a: any, b: any) => {
-                const colValA = a[requestBody.dm_sort_col];
-                const colValB = b[requestBody.dm_sort_col];
+                const colValA = a[sortCol];
+                const colValB = b[sortCol];
 
                 if (colValA > colValB) return sortOrderAHigher;
                 if (colValA < colValB) return sortOrderALower;
