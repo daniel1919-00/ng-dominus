@@ -18,12 +18,31 @@ import {ComponentDocHeaderComponent} from "../../components/component-doc-header
 @Component({
     selector: 'app-dm-tags-docs',
     standalone: true,
-    imports: [CommonModule, MatCardModule, MatCheckboxModule, MatFormFieldModule, MatOptionModule, MatSelectModule, MatTabsModule, ReactiveFormsModule, UploaderDocsComponent, TagsDocsComponent, DmTagsComponent, CodeExampleComponent, ComponentDocHeaderComponent],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatTabsModule,
+        ReactiveFormsModule,
+        UploaderDocsComponent,
+        TagsDocsComponent,
+        DmTagsComponent,
+        CodeExampleComponent,
+        ComponentDocHeaderComponent
+    ],
     templateUrl: './dm-tags-docs.component.html',
     styleUrl: './dm-tags-docs.component.scss'
 })
 export class DmTagsDocsComponent {
     form: UntypedFormGroup;
+
+    protected readonly ENTER = ENTER;
+    protected readonly COMMA = COMMA;
+    protected readonly SEMICOLON = SEMICOLON;
+    protected readonly dmTagsCodeExample = dmTagsCodeExample;
 
     constructor(
         fb: UntypedFormBuilder,
@@ -38,9 +57,4 @@ export class DmTagsDocsComponent {
             })
         });
     }
-
-    protected readonly ENTER = ENTER;
-    protected readonly COMMA = COMMA;
-    protected readonly SEMICOLON = SEMICOLON;
-    protected readonly dmTagsCodeExample = dmTagsCodeExample;
 }

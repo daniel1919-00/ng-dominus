@@ -12,6 +12,7 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {APP_CONFIG} from "./injection-tokens";
 import {AppConfig} from "./interfaces/app-config.interface";
 import {HttpClientModule} from "@angular/common/http";
+import {HighlightLoader} from "ngx-highlightjs";
 
 @Component({
     selector: 'app-root',
@@ -31,7 +32,8 @@ export class AppComponent {
         protected breakpointObserver: BreakpointObserver,
         private changeDetector: ChangeDetectorRef,
         @Inject(DOCUMENT) private document: Document,
-        @Inject(APP_CONFIG) protected appConfig: AppConfig
+        @Inject(APP_CONFIG) protected appConfig: AppConfig,
+        private hljsLoader: HighlightLoader
     ) {
         this.setDarkMode(localStorage.getItem('darkModeEnabled') === '1');
         const menuItems: menuItem[] = [];
@@ -78,8 +80,10 @@ export class AppComponent {
         const body = this.document.body;
         if (state) {
             body.classList.add('dark');
+            this.hljsLoader.setTheme('assets/highlightjs/vs2015.css');
         } else {
             body.classList.remove('dark');
+            this.hljsLoader.setTheme('assets/highlightjs/xcode.css');
         }
 
         this.isDarkMode = state;

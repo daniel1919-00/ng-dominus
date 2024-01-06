@@ -1,5 +1,22 @@
 .code-example-container {
     margin: 1.4rem 0;
-    padding: 1.2rem;
-    border: 1px solid black;
+    border: 1px solid var(--app-code-example-border-color);
+    border-radius: var(--app-border-radius);
+
+    .header {
+        color: var(--app-color-primary);
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .code-result {
+        padding: .4rem 1rem 1rem 1rem;
+    }
+
+    .code-source {
+        font-family: monospace;
+        padding: 0 1rem;
+    }
 }

@@ -3,3 +3,9 @@ export interface CodeExample {
     styles: string;
     ts: string;
 }
+
+export const enum CodeTab {
+    HTML,
+    TS,
+    STYLES
+}

@@ -22,7 +22,21 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 @Component({
     selector: 'app-dm-table-docs',
     standalone: true,
-    imports: [CommonModule, DmTableComponent, MatCardModule, ComponentDocHeaderComponent, MatTabsModule, CodeExampleComponent, ReactiveFormsModule, MatFormFieldModule, MatOptionModule, MatSelectModule, TableDocsComponent, MatMenuModule, MatSlideToggleModule],
+    imports: [
+        CommonModule,
+        DmTableComponent,
+        MatCardModule,
+        ComponentDocHeaderComponent,
+        MatTabsModule,
+        CodeExampleComponent,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        TableDocsComponent,
+        MatMenuModule,
+        MatSlideToggleModule
+    ],
     templateUrl: './dm-table-docs.component.html',
     styleUrl: './dm-table-docs.component.scss',
 })
@@ -54,11 +68,12 @@ export class DmTableDocsComponent implements OnDestroy {
     rowSelectionModel = new SelectionModel<any>();
     clickedRowData: any = null;
 
-    protected readonly dmTagsCodeExample = dmTableDocsCodeExample;
+    protected readonly dmTableDocsCodeExample = dmTableDocsCodeExample;
 
     @ViewChild('table') private table!: DmTableComponent;
     private componentDestroyed$ = new Subject<void>();
     private rowClickedSub?: Subscription;
+
 
     constructor(
         fb: UntypedFormBuilder

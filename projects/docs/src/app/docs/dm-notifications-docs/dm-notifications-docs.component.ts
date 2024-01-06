@@ -5,7 +5,11 @@ import {ComponentDocHeaderComponent} from "../../components/component-doc-header
 import {FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
 import {MatTabsModule} from "@angular/material/tabs";
-import {dmNotificationsCodeExample} from "./dm-notifications-code-example";
+import {
+    dmGeneralNotificationsCodeExample,
+    dmNotificationsAlertDialogCodeExample,
+    dmNotificationsConfirmDialogCodeExample
+} from "./dm-notifications-code-example";
 import {DmNotificationsService} from "../../../../../dm-notifications/src/lib/dm-notifications.service";
 import {MatButtonModule} from "@angular/material/button";
 import {BehaviorSubject} from "rxjs";
@@ -26,14 +30,27 @@ class DmNotificationsExampleComponent {}
 @Component({
     selector: 'app-dm-notifications-docs',
     standalone: true,
-    imports: [CommonModule, CodeExampleComponent, ComponentDocHeaderComponent, FormsModule, MatCardModule, MatTabsModule, ReactiveFormsModule, MatButtonModule, MatInputModule, MatSelectModule, DmNotificationsApiDocsComponent],
+    imports: [
+        CommonModule,
+        CodeExampleComponent,
+        ComponentDocHeaderComponent,
+        FormsModule,
+        MatCardModule,
+        MatTabsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatSelectModule,
+        DmNotificationsApiDocsComponent],
     templateUrl: './dm-notifications-docs.component.html',
     styleUrl: './dm-notifications-docs.component.scss'
 })
 export class DmNotificationsDocsComponent {
-    protected readonly dmNotificationsCodeExample = dmNotificationsCodeExample;
     protected readonly confirmResult$ = new BehaviorSubject<boolean|null>(null);
     protected notificationConfig: UntypedFormGroup
+    protected readonly dmNotificationsAlertDialogCodeExample = dmNotificationsAlertDialogCodeExample;
+    protected readonly dmNotificationsConfirmDialogCodeExample = dmNotificationsConfirmDialogCodeExample;
+    protected readonly dmGeneralNotificationsCodeExample = dmGeneralNotificationsCodeExample;
 
     constructor(
         fb: UntypedFormBuilder,

@@ -12,10 +12,12 @@
 
         --app-component-docs-code-color: white;
         --app-component-docs-code-background: rgba(255,255,255,.06);
+        --app-code-example-border-color: rgba(255,255,255,.2)
     } @else {
         $matTheme: mat.define-light-theme($themeConfig);
         --app-component-docs-code-color: black;
         --app-component-docs-code-background: rgba(0,0,0,.06);
+        --app-code-example-border-color: rgba(0,0,0,.2)
     }
 
     --app-color-primary: #{mat.get-color-from-palette($primary-palette)};
@@ -32,6 +34,7 @@
     --app-color-warn-lighter: #{mat.get-color-from-palette($warn-palette, 'lighter')};
     --app-color-warn-darker: #{mat.get-color-from-palette($warn-palette, 'darker')};
     --app-color-warn-contrast: #{mat.get-color-from-palette($warn-palette, 'default-contrast')};
+
 
     @if $colorsOnly {
         @include mat.all-component-colors($matTheme);

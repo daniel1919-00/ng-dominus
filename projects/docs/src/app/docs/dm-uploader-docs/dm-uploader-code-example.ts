@@ -1,3 +1,39 @@
+import {CodeExample} from "../../components/code-example/code-example";
+
+export const dmUploaderCodeExample: CodeExample = {
+    html: `
+<form [formGroup]="form">
+    <h3>Configuration</h3>
+
+    <section formGroupName="config" class="dm:grid">
+        <mat-form-field class="dm:col-fixed">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+                <mat-option value="file-uploader">file-uploader</mat-option>
+                <mat-option value="image-uploader">image-uploader</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-checkbox color="primary" formControlName="multiple" class="dm:col-fixed">Multiple</mat-checkbox>
+    </section>
+
+    <br>
+    <h3>Result</h3>
+    <mat-form-field class="dm:col-12">
+        <mat-label>Uploader</mat-label>
+        <dm-uploader
+            formControlName="value"
+            [multiple]="!!form.get(['config', 'multiple'])?.value"
+            [type]="form.get(['config', 'type'])?.value || 'file-uploader'"
+            [allowedExtensions]="form.get(['config', 'allowedExtensions'])?.value || ['txt', 'pdf']"
+            fileSaveEndpoint="https://localhost/uploader/upload"
+            fileDeleteEndpoint="https://localhost/uploader/delete"></dm-uploader>
+    </mat-form-field>
+</form>
+<br><br>
+<h3>Form Value</h3>
+<pre>{{ form.get('value')?.value | json }}</pre>
+    `,
+    ts: `
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
@@ -21,8 +57,6 @@ import {dmUploaderCodeExample} from "./dm-uploader-code-example";
 })
 export class DmUploaderDocsComponent {
     form: UntypedFormGroup;
-    protected readonly dmUploaderCodeExample = dmUploaderCodeExample;
-
 
     constructor(
         fb: UntypedFormBuilder,
@@ -37,3 +71,6 @@ export class DmUploaderDocsComponent {
         });
     }
 }
+    `,
+    styles: ``
+};

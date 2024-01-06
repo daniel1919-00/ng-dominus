@@ -48,13 +48,13 @@ export const appConfig: ApplicationConfig = {
             provide: HIGHLIGHT_OPTIONS,
             useValue: {
                 coreLibraryLoader: () => import('highlight.js/lib/core'),
-                lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'), // Optional, only if you want the line numbers
                 languages: {
                     typescript: () => import('highlight.js/lib/languages/typescript'),
                     css: () => import('highlight.js/lib/languages/css'),
+                    scss: () => import('highlight.js/lib/languages/scss'),
                     xml: () => import('highlight.js/lib/languages/xml')
                 },
-                themePath: 'path-to-theme.css' // Optional, and useful if you want to change the theme dynamically
+                themePath: 'assets/highlightjs/xcode.css' // Optional, and useful if you want to change the theme dynamically
             }
         },
         {

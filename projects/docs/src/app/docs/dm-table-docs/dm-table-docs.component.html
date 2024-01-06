@@ -7,10 +7,9 @@
         <mat-tab-group>
             <mat-tab label="Overview">
                 <mat-card-content>
-                    <app-code-example [code]="dmTagsCodeExample">
+                    <app-code-example [code]="dmTableDocsCodeExample">
                         <form [formGroup]="form">
-
-                            <h2>Configuration</h2>
+                            <h3>Configuration</h3>
 
                             <section formGroupName="config" class="dm:grid dm:align-items-center">
                                 <mat-form-field class="dm:col-fixed">
@@ -98,7 +97,7 @@
                             </div>
 
                             <br>
-                            <h2>Result</h2>
+                            <h3>Result</h3>
                             <dm-table
                                 #table
                                 [dataSource]="form.get(['config', 'dataSource'])?.value === 'static' ? tableStaticDataSrc : tableServerSideDataSrc"

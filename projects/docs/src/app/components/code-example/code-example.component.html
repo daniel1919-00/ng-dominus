@@ -1,3 +1,34 @@
 <div class="code-example-container">
-    <ng-content></ng-content>
+    <div class="header">
+        <span class="title">{{title}}</span>
+        <span>
+            <button *ngIf="showSource" class="copy-button" mat-icon-button [matTooltip]="getCopyBtnTooltip()" (click)="copyCode()">
+                <mat-icon>content_copy</mat-icon>
+            </button>
+            <button *ngIf="code.html || code.ts || code.styles" mat-icon-button (click)="showSource = !showSource">
+            <mat-icon>code</mat-icon>
+        </button>
+        </span>
+    </div>
+    <ng-container [ngTemplateOutlet]="showSource ? source : result"></ng-container>
 </div>
+<ng-template #result>
+    <div class="code-result">
+        <ng-content></ng-content>
+    </div>
+</ng-template>
+<ng-template #source>
+    <div class="code-source">
+        <mat-tab-group (selectedIndexChange)="currentOpenTab = $event">
+            <mat-tab *ngIf="code.html" label="HTML">
+                <pre><code [highlight]="code.html" [languages]="['xml']"></code></pre>
+            </mat-tab>
+            <mat-tab *ngIf="code.ts" label="TS">
+                <pre><code [highlight]="code.ts" [languages]="['typescript']"></code></pre>
+            </mat-tab>
+            <mat-tab *ngIf="code.styles" label="STYLES">
+                <pre><code [highlight]="code.styles" [languages]="['scss', 'css']"></code></pre>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</ng-template>

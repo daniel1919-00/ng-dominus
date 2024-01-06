@@ -7,13 +7,13 @@
         <mat-tab-group>
             <mat-tab label="Overview">
                 <mat-card-content>
-                    <app-code-example title="Alert dialog" [code]="dmNotificationsCodeExample">
+                    <app-code-example title="Alert dialog" [code]="dmNotificationsAlertDialogCodeExample">
                         <div class="dm:grid">
                             <button class="dm:col-fixed" color="primary" mat-raised-button (click)="alert()">Show alert</button>
                         </div>
                     </app-code-example>
 
-                    <app-code-example title="Confirm dialog" [code]="dmNotificationsCodeExample">
+                    <app-code-example title="Confirm dialog" [code]="dmNotificationsConfirmDialogCodeExample">
                         <div class="dm:grid">
                             <button class="dm:col-fixed" color="primary" mat-raised-button (click)="confirm()">Show confirmation dialog</button>
                         </div>
@@ -22,7 +22,8 @@
                         <pre>Confirmed: {{ confirmResult$ | async | json }}</pre>
                     </app-code-example>
 
-                    <app-code-example title="Notifications" [code]="dmNotificationsCodeExample">
+                    <app-code-example title="General Notifications" [code]="dmGeneralNotificationsCodeExample">
+                        <h3>Configuration</h3>
                         <form class="dm:grid" [formGroup]="notificationConfig">
                             <mat-form-field class="dm:col-12 dm:md:col-6">
                                 <mat-label>Duration(ms)</mat-label>
@@ -57,6 +58,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </form>
+                        <h3>Result</h3>
                         <div class="example-buttons dm:align-content-center">
                             <button class="dm:col-fixed" color="primary" mat-raised-button (click)="exampleNotification()">Show notification</button>
                             <button class="dm:col-fixed" color="primary" mat-raised-button (click)="notifyUsingComponent()">Show notification using custom component</button>
