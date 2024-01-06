@@ -5,7 +5,8 @@ import {DmIntroComponent} from "./docs/dm-intro/dm-intro.component";
 export interface DocRoute extends Route {
     title: string;
     data?: {
-        icon: menuItemIcon
+        icon: menuItemIcon,
+        componentScreenshot?: string;
     }
 }
 
@@ -17,7 +18,8 @@ export const routes: DocRoute[] = [
         data: {
             icon: {
                 src: 'table_chart'
-            }
+            },
+            componentScreenshot: 'table-component.png'
         }
     },
     {
@@ -27,7 +29,8 @@ export const routes: DocRoute[] = [
         data: {
             icon: {
                 src: 'file_upload'
-            }
+            },
+            componentScreenshot: 'uploader-component.png'
         }
     },
     {
@@ -37,7 +40,8 @@ export const routes: DocRoute[] = [
         data: {
             icon: {
                 src: 'local_offer'
-            }
+            },
+            componentScreenshot: 'tags-component.png'
         }
     },
     {
@@ -47,7 +51,8 @@ export const routes: DocRoute[] = [
         data: {
             icon: {
                 src: 'css'
-            }
+            },
+            componentScreenshot: 'dm-styles.png'
         }
     },
     {
@@ -57,7 +62,8 @@ export const routes: DocRoute[] = [
         data: {
             icon: {
                 src: 'campaign'
-            }
+            },
+            componentScreenshot: 'dm-notification.png'
         }
     },
 

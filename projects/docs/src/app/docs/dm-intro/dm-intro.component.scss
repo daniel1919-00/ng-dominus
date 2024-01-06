@@ -1,0 +1,25 @@
+.component {
+    width: 18rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: border .2s ease-in-out;
+    margin: 10px;
+
+    .title {
+        margin-top: 1.8rem;
+        transition: color .2s ease-in-out;
+    }
+
+    &:hover {
+        .title {
+            color: var(--app-color-primary);
+        }
+
+        border: 1px solid var(--app-color-primary);
+    }
+
+    img {
+        width: 100%;
+        object-fit: contain;
+    }
+}
