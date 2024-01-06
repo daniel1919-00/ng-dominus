@@ -4,6 +4,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {FormGroup, UntypedFormGroup} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
+import {ngClassCompatible} from "../../../shared/types";
 
 export interface DmTableColumnDefinition {
     /**
@@ -19,7 +20,7 @@ export interface DmTableColumnDefinition {
      * Classes to be placed on the whole column (th & td).
      * The values must be compatible with ngClass.
      */
-    classes?: string[] | { [className: string]: boolean };
+    classes?: ngClassCompatible;
     /**
      * Is this column sortable?
      */
