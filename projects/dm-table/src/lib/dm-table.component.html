@@ -1,6 +1,6 @@
 <div class="dm-table-container">
-    <div *ngIf="isLoadingData" class="loading-overlay">
-        <mat-spinner [diameter]="60"></mat-spinner>
+    <div *ngIf="_isLoading" class="loading-overlay">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="dm-table-overflow">
         <table mat-table matSort [dataSource]="dataSourceAdapter" class="dm-table">
@@ -23,7 +23,7 @@
 
             <!-- NORMAL DATA COLUMN -->
             <ng-container *ngFor="let column of columns" [matColumnDef]="column.id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="column.classes" [arrowPosition]="sortingArrowPosition" [disabled]="column.sortable === false">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="column.classes" [arrowPosition]="sortingArrowPosition" [disabled]="_isLoading || column.sortable === false">
                     {{ column.name }}
                 </th>
                 <td mat-cell *matCellDef="let row" [ngClass]="column.classes">
@@ -51,5 +51,5 @@
             </tr>
         </table>
     </div>
-    <mat-paginator *ngIf="paginate" class="paginator" [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" aria-label="Select page"></mat-paginator>
+    <mat-paginator *ngIf="paginate" class="paginator" [disabled]="_isLoading" [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" aria-label="Select page"></mat-paginator>
 </div>

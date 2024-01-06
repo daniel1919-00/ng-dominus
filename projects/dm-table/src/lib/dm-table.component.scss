@@ -1,18 +1,13 @@
 .dm-table-container{
     position: relative;
+    border: 1px solid var(--dm-table-border-color, rgba(0, 0, 0, .2));
 
     .loading-overlay {
         width: 100%;
         position: absolute;
         left: 0;
         top: 0;
-        bottom: 0;
-        right: 0;
-        background: var(--dm-table-overlay-background, rgba(0, 0, 0, 0.15));
         z-index: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
     .dm-table-overflow {

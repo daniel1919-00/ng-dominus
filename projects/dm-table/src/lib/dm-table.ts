@@ -4,7 +4,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {FormGroup, UntypedFormGroup} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
-import {ngClassCompatible} from "../../../shared/types";
+import {ngClassCompatible} from "../shared/types";
 
 export interface DmTableColumnDefinition {
     /**
@@ -155,10 +155,10 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
 
         this.onBeforeRequest(requestOptions).then(options => {
             this.http.request<DmTableDataServerResponse>(requestMethod, dataSource, options)
-                .pipe(catchError(() => {
+                .pipe(catchError((error) => {
                     this.data = [];
                     this.loadingData$.next(false);
-                    return throwError(() => new Error(`Table data request from ${dataSource} failed!`));
+                    return throwError(() => new Error(`Table data request from ${dataSource} failed! Error: ${error.message || 'Unknown'}`));
                 }))
                 .subscribe((response) => {
                     if (response && response.rows) {

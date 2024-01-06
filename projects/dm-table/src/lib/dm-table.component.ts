@@ -1,5 +1,5 @@
 import {
-    AfterViewInit,
+    AfterViewInit, booleanAttribute,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -29,11 +29,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatCheckboxChange, MatCheckboxModule} from "@angular/material/checkbox";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @Component({
     selector: 'dm-table',
     standalone: true,
-    imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatSortModule, MatMenuModule, MatCheckboxModule, MatProgressSpinnerModule],
+    imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatSortModule, MatMenuModule, MatCheckboxModule, MatProgressSpinnerModule, MatProgressBarModule],
     templateUrl: './dm-table.component.html',
     styleUrl: './dm-table.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -93,10 +94,10 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
      */
     @Input() rowHoverEffectEnabled = false;
     /**
-     * Whether to display a loading spinner when loading data.
-     * This takes effect only when using a server-side data sources.
+     * Whether to display a loading animation when loading data from a server.
+     * The animation can also manually be triggered.
      */
-    @Input() loadingDataOverlay = true;
+    @Input() loadingAnimationEnabled = true;
     /**
      * Whether pagination will be enabled.
      */
@@ -122,7 +123,7 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
 
     protected displayedColumns: string[] = [];
     protected dataSourceAdapter!: DmTableDataSourceAdapter;
-    protected isLoadingData = false;
+    protected _isLoading = false;
     protected loadingDataSub?: Subscription;
     protected masterCheckboxChecked = false;
     protected masterCheckboxIndeterminate = false;
@@ -205,6 +206,24 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
 
         this.prepareDisplayedColumns();
         this.changeDetector.markForCheck();
+    }
+
+    /**
+     * Returns the table current loading state
+     */
+    get isLoading(): boolean {
+        return this._isLoading;
+    }
+
+    /**
+     * Activates or deactivates the table's loading state
+     * @param state
+     */
+    @Input({transform: booleanAttribute}) set isLoading(state: boolean) {
+        if(this._isLoading !== state) {
+            this._isLoading = state;
+            this.changeDetector.detectChanges();
+        }
     }
 
     protected toggleAllRowsSelection($event: MatCheckboxChange) {
@@ -309,13 +328,8 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
             this.filters
         );
 
-        if(this.loadingDataOverlay) {
-            this.loadingDataSub = dataSourceAdapter.onDataLoading().subscribe((loading) => {
-                if(this.isLoadingData !== loading) {
-                    this.isLoadingData = loading;
-                    this.changeDetector.detectChanges();
-                }
-            });
+        if(this.loadingAnimationEnabled) {
+            this.loadingDataSub = dataSourceAdapter.onDataLoading().subscribe(loading => this.isLoading = loading);
         }
 
         this.dataSourceAdapter = dataSourceAdapter;
