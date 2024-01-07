@@ -1,6 +1,6 @@
 <div #uploaderContainer [ngClass]="containerClasses">
-    <ng-container [ngSwitch]="uploaderType">
-        <ng-container *ngSwitchCase="'file-uploader-multiple'">
+    <ng-container [ngSwitch]="multiple">
+        <ng-container *ngSwitchCase="true">
             <div class="actions">
                 <button type="button" mat-raised-button color="primary" (click)="openFilesInput()">
                     <mat-icon>add</mat-icon>
@@ -45,7 +45,7 @@
             </ng-template>
         </ng-container>
 
-        <ng-container *ngSwitchCase="'file-uploader-single'">
+        <ng-container *ngSwitchCase="false">
             <div class="actions">
                 <button mat-mini-fab
                         type="button"

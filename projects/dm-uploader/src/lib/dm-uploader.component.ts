@@ -11,7 +11,7 @@ import {
     OnDestroy,
     Optional,
     Output,
-    Self,
+    Self, SimpleChanges,
     ViewChild
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
@@ -135,13 +135,13 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     protected _value: DominusFile[] = [];
     protected lastFileId = 0;
     protected filesQueue = new Map<number, DominusQueuedFile>();
-    protected uploaderType: string = '';
     protected maxImageSizeText: string = '';
     protected hasFiles = false;
     protected readonly DominusUploaderIntl = DominusUploaderIntl;
     protected componentDestroyed$ = new Subject<void>();
     protected readonly intl: Record<DominusUploaderIntl, string>;
 
+    private viewInit = false;
     @ViewChild('uploaderContainer') private readonly uploaderContainer!: ElementRef;
     @ViewChild('fileInput') private readonly fileInput!: ElementRef;
 
@@ -170,17 +170,23 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         }, intl || {});
     }
 
-    ngOnChanges() {
-        this.uploaderType = this.type + (this.multiple ? '-multiple' : '-single');
-        this.containerClasses['multiple'] = this.multiple;
-        this.containerClasses['image-uploader'] = this.type === 'image-uploader';
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes['multiple']) {
+            this.containerClasses['multiple'] = this.multiple;
+        }
 
-        if (this.maxImageSize?.length) {
+        if(changes['type']) {
+            this.containerClasses['image-uploader'] = this.type === 'image-uploader';
+        }
+
+        if (changes['maxImageSize'] && this.maxImageSize?.length) {
             this.maxImageSizeText = this.maxImageSize.map(size => size.height + 'x' + size.width).join(', ');
         }
 
-        this.changeDetector.markForCheck();
-        this.stateChanges.next();
+        if(this.viewInit) {
+            this.changeDetector.markForCheck();
+            this.stateChanges.next();
+        }
     }
 
     ngAfterViewInit() {
@@ -188,6 +194,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         fromEvent<DragEvent>(uploaderContainer, 'dragover').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onDragOver(evt));
         fromEvent<DragEvent>(uploaderContainer, 'dragleave').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onDragLeave(evt));
         fromEvent<DragEvent>(uploaderContainer, 'drop').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onFilesDropped(evt));
+        this.viewInit = true;
     }
 
     /**
@@ -202,11 +209,11 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     }
 
     @Input()
-    set value(value: DominusFile[]) {
+    set value(value: DominusFile[] | DominusFile | null) {
         value = value || [];
 
         if (!Array.isArray(value)) {
-            throw new Error('Uploader value must be an array of type DominusFile[].');
+            value = [value];
         }
 
         this._value = value;
@@ -290,7 +297,9 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
                             this._value = [];
                         }
 
-                        this._value.push({
+                        const uploadedFiles = this._value;
+
+                        uploadedFiles.push({
                             name: file.name,
                             size: file.size,
                             type: file.type,
@@ -299,11 +308,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
                         });
 
                         this.filesQueue.delete(queuedDominusFile.id);
-                        this.hasFiles = true;
-                        this.changeDetector.markForCheck();
-                        this.stateChanges.next();
-                        this.onChange(this.value);
-                        this.uploadFinished.next(this.value);
+                        this.value = uploadedFiles;
                         break;
                 }
             }
