@@ -9,7 +9,6 @@
                 <mat-card-content>
                     <app-code-example [code]="dmUploaderCodeExample">
                         <form [formGroup]="form">
-
                             <h3>Configuration</h3>
                             <section formGroupName="config" class="dm:grid">
                                 <mat-form-field class="dm:col-12">
@@ -18,10 +17,10 @@
                                 </mat-form-field>
 
                                 <mat-form-field class="dm:col-fixed">
-                                    <mat-label>[type]</mat-label>
-                                    <mat-select formControlName="type">
-                                        <mat-option value="file-uploader">file-uploader</mat-option>
-                                        <mat-option value="image-uploader">image-uploader</mat-option>
+                                    <mat-label>[displayAs]</mat-label>
+                                    <mat-select formControlName="displayAs">
+                                        <mat-option value="list">list</mat-option>
+                                        <mat-option value="grid">grid</mat-option>
                                     </mat-select>
                                 </mat-form-field>
 
@@ -41,16 +40,27 @@
                             <br>
                             <h3>Result</h3>
                             <mat-form-field class="dm:col-12">
-                                <mat-label>Uploader</mat-label>
+                                <mat-label>Uploader using mat-form-field</mat-label>
                                 <dm-uploader
                                     formControlName="value"
                                     [multiple]="form.get(['config', 'multiple'])?.value === '1'"
                                     [maxFileSize]="(form.get(['config', 'maxFileSize'])?.value || 5) * 1025 * 1024"
-                                    [type]="form.get(['config', 'type'])?.value || 'file-uploader'"
+                                    [displayAs]="form.get(['config', 'displayAs'])?.value || 'list'"
                                     [allowedExtensions]="allowedExtensions"
+                                    [maxImageSize]="maxImageSize"
                                     fileSaveEndpoint="https://localhost/uploader/upload"
                                     fileDeleteEndpoint="https://localhost/uploader/delete"></dm-uploader>
                             </mat-form-field>
+                            <br>
+                            <dm-uploader
+                                formControlName="value"
+                                [multiple]="form.get(['config', 'multiple'])?.value === '1'"
+                                [maxFileSize]="(form.get(['config', 'maxFileSize'])?.value || 5) * 1025 * 1024"
+                                [displayAs]="form.get(['config', 'displayAs'])?.value || 'list'"
+                                [allowedExtensions]="allowedExtensions"
+                                [maxImageSize]="maxImageSize"
+                                fileSaveEndpoint="https://localhost/uploader/upload"
+                                fileDeleteEndpoint="https://localhost/uploader/delete"></dm-uploader>
                         </form>
                         <br><br>
                         <h3>Form Value</h3>

@@ -1,120 +1,56 @@
-<div #uploaderContainer [ngClass]="containerClasses">
-    <ng-container [ngSwitch]="multiple">
-        <ng-container *ngSwitchCase="true">
-            <div class="actions">
-                <button type="button" mat-raised-button color="primary" (click)="openFilesInput()">
-                    <mat-icon>add</mat-icon>
-                    {{ intl[DominusUploaderIntl.MULTIPLE_ADD_FILES_BTN] }}
-                </button>
-            </div>
-            <ng-container *ngIf="hasFiles || filesQueue.has(lastFileId); else noFilesMultiple">
-                <dominus-uploader-file
-                    *ngFor="let file of _value; let i = index"
-                    [fileIndex]="i"
-                    [imagePreviewStyles]="imagePreviewStyles"
-                    [file]="file"
-                    error=""
-                    [progressBarColor]="progressBarColor"
-                    [allowDeleteAction]="allowDeleteAction"
-                    [showImagePreview]="showImagePreview"
-                    (fileDelete)="removeFile($event)"
-                ></dominus-uploader-file>
+<div
+    class="dm-uploader-container"
+    [ngClass]="containerClasses"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onFilesDropped($event)"
+    (click)="openFilesInput()"
+>
+    <div class="dm-uploader-info">
+        <label class="dm-uploader-info-primary">{{ intl[DmUploaderIntl.NO_FILES_MSG] }}</label>
+        <div class="dm-uploader-info-secondary">
+            <span *ngIf="allowedExtensions.length" class="dm-uploader-info-secondary-msg">
+                {{ intl[DmUploaderIntl.ALLOWED_EXTENSIONS] + ' ' + allowedExtensionsText }}
+            </span>
+            <span *ngIf="maxImageSizeText" class="dm-uploader-info-secondary-msg">{{ intl[DmUploaderIntl.IMAGE_SIZE_CHECK_TEXT] + ' ' + maxImageSizeText }}</span>
+        </div>
+    </div>
 
-                <dominus-uploader-file
-                    *ngFor="let queuedFile of filesQueue.entries()"
-                    [fileIndex]="queuedFile[0]"
-                    [error]="queuedFile[1].error"
-                    [imagePreviewStyles]="imagePreviewStyles"
-                    [uploadProgress]="queuedFile[1].progress"
-                    [file]="queuedFile[1]"
-                    [progressBarColor]="progressBarColor"
-                    [allowDeleteAction]="allowDeleteAction"
-                    [showImagePreview]="showImagePreview"
-                    (fileRetry)="retryUpload($event)"
-                ></dominus-uploader-file>
-            </ng-container>
-            <ng-template #noFilesMultiple>
-                <div class="no-files-multiple">
-                    <h3>{{ intl[DominusUploaderIntl.MULTIPLE_NO_FILES_MESSAGE] }}</h3>
-                    <span *ngIf="allowedExtensions.length" class="allowed-extensions">
-                        <span>{{ intl[DominusUploaderIntl.ALLOWED_EXTENSIONS] }}</span> {{ allowedExtensions.join(', ') }}
-                    </span>
-                    <span
-                        *ngIf="maxImageSizeText">{{ intl[DominusUploaderIntl.IMAGE_SIZE_CHECK_TEXT] }} {{ maxImageSizeText }}</span>
-                </div>
-            </ng-template>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="false">
-            <div class="actions">
-                <button mat-mini-fab
-                        type="button"
-                        color="primary"
-                        class="upload-btn"
-                        (click)="openFilesInput()">
-
-                    <mat-icon>attach_file</mat-icon>
-                </button>
-            </div>
-
-            <dominus-uploader-file
-                *ngIf="hasFiles || filesQueue.has(lastFileId);"
-                [fileIndex]="0"
-                [imagePreviewStyles]="imagePreviewStyles"
-                [error]="filesQueue.get(lastFileId)?.error || ''"
-                [uploadProgress]="filesQueue.get(lastFileId)?.progress"
-                [file]="hasFiles ? _value[0] : $any(filesQueue.get(lastFileId))"
-                [progressBarColor]="progressBarColor"
-                (fileDelete)="removeFile($event)"
-                (fileRetry)="retryUpload($event)"
-            ></dominus-uploader-file>
-        </ng-container>
-
-        <ng-container *ngSwitchDefault>
-            <div class="actions">
-                <button type="button" mat-mini-fab color="primary" (click)="openFilesInput()">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div>
-            <ng-container *ngIf="hasFiles || filesQueue.has(lastFileId); else noImagePlaceholder">
-                <div class="image-previews">
-                    <ng-container *ngIf="multiple || filesQueue.size === 0">
-                        <dominus-uploader-image
-                            *ngFor="let file of _value; let i = index"
-                            [fileIndex]="i"
-                            [file]="file"
-                            error=""
-                            [progressBarColor]="progressBarColor"
-                            [imagePreviewStyles]="imagePreviewStyles"
-                            [allowDeleteAction]="allowDeleteAction"
-                            (fileDelete)="removeFile($event)"></dominus-uploader-image>
-                    </ng-container>
-
-                    <dominus-uploader-image
-                        *ngFor="let queuedFile of filesQueue.entries()"
-                        [fileIndex]="queuedFile[0]"
-                        [error]="queuedFile[1].error"
-                        [uploadProgress]="queuedFile[1].progress"
-                        [file]="queuedFile[1]"
-                        [progressBarColor]="progressBarColor"
-                        [imagePreviewStyles]="imagePreviewStyles"
-                        [allowDeleteAction]="allowDeleteAction"
-                        (fileRetry)="retryUpload($event)"></dominus-uploader-image>
-                </div>
-            </ng-container>
-        </ng-container>
-
-        <ng-template #noImagePlaceholder>
-            <div class="no-files-multiple">
-                <h3>{{ intl[DominusUploaderIntl.NO_IMAGE_MESSAGE] }}</h3>
-                <span *ngIf="allowedExtensions.length" class="allowed-extensions">
-                    <span>{{ intl[DominusUploaderIntl.ALLOWED_EXTENSIONS] }}</span> {{ allowedExtensions.join(', ') }}
-                </span>
-                <span
-                    *ngIf="maxImageSizeText">{{ intl[DominusUploaderIntl.IMAGE_SIZE_CHECK_TEXT] }} {{ maxImageSizeText }}</span>
-            </div>
-        </ng-template>
-    </ng-container>
+    <div class="dm-uploader-files">
+        <div *ngFor="let uploadedFile of _value">
+            <ng-container
+                [ngTemplateOutlet]="displayAs === 'list' ? listFile : gridFile"
+                [ngTemplateOutletContext]="{file: uploadedFile, isQueuedFile: false}"></ng-container>
+        </div>
+        <div *ngFor="let queuedFile of filesQueue.entries()">
+            <ng-container
+                [ngTemplateOutlet]="displayAs === 'list' ? listFile : gridFile"
+                [ngTemplateOutletContext]="{file: queuedFile, isQueuedFile: true}"></ng-container>
+        </div>
+    </div>
 </div>
-<input #fileInput type="file" [accept]="allowedExtensions.length ? '.' + allowedExtensions.join(',.') : null"
-       [multiple]="multiple" (change)="onFilesAdded($any($event.target).files)">
+<input
+    #fileInput
+    class="dm-uploader-file-input"
+    type="file"
+    [accept]="allowedExtensions.length ? '.' + allowedExtensions.join(',.') : null"
+    [multiple]="multiple"
+    (change)="onFilesAdded($any($event.target).files)">
+
+<ng-template #listFile let-file="file" let-isQueued="isQueuedFile">
+    <div class="dm-uploader-list-file">
+        <div class="dm-uploader-file-info">
+            <span>{{file.name}}</span>
+            <span>{{file.size}}</span>
+        </div>
+        <div class="dm-uploader-file-actions">
+
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #gridFile let-file="file" let-isQueued="isQueuedFile">
+    <div class="dm-uploader-grid-file">
+
+    </div>
+</ng-template>

@@ -8,30 +8,28 @@ import {
     Inject,
     Input,
     OnChanges,
-    OnDestroy,
     Optional,
     Output,
     Self, SimpleChanges,
     ViewChild
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DominusUploaderFileComponent} from "./components/dominus-uploader-file/dominus-uploader-file.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {DominusUploaderImageComponent} from "./components/dominus-uploader-image/dominus-uploader-image.component";
 import {MAT_FORM_FIELD, MatFormField, MatFormFieldControl} from "@angular/material/form-field";
 import {NgControl} from "@angular/forms";
 import {
-    DOMINUS_UPLOADER_INTL,
+    DM_UPLOADER_INTL,
     DominusFile,
     DominusImageSize,
     DominusQueuedFile,
-    DominusUploaderIntl
+    DmUploaderIntl
 } from "./dm-uploader";
 import {HttpClient, HttpEventType, HttpHeaders} from "@angular/common/http";
 import {ThemePalette} from "@angular/material/core";
-import {catchError, fromEvent, of, Subject, takeUntil} from "rxjs";
+import {catchError, of} from "rxjs";
 import {CustomAngularMaterialFormControl} from "../shared/custom-angular-material-form-control";
+import {DmFileSizePipe} from "./dm-uploader-file-size.pipe";
 
 @Component({
     selector: 'dm-uploader',
@@ -43,17 +41,16 @@ import {CustomAngularMaterialFormControl} from "../shared/custom-angular-materia
         {
             provide: MatFormFieldControl,
             useExisting: DmUploaderComponent
-        }
+        },
+        DmFileSizePipe
     ],
     imports: [
         CommonModule,
         MatIconModule,
-        MatButtonModule,
-        DominusUploaderFileComponent,
-        DominusUploaderImageComponent
+        MatButtonModule
     ],
 })
-export class DmUploaderComponent extends CustomAngularMaterialFormControl<DominusFile[]> implements OnChanges, OnDestroy, AfterViewInit {
+export class DmUploaderComponent extends CustomAngularMaterialFormControl<DominusFile[]> implements OnChanges, AfterViewInit {
     static nextId = 0;
 
     id = `dm-uploader-${DmUploaderComponent.nextId++}`;
@@ -81,10 +78,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
      */
     @Input() multiple = false;
 
-    /**
-     * Uploader type
-     */
-    @Input() type: 'file-uploader' | 'image-uploader' = 'file-uploader';
+    @Input() displayAs: 'list' | 'grid' = 'list'
 
     @Input() progressBarColor: ThemePalette = 'primary';
 
@@ -126,57 +120,46 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     @Output() uploadFinished = new EventEmitter<DominusFile[]>();
 
     protected containerClasses: { [className: string]: boolean } = {
-        'container': true,
-        'multiple': false,
         'mat-form-field': false,
-        'dragover': false,
-        'image-uploader': false
+        'dragover': false
     };
     protected _value: DominusFile[] = [];
     protected lastFileId = 0;
     protected filesQueue = new Map<number, DominusQueuedFile>();
     protected maxImageSizeText: string = '';
+    protected allowedExtensionsText: string = '';
     protected hasFiles = false;
-    protected readonly DominusUploaderIntl = DominusUploaderIntl;
-    protected componentDestroyed$ = new Subject<void>();
-    protected readonly intl: Record<DominusUploaderIntl, string>;
+    protected readonly DmUploaderIntl = DmUploaderIntl;
+    protected readonly intl: Record<DmUploaderIntl, string>;
 
     private viewInit = false;
-    @ViewChild('uploaderContainer') private readonly uploaderContainer!: ElementRef;
     @ViewChild('fileInput') private readonly fileInput!: ElementRef;
 
     constructor(
         protected readonly http: HttpClient,
         protected readonly changeDetector: ChangeDetectorRef,
         @Optional() @Self() ngControl: NgControl,
-        @Optional() @Inject(DOMINUS_UPLOADER_INTL) intl?: Record<DominusUploaderIntl, string>,
-        @Optional() @Inject(MAT_FORM_FIELD) private readonly parentFormField?: MatFormField,
+        @Optional() @Inject(DM_UPLOADER_INTL) intl?: Record<DmUploaderIntl, string>,
+        @Optional() @Inject(MAT_FORM_FIELD) parentFormField?: MatFormField,
     ) {
         super(ngControl);
 
         this.containerClasses['mat-form-field'] = !!parentFormField;
 
         this.intl = Object.assign({
-            [DominusUploaderIntl.UNKNOWN_ERROR]: 'Upload Failed!',
-            [DominusUploaderIntl.INVALID_EXTENSION]: 'Invalid file extension!',
-            [DominusUploaderIntl.MAX_SIZE_EXCEEDED]: 'File size is too big!',
-            [DominusUploaderIntl.MULTIPLE_NO_FILES_MESSAGE]: 'Drop files here.',
-            [DominusUploaderIntl.SINGLE_NO_FILES_MESSAGE]: 'No file',
-            [DominusUploaderIntl.ALLOWED_EXTENSIONS]: 'Allowed Extensions:',
-            [DominusUploaderIntl.MULTIPLE_ADD_FILES_BTN]: 'Add files',
-            [DominusUploaderIntl.NO_IMAGE_MESSAGE]: 'Drop images here.',
-            [DominusUploaderIntl.IMAGE_SIZE_CHECK_FAILED]: 'Maximum width or height exceeded.',
-            [DominusUploaderIntl.IMAGE_SIZE_CHECK_TEXT]: 'Allowed image dimensions (HxW):',
+            [DmUploaderIntl.NO_FILES_MSG]: 'Drag&drop your files or click to browse',
+            [DmUploaderIntl.UNKNOWN_ERROR]: 'Upload Failed!',
+            [DmUploaderIntl.INVALID_EXTENSION]: 'Invalid file extension!',
+            [DmUploaderIntl.MAX_SIZE_EXCEEDED]: 'File size is too big!',
+            [DmUploaderIntl.ALLOWED_EXTENSIONS]: 'Allowed Extensions:',
+            [DmUploaderIntl.IMAGE_SIZE_CHECK_FAILED]: 'Maximum width or height exceeded.',
+            [DmUploaderIntl.IMAGE_SIZE_CHECK_TEXT]: 'Allowed image dimensions (HxW):',
         }, intl || {});
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if(changes['multiple']) {
-            this.containerClasses['multiple'] = this.multiple;
-        }
-
-        if(changes['type']) {
-            this.containerClasses['image-uploader'] = this.type === 'image-uploader';
+        if(changes['allowedExtensions']) {
+            this.allowedExtensionsText = this.allowedExtensions.join(', ');
         }
 
         if (changes['maxImageSize'] && this.maxImageSize?.length) {
@@ -190,10 +173,6 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     }
 
     ngAfterViewInit() {
-        const uploaderContainer = this.parentFormField?._elementRef.nativeElement || this.uploaderContainer.nativeElement;
-        fromEvent<DragEvent>(uploaderContainer, 'dragover').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onDragOver(evt));
-        fromEvent<DragEvent>(uploaderContainer, 'dragleave').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onDragLeave(evt));
-        fromEvent<DragEvent>(uploaderContainer, 'drop').pipe(takeUntil(this.componentDestroyed$)).subscribe((evt) => this.onFilesDropped(evt));
         this.viewInit = true;
     }
 
@@ -279,7 +258,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
             headers: requestHeaders
         }).pipe(
             catchError(() => {
-                queuedDominusFile.error = this.intl[DominusUploaderIntl.UNKNOWN_ERROR];
+                queuedDominusFile.error = this.intl[DmUploaderIntl.UNKNOWN_ERROR];
                 queuedDominusFile.progress = 0;
                 this.changeDetector.markForCheck();
                 return of(null);
@@ -352,21 +331,21 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         this.changeDetector.markForCheck();
     }
 
-    private onDragOver(evt: DragEvent) {
+    protected onDragOver(evt: DragEvent) {
         evt.preventDefault();
         evt.stopPropagation();
         this.containerClasses['dragover'] = true;
         this.changeDetector.markForCheck();
     }
 
-    private onDragLeave(evt: DragEvent) {
+    protected onDragLeave(evt: DragEvent) {
         evt.preventDefault();
         evt.stopPropagation();
         this.containerClasses['dragover'] = false;
         this.changeDetector.markForCheck();
     }
 
-    private onFilesDropped(evt: DragEvent) {
+    protected onFilesDropped(evt: DragEvent) {
         const files = evt.dataTransfer?.files;
         if (files) {
             evt.preventDefault();
@@ -393,12 +372,12 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
             }
 
             if (!extensionValid) {
-                return this.intl[DominusUploaderIntl.INVALID_EXTENSION];
+                return this.intl[DmUploaderIntl.INVALID_EXTENSION];
             }
         }
 
         if (file.size > this.maxFileSize) {
-            return this.intl[DominusUploaderIntl.MAX_SIZE_EXCEEDED];
+            return this.intl[DmUploaderIntl.MAX_SIZE_EXCEEDED];
         }
 
         if (file.type.includes('image') && this.maxImageSize?.length) {
@@ -425,7 +404,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
             }
 
             if (checkFail) {
-                return this.intl[DominusUploaderIntl.IMAGE_SIZE_CHECK_FAILED];
+                return this.intl[DmUploaderIntl.IMAGE_SIZE_CHECK_FAILED];
             }
         }
 
@@ -449,11 +428,5 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
 
             img.src = url;
         });
-    }
-
-    override ngOnDestroy() {
-        super.ngOnDestroy();
-        this.componentDestroyed$.next();
-        this.componentDestroyed$.complete();
     }
 }

@@ -1,51 +1,66 @@
-input[type="file"] {
-    display: none;
-}
-
-.container {
+.dm-uploader-container {
     display: flex;
     flex-direction: column;
-    min-height: 100px;
-    padding: 10px;
+    padding: .4rem;
 
-    &.multiple:not(.mat-form-field),
-    &.image-uploader:not(.mat-form-field) {
-        border: 1px dotted var(--dominus-uploader-file-default-border-color, #cecece);
+    &:not(.mat-form-field) {
+        min-height: 50px;
+        border: 1px solid var(--dm-uploader-border-color, #b0b1b2);
+        border-radius: var(--dm-uploader-border-radius, .2rem);
+        background: var(--dm-uploder-background, #F5F5F5);
+        color: var(--dm-uploader-no-files-text-color, #4c4e53);
+    }
 
-        &.dragover {
-            border-color: var(--dominus-uploader-file-hover-border-color, #6495EDFF);
+    &.dragover {
+        border-color: var(--dm-uploader-file-hover-border-color, #6495EDFF);
+    }
+
+    .dm-uploader-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: .8rem .4rem;
+
+        .dm-uploader-info-primary {
+            color: inherit;
+            padding-right: .8rem;
+        }
+
+        .dm-uploader-info-secondary {
+            color: inherit;
+            display: flex;
+            flex-shrink: 1;
+            flex-direction: column;
+            justify-items: center;
+            font-size: .7rem;
         }
     }
 
-    .image-previews {
+    .dm-uploader-files {
         display: flex;
-        flex-wrap: wrap;
-    }
-
-    .no-files-multiple {
+        align-items: center;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 
-    .no-files-single {
-        display: flex;
-        align-items: center;
+        .dm-uploader-list-file,
+        .dm-uploader-grid-file {
+            display: flex;
+            align-items: center;
+            padding: .4rem;
+            border: 1px solid var(--dm-uploader-file-border-color, #b0b1b2);
+            border-radius: var(--dm-uploader-border-radius, .2rem);
+        }
 
-        > button {
-            margin-left: 15px;
+        .dm-uploader-list-file {
+            width: 100%;
+        }
+
+        .dm-uploader-file-info {
+            display: flex;
+            flex-direction: column;
         }
     }
+}
 
-    .actions {
-        display: flex;
-        margin-bottom: 25px;
-
-        > button {
-            &:not(:last-child) {
-                margin-right: 8px;
-            }
-        }
-    }
+.dm-uploader-file-input {
+    display: none;
 }
