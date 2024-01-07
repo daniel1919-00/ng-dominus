@@ -1,5 +1,5 @@
 <mat-chip-grid #tagList>
-    <mat-chip-row *ngFor="let item of value; index as i" (removed)="remove(item, i)">
+    <mat-chip-row *ngFor="let item of value; index as i" (removed)="remove(item, i)" [color]="tagColor" [highlighted]="true">
         {{ item }}
         <button matChipRemove>
             <mat-icon>cancel</mat-icon>

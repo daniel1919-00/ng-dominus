@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     ElementRef,
     Input,
@@ -20,6 +20,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {FocusMonitor, FocusOrigin} from "@angular/cdk/a11y";
 import {NgControl} from "@angular/forms";
 import {CustomAngularMaterialFormControl} from "../shared/custom-angular-material-form-control";
+import {ThemePalette} from "@angular/material/core";
 
 @Component({
     selector: 'dm-tags',
@@ -46,7 +47,7 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
      */
     @Input() autocompleteOptions?: string[] | ((searchString: string) => Promise<string[]>);
     /**
-     * Keycode presses to add the current input string as a tag
+     * Keycode presses to add the current input string as a tag.
      */
     @Input() addOnKeycodes: number[] = [ENTER];
     /**
@@ -55,16 +56,20 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
      */
     @Input() addOnBlur: boolean = true;
     /**
-     * Whether duplicate values are allowed
+     * Whether duplicate values are allowed.
      */
     @Input() allowDuplicates: boolean = false;
     /**
-     * Function that returns true to allow the item or false to reject it
+     * Color applied to the entered tags.
+     */
+    @Input() tagColor: ThemePalette = 'primary'
+    /**
+     * Function that returns true to allow the item or false to reject it.
      */
     @Input() onBeforeAdd?: (item: string) => boolean;
 
     /**
-     * Function that returns true to allow the deletion or false to reject it
+     * Function that returns true to allow the deletion or false to reject it.
      */
     @Input() onBeforeRemove?: (item: string) => boolean;
 
@@ -79,13 +84,14 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
         @Optional() @Self() ngControl: NgControl,
         selfElementRef: ElementRef,
         focusMonitor: FocusMonitor,
+        private changeDetector: ChangeDetectorRef
     ) {
         super(ngControl, focusMonitor, selfElementRef);
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes['value'] && !changes['value'].firstChange) {
-            this.onChange(this._value);
+        if(changes['tagColor'] && !changes['tagColor'].firstChange) {
+            this.changeDetector.markForCheck();
         }
 
         if (changes['autocompleteOptions']) {
@@ -120,14 +126,16 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
         this.tagInput && (this.tagInput.nativeElement as HTMLInputElement).focus();
     }
 
+    get value(): string[] {
+        return this._value;
+    }
+
     @Input()
     set value(val: string[] | null) {
         this._value = val || [];
+        this.onChange(this._value);
+        this.changeDetector.markForCheck();
         this.stateChanges.next();
-    }
-
-    get value(): string[] {
-        return this._value;
     }
 
     get empty() {
@@ -135,6 +143,7 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
     }
 
     protected add(ev: MatChipInputEvent) {
+        this.controlTouched();
         const value = (ev.value || '').trim();
         ev.chipInput!.clear();
 
@@ -146,15 +155,15 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
     }
 
     protected remove(item: string, itemIndex: number) {
+        this.controlTouched();
         if (this.onBeforeRemove && !this.onBeforeRemove(item)) {
             return;
         }
 
         const currentValues = this.value;
         currentValues.splice(itemIndex, 1);
-        this.onChange(currentValues);
-        this.controlTouched();
-        this.stateChanges.next();
+
+        this.value = currentValues;
     }
 
     protected selected(event: MatAutocompleteSelectedEvent) {
@@ -181,8 +190,7 @@ export class DmTagsComponent extends CustomAngularMaterialFormControl<string[]> 
         }
 
         currentValues.push(value);
-        this.onChange(currentValues);
-        this.stateChanges.next();
+        this.value = currentValues;
     }
 
     protected override onFocusLost(origin: FocusOrigin) {
