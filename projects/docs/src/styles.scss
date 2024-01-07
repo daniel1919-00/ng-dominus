@@ -25,6 +25,10 @@ body {
     height: calc(100vh - var(--app-header-height));
     font-family: Roboto, "Helvetica Neue", sans-serif;
 
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+
     @include mat.core();
 
     $primary-palette: mat.$indigo-palette;

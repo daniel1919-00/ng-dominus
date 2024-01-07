@@ -30,6 +30,7 @@ import {ThemePalette} from "@angular/material/core";
 import {catchError, of} from "rxjs";
 import {CustomAngularMaterialFormControl} from "../shared/custom-angular-material-form-control";
 import {DmFileSizePipe} from "./dm-uploader-file-size.pipe";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @Component({
     selector: 'dm-uploader',
@@ -41,13 +42,14 @@ import {DmFileSizePipe} from "./dm-uploader-file-size.pipe";
         {
             provide: MatFormFieldControl,
             useExisting: DmUploaderComponent
-        },
-        DmFileSizePipe
+        }
     ],
     imports: [
         CommonModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        DmFileSizePipe,
+        MatProgressBarModule
     ],
 })
 export class DmUploaderComponent extends CustomAngularMaterialFormControl<DominusFile[]> implements OnChanges, AfterViewInit {
@@ -93,19 +95,11 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
      */
     @Input() maxFileSize = 5 * 1024 * 1024;
 
-    @Input() allowDeleteAction = true;
-
     /**
      * Whether to show a preview when the uploaded file is an image.
      * Does not apply image-uploader type
      */
     @Input() showImagePreview = true;
-
-    /**
-     * Styles applied directly to the image preview img element
-     * [ngStyle] compatible object
-     */
-    @Input() imagePreviewStyles: { [style: string]: string } = {'max-width': '200px'};
 
     /**
      * Limits the maximum width and/or height of uploaded images.
@@ -231,11 +225,10 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
                 };
 
                 this.filesQueue.set(queuedDominusFile.id, queuedDominusFile);
+                this.changeDetector.markForCheck();
 
                 if (error === '') {
                     this.uploadFile(queuedDominusFile).then();
-                } else {
-                    this.changeDetector.markForCheck();
                 }
             });
         }
@@ -286,7 +279,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
                             data: event.body || {}
                         });
 
-                        this.filesQueue.delete(queuedDominusFile.id);
+                        this.removeFromQueue(queuedDominusFile.id);
                         this.value = uploadedFiles;
                         break;
                 }
@@ -302,7 +295,7 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         }
 
         if (!queuedFile.canRetryUpload) {
-            this.filesQueue.delete(fileId);
+            this.removeFromQueue(fileId);
             return;
         }
 
@@ -329,6 +322,10 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
 
         this.hasFiles = this._value.length > 0;
         this.changeDetector.markForCheck();
+    }
+
+    protected removeFromQueue(fileId: number) {
+        this.filesQueue.delete(fileId);
     }
 
     protected onDragOver(evt: DragEvent) {

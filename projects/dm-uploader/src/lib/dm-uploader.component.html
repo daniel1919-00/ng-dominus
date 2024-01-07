@@ -17,16 +17,15 @@
     </div>
 
     <div class="dm-uploader-files">
-        <div *ngFor="let uploadedFile of _value">
-            <ng-container
-                [ngTemplateOutlet]="displayAs === 'list' ? listFile : gridFile"
-                [ngTemplateOutletContext]="{file: uploadedFile, isQueuedFile: false}"></ng-container>
-        </div>
-        <div *ngFor="let queuedFile of filesQueue.entries()">
-            <ng-container
-                [ngTemplateOutlet]="displayAs === 'list' ? listFile : gridFile"
-                [ngTemplateOutletContext]="{file: queuedFile, isQueuedFile: true}"></ng-container>
-        </div>
+        <ng-container
+            *ngFor="let uploadedFile of _value; index as uploadedFileIndex"
+            [ngTemplateOutlet]="file"
+            [ngTemplateOutletContext]="{file: uploadedFile, isQueuedFile: false, fileIndex: uploadedFileIndex, displayAs: displayAs}"></ng-container>
+
+        <ng-container
+            *ngFor="let queuedFile of filesQueue.entries();"
+            [ngTemplateOutlet]="file"
+            [ngTemplateOutletContext]="{file: queuedFile[1], isQueuedFile: true, fileIndex: queuedFile[0], displayAs: displayAs}"></ng-container>
     </div>
 </div>
 <input
@@ -37,20 +36,41 @@
     [multiple]="multiple"
     (change)="onFilesAdded($any($event.target).files)">
 
-<ng-template #listFile let-file="file" let-isQueued="isQueuedFile">
-    <div class="dm-uploader-list-file">
-        <div class="dm-uploader-file-info">
-            <span>{{file.name}}</span>
-            <span>{{file.size}}</span>
+<ng-template #file let-file="file" let-isQueued="isQueuedFile" let-fileIndex="fileIndex" let-displayAs="displayAs">
+    <div class="dm-uploader-file" [ngClass]="[displayAs, showImagePreview && file.imagePreviewUrl ? 'preview' : '', (isQueued ? (file.error === '' ? 'dm-uploader-success' : 'dm-uploader-error') : '')]">
+        <mat-progress-bar
+            *ngIf="isQueued && (file.error === '')"
+            [mode]="file.progress > 0 ? 'determinate' : 'indeterminate'"
+            [value]="file.progress || 0"
+            class="dm-uploader-file-upload-progress"></mat-progress-bar>
+
+        <div class="dm-uploader-file-header" [ngClass]="file.error ? 'error' : 'success'">
+            <div class="dm-uploader-file-info">
+                <span class="dm-uploader-file-info-primary">{{file.name}}</span>
+                <span class="dm-uploader-file-info-secondary">{{(file.size || 0) | dmFileSize}}</span>
+            </div>
+            <div class="dm-uploader-file-info actions">
+                <div class="dm-uploader-file-info">
+                    <span class="dm-uploader-file-info-primary">{{file.error}}</span>
+
+                </div>
+                <button mat-mini-fab *ngIf="(isQueued && file.error !== '') || file.progress === undefined"
+                        color="warn"
+                        (click)="$event.stopPropagation(); (isQueued ? removeFromQueue(file.id) : removeFile(fileIndex))">
+                    <mat-icon>delete</mat-icon>
+                </button>
+
+                <button mat-mini-fab *ngIf="isQueued && file.error !== '' && file.canRetryUpload"
+                        color="primary"
+                        (click)="$event.stopPropagation(); retryUpload(file.id);">
+                    <mat-icon>refresh</mat-icon>
+                </button>
+            </div>
         </div>
-        <div class="dm-uploader-file-actions">
 
-        </div>
-    </div>
-</ng-template>
-
-<ng-template #gridFile let-file="file" let-isQueued="isQueuedFile">
-    <div class="dm-uploader-grid-file">
-
+        <img
+            *ngIf="showImagePreview && file.imagePreviewUrl"
+            class="dm-uploader-file-preview"
+            [src]="file.imagePreviewUrl" alt="">
     </div>
 </ng-template>

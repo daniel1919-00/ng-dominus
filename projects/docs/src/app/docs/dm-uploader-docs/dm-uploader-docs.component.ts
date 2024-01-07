@@ -39,7 +39,7 @@ export class DmUploaderDocsComponent implements OnDestroy{
     form: UntypedFormGroup;
 
     protected readonly dmUploaderCodeExample = dmUploaderCodeExample;
-    protected allowedExtensions: string[] = ['txt', 'pdf', 'docx', 'xlsx'];
+    protected allowedExtensions: string[] = ['txt', 'pdf', 'docx', 'xlsx', 'png', 'gif', 'jpg'];
     protected maxImageSize: DominusImageSize[] = [{width: 500, height: 500}];
 
     private readonly componentDestroyed$ = new Subject<void>();
@@ -67,7 +67,7 @@ export class DmUploaderDocsComponent implements OnDestroy{
             config: fb.group({
                 multiple: ['1'],
                 displayAs: ['list'],
-                allowedExtensions: [['txt', 'pdf', 'docx', 'xlsx']],
+                allowedExtensions: [['txt', 'pdf', 'docx', 'xlsx', 'png', 'gif', 'jpg']],
                 maxFileSize: [5]
             })
         });

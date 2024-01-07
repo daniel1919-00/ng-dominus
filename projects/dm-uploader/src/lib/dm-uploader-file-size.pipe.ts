@@ -13,7 +13,7 @@ export class DmFileSizePipe implements PipeTransform {
      */
     transform(bytes: number, threshold = 1024, digits = 2): string {
         if (Math.abs(bytes) < threshold) {
-            return bytes + ' B';
+            return bytes + ' bytes';
         }
 
         const units = ['kB', 'MB', 'GB', 'TB', 'PB'];
