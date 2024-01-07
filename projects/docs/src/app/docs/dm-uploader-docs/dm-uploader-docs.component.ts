@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -11,18 +11,36 @@ import {MatSelectModule} from "@angular/material/select";
 import {ComponentDocHeaderComponent} from "../../components/component-doc-header/component-doc-header.component";
 import {CodeExampleComponent} from "../../components/code-example/code-example.component";
 import {dmUploaderCodeExample} from "./dm-uploader-code-example";
+import {DmTagsComponent} from "../../../../../dm-tags/src/lib/dm-tags.component";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
     selector: 'app-dm-uploader-docs',
     standalone: true,
-    imports: [CommonModule, MatCardModule, MatTabsModule, ReactiveFormsModule, DmUploaderComponent, UploaderDocsComponent, MatInputModule, MatCheckboxModule, MatSelectModule, ComponentDocHeaderComponent, CodeExampleComponent],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatTabsModule,
+        ReactiveFormsModule,
+        DmUploaderComponent,
+        UploaderDocsComponent,
+        MatInputModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        ComponentDocHeaderComponent,
+        CodeExampleComponent,
+        DmTagsComponent
+    ],
     templateUrl: './dm-uploader-docs.component.html',
     styleUrl: './dm-uploader-docs.component.scss'
 })
-export class DmUploaderDocsComponent {
+export class DmUploaderDocsComponent implements OnDestroy{
     form: UntypedFormGroup;
-    protected readonly dmUploaderCodeExample = dmUploaderCodeExample;
 
+    protected readonly dmUploaderCodeExample = dmUploaderCodeExample;
+    protected allowedExtensions: string[] = ['txt', 'pdf', 'docx', 'xlsx'];
+
+    private readonly componentDestroyed$ = new Subject<void>();
 
     constructor(
         fb: UntypedFormBuilder,
@@ -30,10 +48,32 @@ export class DmUploaderDocsComponent {
         this.form = fb.group({
             value: [[]],
             config: fb.group({
-                multiple: [true],
+                multiple: ['1'],
                 type: ['file-uploader'],
-                allowedExtensions: [['txt', 'pdf']]
+                allowedExtensions: [['txt', 'pdf', 'docx', 'xlsx']],
+                maxFileSize: [5]
             })
         });
+
+        this.form.get(['config', 'allowedExtensions'])?.valueChanges
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe(value => {
+                this.allowedExtensions = value.slice();
+            });
+
+        this.form.get(['config', 'type'])?.valueChanges
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe(value => {
+                if(value === 'image-uploader') {
+                    this.form.get(['config', 'allowedExtensions'])?.setValue(['png', 'gif', 'jpg', 'jpeg']);
+                } else {
+                    this.form.get(['config', 'allowedExtensions'])?.setValue(['txt', 'pdf', 'docx', 'xlsx']);
+                }
+            });
+    }
+
+    ngOnDestroy() {
+        this.componentDestroyed$.next();
+        this.componentDestroyed$.complete();
     }
 }

@@ -11,27 +11,43 @@
                         <form [formGroup]="form">
 
                             <h3>Configuration</h3>
-
                             <section formGroupName="config" class="dm:grid">
+                                <mat-form-field class="dm:col-12">
+                                    <mat-label>[allowedExtensions]</mat-label>
+                                    <dm-tags formControlName="allowedExtensions"></dm-tags>
+                                </mat-form-field>
+
                                 <mat-form-field class="dm:col-fixed">
-                                    <mat-label>Type</mat-label>
+                                    <mat-label>[type]</mat-label>
                                     <mat-select formControlName="type">
                                         <mat-option value="file-uploader">file-uploader</mat-option>
                                         <mat-option value="image-uploader">image-uploader</mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-checkbox color="primary" formControlName="multiple" class="dm:col-fixed">Multiple</mat-checkbox>
-                            </section>
 
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[multiple]</mat-label>
+                                    <mat-select formControlName="multiple">
+                                        <mat-option value="1">Allow multiple files</mat-option>
+                                        <mat-option value="0">Single file</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[maxFileSize]</mat-label>
+                                    <input type="text" matInput formControlName="maxFileSize">
+                                </mat-form-field>
+                            </section>
                             <br>
                             <h3>Result</h3>
                             <mat-form-field class="dm:col-12">
                                 <mat-label>Uploader</mat-label>
                                 <dm-uploader
                                     formControlName="value"
-                                    [multiple]="!!form.get(['config', 'multiple'])?.value"
+                                    [multiple]="form.get(['config', 'multiple'])?.value === '1'"
+                                    [maxFileSize]="(form.get(['config', 'maxFileSize'])?.value || 5) * 1025 * 1024"
                                     [type]="form.get(['config', 'type'])?.value || 'file-uploader'"
-                                    [allowedExtensions]="form.get(['config', 'allowedExtensions'])?.value || ['txt', 'pdf']"
+                                    [allowedExtensions]="allowedExtensions"
                                     fileSaveEndpoint="https://localhost/uploader/upload"
                                     fileDeleteEndpoint="https://localhost/uploader/delete"></dm-uploader>
                             </mat-form-field>

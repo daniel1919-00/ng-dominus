@@ -12,6 +12,8 @@ export abstract class CustomAngularFormControl implements ControlValueAccessor {
     protected onTouched = () => {
     };
 
+    private incomingAngularFormValue = false;
+
     protected constructor(
         public ngControl: NgControl
     ) {
@@ -24,7 +26,9 @@ export abstract class CustomAngularFormControl implements ControlValueAccessor {
     abstract set value(val: any);
 
     registerOnChange(fn: any): void {
-        this.onChange = fn;
+        this.onChange = (value: any) => {
+            !this.incomingAngularFormValue && fn(value);
+        };
     }
 
     registerOnTouched(fn: any): void {
@@ -40,6 +44,8 @@ export abstract class CustomAngularFormControl implements ControlValueAccessor {
     }
 
     writeValue(value: any): void {
+        this.incomingAngularFormValue = true;
         this.value = value;
+        this.incomingAngularFormValue = false;
     }
 }
