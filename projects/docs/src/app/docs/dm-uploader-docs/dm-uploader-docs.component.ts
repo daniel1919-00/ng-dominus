@@ -13,6 +13,7 @@ import {CodeExampleComponent} from "../../components/code-example/code-example.c
 import {dmUploaderCodeExample} from "./dm-uploader-code-example";
 import {DmTagsComponent} from "../../../../../dm-tags/src/lib/dm-tags.component";
 import {Subject, takeUntil} from "rxjs";
+import {DominusImageSize} from "../../../../../dm-uploader/src/lib/dm-uploader";
 
 @Component({
     selector: 'app-dm-uploader-docs',
@@ -38,7 +39,8 @@ export class DmUploaderDocsComponent implements OnDestroy{
     form: UntypedFormGroup;
 
     protected readonly dmUploaderCodeExample = dmUploaderCodeExample;
-    protected allowedExtensions: string[] = ['txt', 'pdf', 'docx', 'xlsx'];
+    protected allowedExtensions: string[] = ['txt', 'pdf', 'docx', 'xlsx', 'png', 'gif', 'jpg'];
+    protected maxImageSize: DominusImageSize[] = [{width: 500, height: 500}];
 
     private readonly componentDestroyed$ = new Subject<void>();
 
@@ -49,9 +51,11 @@ export class DmUploaderDocsComponent implements OnDestroy{
             value: [[]],
             config: fb.group({
                 multiple: ['1'],
-                type: ['file-uploader'],
-                allowedExtensions: [['txt', 'pdf', 'docx', 'xlsx']],
-                maxFileSize: [5]
+                displayAs: ['list'],
+                allowedExtensions: [['txt', 'pdf', 'docx', 'xlsx', 'png', 'gif', 'jpg']],
+                maxFileSize: [5],
+                showImagePreview: ['1'],
+                label: ['Uploader preview']
             })
         });
 

@@ -9,7 +9,6 @@
                 <mat-card-content>
                     <app-code-example [code]="dmUploaderCodeExample">
                         <form [formGroup]="form">
-
                             <h3>Configuration</h3>
                             <section formGroupName="config" class="dm:grid">
                                 <mat-form-field class="dm:col-12">
@@ -18,39 +17,68 @@
                                 </mat-form-field>
 
                                 <mat-form-field class="dm:col-fixed">
-                                    <mat-label>[type]</mat-label>
-                                    <mat-select formControlName="type">
-                                        <mat-option value="file-uploader">file-uploader</mat-option>
-                                        <mat-option value="image-uploader">image-uploader</mat-option>
+                                    <mat-label>[label]</mat-label>
+                                    <input type="text" matInput formControlName="label">
+                                </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[displayAs]</mat-label>
+                                    <mat-select formControlName="displayAs">
+                                        <mat-option value="list">list</mat-option>
+                                        <mat-option value="grid">grid</mat-option>
                                     </mat-select>
                                 </mat-form-field>
 
                                 <mat-form-field class="dm:col-fixed">
                                     <mat-label>[multiple]</mat-label>
                                     <mat-select formControlName="multiple">
-                                        <mat-option value="1">Allow multiple files</mat-option>
-                                        <mat-option value="0">Single file</mat-option>
+                                        <mat-option value="1">true</mat-option>
+                                        <mat-option value="0">false</mat-option>
                                     </mat-select>
                                 </mat-form-field>
 
                                 <mat-form-field class="dm:col-fixed">
                                     <mat-label>[maxFileSize]</mat-label>
-                                    <input type="text" matInput formControlName="maxFileSize">
+                                    <input type="number" matInput formControlName="maxFileSize">
+                                </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[showImagePreview]</mat-label>
+                                    <mat-select formControlName="showImagePreview">
+                                        <mat-option value="1">true</mat-option>
+                                        <mat-option value="0">false</mat-option>
+                                    </mat-select>
                                 </mat-form-field>
                             </section>
                             <br>
                             <h3>Result</h3>
+                            <h5>Uploader with mat-form-field</h5>
                             <mat-form-field class="dm:col-12">
-                                <mat-label>Uploader</mat-label>
+                                <mat-label>{{ form.get(['config', 'label'])?.value || '' }}</mat-label>
                                 <dm-uploader
                                     formControlName="value"
                                     [multiple]="form.get(['config', 'multiple'])?.value === '1'"
                                     [maxFileSize]="(form.get(['config', 'maxFileSize'])?.value || 5) * 1025 * 1024"
-                                    [type]="form.get(['config', 'type'])?.value || 'file-uploader'"
+                                    [displayAs]="form.get(['config', 'displayAs'])?.value || 'list'"
                                     [allowedExtensions]="allowedExtensions"
+                                    [maxImageSize]="maxImageSize"
+                                    [showImagePreview]="form.get(['config', 'showImagePreview'])?.value === '1'"
                                     fileSaveEndpoint="https://localhost/uploader/upload"
                                     fileDeleteEndpoint="https://localhost/uploader/delete"></dm-uploader>
                             </mat-form-field>
+                            <br>
+                            <h5>Uploader without mat-form-field</h5>
+                            <dm-uploader
+                                formControlName="value"
+                                [multiple]="form.get(['config', 'multiple'])?.value === '1'"
+                                [maxFileSize]="(form.get(['config', 'maxFileSize'])?.value || 5) * 1025 * 1024"
+                                [displayAs]="form.get(['config', 'displayAs'])?.value || 'list'"
+                                [label]="form.get(['config', 'label'])?.value || ''"
+                                [allowedExtensions]="allowedExtensions"
+                                [maxImageSize]="maxImageSize"
+                                [showImagePreview]="form.get(['config', 'showImagePreview'])?.value === '1'"
+                                fileSaveEndpoint="https://localhost/uploader/upload"
+                                fileDeleteEndpoint="https://localhost/uploader/delete"></dm-uploader>
                         </form>
                         <br><br>
                         <h3>Form Value</h3>
@@ -86,14 +114,25 @@ export class UploaderDemoComponent {{ '{' }}
                 <mat-card-content>
                     <p>Override colors using the following css variables:</p>
                     <ul>
-                        <li><span class="dm:quote">--dominus-uploader-error-color</span>: Error text color</li>
-                        <li><span class="dm:quote">--dominus-uploader-file-hover-border-color</span>: Border color when hovering over with a file</li>
-                        <li><span class="dm:quote">--dominus-uploader-image-uploading-overlay</span>: Overlay color applied to images that are
-                            uploading
-                        </li>
-                        <li><span class="dm:quote">--dominus-uploader-image-error-container-background</span>: Background colo applied to the error
-                            container
-                        </li>
+                        <li><span class="dm:quote">--dm-uploader-label-size</span>: Label font size</li>
+                        <li><span class="dm:quote">--dm-uploader-padding</span>: Uploader general padding</li>
+                        <li><span class="dm:quote">--dm-uploader-background</span>: Container background color</li>
+                        <li><span class="dm:quote">--dm-uploader-text-color</span>: Container text color</li>
+                        <li><span class="dm:quote">--dm-uploader-border-color</span>: Container border color</li>
+                        <li><span class="dm:quote">--dm-uploader-border-radius</span>: Uploader general border radius</li>
+                        <li><span class="dm:quote">--dm-uploader-file-hover-border-color</span>: Container border color on file hover</li>
+                        <li><span class="dm:quote">--dm-uploader-file-hover-text-color</span>: Container text color on file hover</li>
+                        <li><span class="dm:quote">--dm-uploader-files-container-max-height</span>: Container max height</li>
+                        <li><span class="dm:quote">--dm-uploader-file-border-color</span>: File container border color</li>
+                        <li><span class="dm:quote">--dm-uploader-file-preview-height</span>: File preview container height</li>
+                        <li><span class="dm:quote">--dm-uploader-file-info-primary-font-weight</span>: File container primary text font weight</li>
+                        <li><span class="dm:quote">--dm-uploader-file-info-primary-font-size</span>: File container primary text font size</li>
+                        <li><span class="dm:quote">--dm-uploader-file-info-secondary-font-size</span>: File container secondary text font size</li>
+                        <li><span class="dm:quote">--dm-uploader-file-preview-header-background-color-default</span>: File preview header default background color</li>
+                        <li><span class="dm:quote">--dm-uploader-file-preview-header-text-color-default</span>: File preview header default text color</li>
+                        <li><span class="dm:quote">--dm-uploader-file-preview-header-overlay-blur</span>: File preview header overlay blur strength</li>
+                        <li><span class="dm:quote">--dm-uploader-file-preview-header-background-color-success</span>: File preview header success background color</li>
+                        <li><span class="dm:quote">--dm-uploader-file-preview-header-background-color-error</span>: File preview header error background color</li>
                     </ul>
                 </mat-card-content>
             </mat-tab>
