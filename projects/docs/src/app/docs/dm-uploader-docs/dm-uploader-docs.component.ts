@@ -13,7 +13,7 @@ import {CodeExampleComponent} from "../../components/code-example/code-example.c
 import {dmUploaderCodeExample} from "./dm-uploader-code-example";
 import {DmTagsComponent} from "../../../../../dm-tags/src/lib/dm-tags.component";
 import {Subject, takeUntil} from "rxjs";
-import {DominusFile, DominusImageSize} from "../../../../../dm-uploader/src/lib/dm-uploader";
+import {DominusImageSize} from "../../../../../dm-uploader/src/lib/dm-uploader";
 
 @Component({
     selector: 'app-dm-uploader-docs',
@@ -48,27 +48,14 @@ export class DmUploaderDocsComponent implements OnDestroy{
         fb: UntypedFormBuilder,
     ) {
         this.form = fb.group({
-            value: [[
-                {
-                    "name": "License.txt",
-                    "size": 54,
-                    "type": "text/plain",
-                    "imagePreviewUrl": "",
-                    "data": {}
-                },
-                {
-                    "name": "readme.txt",
-                    "size": 38,
-                    "type": "text/plain",
-                    "imagePreviewUrl": "",
-                    "data": {}
-                }
-            ] as DominusFile[]],
+            value: [[]],
             config: fb.group({
                 multiple: ['1'],
                 displayAs: ['list'],
                 allowedExtensions: [['txt', 'pdf', 'docx', 'xlsx', 'png', 'gif', 'jpg']],
-                maxFileSize: [5]
+                maxFileSize: [5],
+                showImagePreview: ['1'],
+                label: ['Uploader preview']
             })
         });
 
