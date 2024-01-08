@@ -1,8 +1,5 @@
 <div class="dm:grid dm:align-items-stretch">
     <mat-card *ngFor="let component of availableComponents" class="dm:col-fixed component" [routerLink]="component.link">
-        <mat-card-header>
-            <img [src]="'assets/screenshots/' + component.image" [alt]="component.title + ' Screenshot'">
-        </mat-card-header>
         <mat-card-content>
             <h3 mat-card-title class="title">{{ component.title }}</h3>
             <span mat-card-subtitle>Material table component with lots of extra features</span>

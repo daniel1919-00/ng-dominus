@@ -12,5 +12,5 @@ import {RouterModule} from "@angular/router";
     styleUrl: './dm-intro.component.scss'
 })
 export class DmIntroComponent {
-    protected availableComponents = routes.filter(r => r.data?.componentScreenshot).map(r => { return {title: r.title, link: r.path, image: r.data?.componentScreenshot || ''}});
+    protected availableComponents = routes.filter(r => r.data?.displayOnMainPage).map(r => { return {title: r.title, link: r.path}});
 }

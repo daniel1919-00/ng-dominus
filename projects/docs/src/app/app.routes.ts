@@ -6,7 +6,7 @@ export interface DocRoute extends Route {
     title: string;
     data?: {
         icon: menuItemIcon,
-        componentScreenshot?: string;
+        displayOnMainPage?: boolean;
     }
 }
 
@@ -19,7 +19,7 @@ export const routes: DocRoute[] = [
             icon: {
                 src: 'table_chart'
             },
-            componentScreenshot: 'table-component.png'
+            displayOnMainPage: true
         }
     },
     {
@@ -30,7 +30,7 @@ export const routes: DocRoute[] = [
             icon: {
                 src: 'file_upload'
             },
-            componentScreenshot: 'uploader-component.png'
+            displayOnMainPage: true
         }
     },
     {
@@ -41,7 +41,7 @@ export const routes: DocRoute[] = [
             icon: {
                 src: 'local_offer'
             },
-            componentScreenshot: 'tags-component.png'
+            displayOnMainPage: true
         }
     },
     {
@@ -52,7 +52,7 @@ export const routes: DocRoute[] = [
             icon: {
                 src: 'css'
             },
-            componentScreenshot: 'dm-styles.png'
+            displayOnMainPage: true
         }
     },
     {
@@ -63,7 +63,7 @@ export const routes: DocRoute[] = [
             icon: {
                 src: 'campaign'
             },
-            componentScreenshot: 'dm-notification.png'
+            displayOnMainPage: true
         }
     },
 
