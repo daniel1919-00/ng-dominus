@@ -10,9 +10,10 @@
         <label class="dm-uploader-info-primary">{{ intl[DmUploaderIntl.NO_FILES_MSG] }}</label>
         <div class="dm-uploader-info-secondary">
             <span *ngIf="allowedExtensions.length" class="dm-uploader-info-secondary-msg">
-                {{ intl[DmUploaderIntl.ALLOWED_EXTENSIONS] + ' ' + allowedExtensionsText }}
+                {{ intl[DmUploaderIntl.ALLOWED_EXTENSIONS] + ': ' + allowedExtensionsText }}
             </span>
-            <span *ngIf="maxImageSizeText" class="dm-uploader-info-secondary-msg">{{ intl[DmUploaderIntl.IMAGE_SIZE_CHECK_TEXT] + ' ' + maxImageSizeText }}</span>
+            <span>{{ intl[DmUploaderIntl.MAX_FILE_SIZE] + ': ' + (maxFileSize | dmFileSize) }}</span>
+            <span *ngIf="maxImageSizeText" class="dm-uploader-info-secondary-msg">{{ intl[DmUploaderIntl.IMAGE_SIZE_CHECK_TEXT] + ': ' + maxImageSizeText }}</span>
         </div>
     </div>
 

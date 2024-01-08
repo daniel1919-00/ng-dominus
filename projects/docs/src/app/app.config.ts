@@ -10,6 +10,7 @@ import {Title} from "@angular/platform-browser";
 import {AppConfig} from "./interfaces/app-config.interface";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {BackendInterceptor} from "./backend.interceptor";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 
 @Injectable({providedIn: 'root'})
 export class AppTitleStrategy extends TitleStrategy {
@@ -61,6 +62,12 @@ export const appConfig: ApplicationConfig = {
             provide: MAT_TABS_CONFIG,
             useValue: {
                 animationDuration: '0'
+            }
+        },
+        {
+            provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+            useValue: {
+                appearance: 'outline'
             }
         }
     ]

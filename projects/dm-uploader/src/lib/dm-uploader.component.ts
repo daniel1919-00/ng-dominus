@@ -7,7 +7,7 @@ import {
     EventEmitter,
     Inject,
     Input,
-    OnChanges,
+    OnChanges, OnDestroy,
     Optional,
     Output,
     Self, SimpleChanges,
@@ -52,7 +52,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
         MatProgressBarModule
     ],
 })
-export class DmUploaderComponent extends CustomAngularMaterialFormControl<DominusFile[]> implements OnChanges, AfterViewInit {
+export class DmUploaderComponent extends CustomAngularMaterialFormControl<DominusFile[]> implements OnChanges, AfterViewInit, OnDestroy {
     static nextId = 0;
 
     id = `dm-uploader-${DmUploaderComponent.nextId++}`;
@@ -138,16 +138,19 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
     ) {
         super(ngControl);
 
-        this.containerClasses['mat-form-field'] = !!parentFormField;
+        if(parentFormField) {
+            this.containerClasses['mat-form-field'] = true;
+        }
 
         this.intl = Object.assign({
             [DmUploaderIntl.NO_FILES_MSG]: 'Drag&drop your files or click to browse',
             [DmUploaderIntl.UNKNOWN_ERROR]: 'Upload Failed!',
             [DmUploaderIntl.INVALID_EXTENSION]: 'Invalid file extension!',
             [DmUploaderIntl.MAX_SIZE_EXCEEDED]: 'File size is too big!',
-            [DmUploaderIntl.ALLOWED_EXTENSIONS]: 'Allowed Extensions:',
+            [DmUploaderIntl.ALLOWED_EXTENSIONS]: 'Allowed Extensions',
+            [DmUploaderIntl.MAX_FILE_SIZE]: 'Maximum file size',
             [DmUploaderIntl.IMAGE_SIZE_CHECK_FAILED]: 'Maximum width or height exceeded.',
-            [DmUploaderIntl.IMAGE_SIZE_CHECK_TEXT]: 'Allowed image dimensions (HxW):',
+            [DmUploaderIntl.IMAGE_SIZE_CHECK_TEXT]: 'Allowed image dimensions (HxW)',
         }, intl || {});
     }
 
@@ -425,5 +428,10 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
 
             img.src = url;
         });
+    }
+
+    override ngOnDestroy() {
+        super.ngOnDestroy();
+        this.uploadFinished.complete();
     }
 }
