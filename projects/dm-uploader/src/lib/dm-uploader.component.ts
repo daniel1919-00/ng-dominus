@@ -75,13 +75,17 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         [p: string]: string | string[]
     } | Promise<HttpHeaders | { [p: string]: string | string[] }>;
 
+    /**
+     * Uploader label.
+     */
     @Input() label: string = '';
-
     /**
      * Allow multiple files?
      */
     @Input() multiple = false;
-
+    /**
+     * Determines how the added files are rendered.
+     */
     @Input() displayAs: 'list' | 'grid' = 'list'
 
     @Input() progressBarColor: ThemePalette = 'primary';

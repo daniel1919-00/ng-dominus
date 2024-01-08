@@ -12,13 +12,13 @@
                             <h3>Configuration</h3>
                             <section formGroupName="config" class="dm:grid">
                                 <mat-form-field class="dm:col-12">
-                                    <mat-label>[label]</mat-label>
-                                    <input type="text" matInput formControlName="label">
-                                </mat-form-field>
-
-                                <mat-form-field class="dm:col-12">
                                     <mat-label>[allowedExtensions]</mat-label>
                                     <dm-tags formControlName="allowedExtensions"></dm-tags>
+                                </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[label]</mat-label>
+                                    <input type="text" matInput formControlName="label">
                                 </mat-form-field>
 
                                 <mat-form-field class="dm:col-fixed">
