@@ -75,6 +75,8 @@ export class DmUploaderComponent extends CustomAngularMaterialFormControl<Dominu
         [p: string]: string | string[]
     } | Promise<HttpHeaders | { [p: string]: string | string[] }>;
 
+    @Input() label: string = '';
+
     /**
      * Allow multiple files?
      */

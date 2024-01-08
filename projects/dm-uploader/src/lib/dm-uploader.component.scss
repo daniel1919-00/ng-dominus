@@ -1,5 +1,6 @@
 .dm-uploader-container {
     display: flex;
+    position: relative;
     flex-direction: column;
     box-sizing: border-box;
     color: inherit;
@@ -9,11 +10,18 @@
         box-sizing: inherit;
     }
 
+    .dm-uploader-label {
+        position: absolute;
+        font-size: var(--dm-uploader-label-size, .84rem);
+        top: 6px;
+        left: calc(var(--dm-uploader-padding, .4rem) * 2);
+    }
+
     &:not(.mat-form-field) {
         min-height: 50px;
         border: 1px solid var(--dm-uploader-border-color, #b0b1b2);
         border-radius: var(--dm-uploader-border-radius, .2rem);
-        background: var(--dm-uploder-background, #F5F5F5);
+        background: var(--dm-uploader-background, #F5F5F5);
         color: var(--dm-uploader-text-color, #4c4e53);
         padding: var(--dm-uploader-padding, .4rem);
     }
@@ -22,7 +30,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: .8rem .4rem;
+        padding: calc(var(--dm-uploader-padding, .4rem) * 2) var(--dm-uploader-padding, .4rem);
         color: inherit;
 
         .dm-uploader-info-primary {
@@ -91,7 +99,7 @@
                 flex-wrap: nowrap;
                 width: 100%;
                 z-index: 2;
-                padding: var(--dm-uploader-file-padding, .4rem);
+                padding: var(--dm-uploader-padding, .4rem);
 
                 .dm-uploader-file-info {
                     display: flex;
@@ -125,12 +133,12 @@
             &.preview {
                 height: var(--dm-uploader-file-preview-height, 14rem);
                 .dm-uploader-file-header {
-                    background-color: var(--dm-uploader-file-preview-background-color-default, rgba(255, 255, 255, .6));
-                    color: var(--dm-uploader-file-preview-text-color-default, inherit);
+                    background-color: var(--dm-uploader-file-preview-header-background-color-default, rgba(255, 255, 255, .6));
+                    color: var(--dm-uploader-file-preview-header-text-color-default, inherit);
 
                     @supports ((-webkit-backdrop-filter: blur(.2em)) or (backdrop-filter: blur(.2em))) {
-                        -webkit-backdrop-filter: blur(var(--dm-uploader-file-preview-overlay-blur, .18rem));
-                        backdrop-filter: blur(var(--dm-uploader-file-preview-overlay-blur, .18rem));
+                        -webkit-backdrop-filter: blur(var(--dm-uploader-file-preview-header-overlay-blur, .18rem));
+                        backdrop-filter: blur(var(--dm-uploader-file-preview-header-overlay-blur, .18rem));
                     }
                 }
             }
@@ -138,8 +146,8 @@
             &.dm-uploader-success {
                 &.preview {
                     .dm-uploader-file-header {
-                        background-color: var(--dm-uploader-file-preview-background-color-success, rgba(25, 135, 84, .6));
-                        color: var(--dm-uploader-file-preview-text-color-success, white);
+                        background-color: var(--dm-uploader-file-preview-header-background-color-success, rgba(25, 135, 84, .6));
+                        color: var(--dm-uploader-file-preview-header-background-color-success, white);
                     }
                 }
             }
@@ -147,8 +155,8 @@
             &.dm-uploader-error {
                 &.preview {
                     .dm-uploader-file-header {
-                        background-color: var(--dm-uploader-file-preview-background-color-error, rgba(220, 53, 69, .6));
-                        color: var(--dm-uploader-file-preview-text-color-error, white);
+                        background-color: var(--dm-uploader-file-preview-header-background-color-error, rgba(220, 53, 69, .6));
+                        color: var(--dm-uploader-file-preview-header-background-color-error, white);
                     }
                 }
             }
