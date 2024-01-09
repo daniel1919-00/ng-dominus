@@ -111,8 +111,8 @@ export const dmTableDocsCodeExample: CodeExample = {
 </form>
     `,
     ts: `
-import {Component, OnDestroy, ViewChild} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {Component, Inject, OnDestroy, ViewChild} from '@angular/core';
+import {CommonModule, DatePipe} from '@angular/common';
 import {DmTableComponent} from "../../../../../dm-table/src/lib/dm-table.component";
 import {MatCardModule} from "@angular/material/card";
 import {ComponentDocHeaderComponent} from "../../components/component-doc-header/component-doc-header.component";
@@ -121,7 +121,8 @@ import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from "@angula
 import {CodeExampleComponent} from "../../components/code-example/code-example.component";
 import {dmTableDocsCodeExample} from "./dm-table-docs-code-example";
 import {
-    DmTableColumnDefinition, DmTableColumnVisibility,
+    DM_TABLE_RENDER_COMPONENT_DATA,
+    DmTableColumnDefinition, DmTableColumnVisibility, DmTableRenderComponentData,
 } from "../../../../../dm-table/src/lib/dm-table";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
@@ -133,6 +134,22 @@ import {SelectionModel} from "@angular/cdk/collections";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @Component({
+    standalone: true,
+    template: \`
+        Rendering image id <strong>{{ columnData.columnData }}</strong> from <a href="https://picsum.photos/images">Lorem Picsum</a>.
+        <br>
+        <img [src]="'https://picsum.photos/id/'+columnData.columnData+'/100'" style="max-width: 100px">
+    \`
+})
+class MyColumnRenderer {
+    constructor(
+        @Inject(DM_TABLE_RENDER_COMPONENT_DATA) protected columnData: DmTableRenderComponentData
+    ) {
+    }
+}
+
+
+@Component({
     selector: 'app-dm-table-docs',
     standalone: true,
     imports: [
@@ -141,7 +158,6 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
         MatCardModule,
         ComponentDocHeaderComponent,
         MatTabsModule,
-        CodeExampleComponent,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatOptionModule,
@@ -149,6 +165,9 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
         TableDocsComponent,
         MatMenuModule,
         MatSlideToggleModule
+    ],
+    providers: [
+        DatePipe
     ],
     templateUrl: './dm-table-docs.component.html',
     styleUrl: './dm-table-docs.component.scss',
@@ -158,8 +177,8 @@ export class DmTableDocsComponent implements OnDestroy {
     tableColumns: DmTableColumnDefinition[] = [
         {id: 'column1', name: 'Column 1'},
         {id: 'column2', name: 'Column 2'},
-        {id: 'column3', name: 'Column 3'},
-        {id: 'column4', name: 'Column 4'},
+        {id: 'column3', name: 'pipe rendered column', renderUsing: {pipe: DatePipe}},
+        {id: 'column4', name: 'component rendered column', renderUsing: {component: MyColumnRenderer}},
     ];
 
     tableStaticDataSrc: {[key: string]: any}[] = [];
@@ -185,6 +204,7 @@ export class DmTableDocsComponent implements OnDestroy {
     private componentDestroyed$ = new Subject<void>();
     private rowClickedSub?: Subscription;
 
+
     constructor(
         fb: UntypedFormBuilder
     ) {
@@ -203,11 +223,13 @@ export class DmTableDocsComponent implements OnDestroy {
             })
         });
 
+        const date = new Date();
         for(let i = 0; i < 100; ++i) {
+            date.setDate(date.getDate() + 1);
             this.tableStaticDataSrc.push({
                 column1: i + 1,
                 column2: i + 2,
-                column3: i + 3,
+                column3: date.toUTCString(),
                 column4: i + 4,
             });
         }

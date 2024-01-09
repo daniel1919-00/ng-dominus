@@ -2,9 +2,45 @@
     <pre><code class="dm:quote code">import &#123; DmTableComponent &#125; from '&#64;ng-dominus/dm-table';</code></pre>
 
     <app-component-docs-section label="Inputs">
-
         <app-component-docs-section-item label="columns">
             Table column definitions.
+<pre><code class="dm:quote">export interface DmTableColumnDefinition &#123;
+    /**
+     * This will be matched against the data source when providing value for this column.
+     * For example the column id 'my_column' should be found in the data source, like so: [&#123;'my_column': 'column_value'&#125;, ...].
+     */
+    id: string;
+    /**
+     * The column display name.
+     */
+    name: string;
+    /**
+     * Classes to be placed on the whole column (th & td).
+     * The values must be compatible with ngClass.
+     */
+    classes?: ngClassCompatible;
+    /**
+     * Is this column sortable?
+     */
+    sortable?: boolean;
+    /**
+     * Whether this column is displayed or hidden.
+     */
+    visible?: boolean;
+    /**
+     * Render this column using a pipe or a component.
+     * If both are set, the component property takes priority
+     */
+    renderUsing?: &#123;
+        component?: Type&lt;any&gt;;
+        pipe?: ProviderToken&lt;any&gt;;
+        /**
+         * arguments to be passed to either the pipe or the component
+         */
+        arguments?: any[] | &#123;[key: string]: any&#125;
+    &#125;;
+&#125;
+</code></pre>
         </app-component-docs-section-item>
 
         <app-component-docs-section-item label="dataSource">
@@ -63,6 +99,10 @@
 
         <app-component-docs-section-item label="paginate">
             Whether pagination will be enabled.
+        </app-component-docs-section-item>
+
+        <app-component-docs-section-item label="showFirstLastButtons">
+            Shows paginator first/last buttons
         </app-component-docs-section-item>
 
         <app-component-docs-section-item label="pageSize">

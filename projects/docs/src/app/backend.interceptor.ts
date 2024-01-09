@@ -48,11 +48,12 @@ export class BackendInterceptor implements HttpInterceptor {
             endRow = maxResults;
         }
 
+        const date = new Date();
         for(let i = 0; i < maxResults; ++i) {
             data.push({
                 column1: i + 1,
                 column2: i + 2,
-                column3: i + 3,
+                column3: date.setDate(date.getDate() + 1).toLocaleString(),
                 column4: i + 4,
             });
         }
