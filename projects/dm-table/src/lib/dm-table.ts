@@ -5,6 +5,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {ngClassCompatible} from "../shared/types";
 import {FormGroup} from "@angular/forms";
+import {InjectionToken, ProviderToken, Type} from "@angular/core";
 
 export interface DmTableColumnDefinition {
     /**
@@ -29,11 +30,31 @@ export interface DmTableColumnDefinition {
      * Whether this column is displayed or hidden.
      */
     visible?: boolean;
+    /**
+     * Render this column using a pipe or a component.
+     * If both are set, the component property takes priority
+     */
+    renderUsing?: {
+        component?: Type<any>;
+        pipe?: ProviderToken<any>;
+        /**
+         * arguments to be passed to either the pipe or the component
+         */
+        arguments?: any[] | {[key: string]: any}
+    };
 }
 
 export interface DmTableRow {
     [columnId: string]: any;
 }
+
+export interface DmTableRenderComponentData {
+    columnId: string;
+    columnData: string;
+    arguments: any[] | {[key: string]: any};
+}
+
+export const DM_TABLE_RENDER_COMPONENT_DATA = new InjectionToken<DmTableRenderComponentData>('DM_TABLE_RENDER_COMPONENT_DATA');
 
 export type DmTableDataSource = string | { [columnId: string]: any }[];
 export type DmTableFilters = {[filter: string]: any} | FormGroup;

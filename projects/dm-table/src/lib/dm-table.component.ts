@@ -2,7 +2,7 @@ import {
     AfterViewInit, booleanAttribute,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, Injector,
     Input,
     OnChanges,
     OnDestroy, OnInit,
@@ -14,9 +14,10 @@ import {CommonModule} from '@angular/common';
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {
+    DM_TABLE_RENDER_COMPONENT_DATA,
     DmTableColumnDefinition, DmTableColumnVisibility,
     DmTableDataSource,
-    DmTableDataSourceAdapter, DmTableFilters,
+    DmTableDataSourceAdapter, DmTableFilters, DmTableRenderComponentData,
     DmTableRequestOptions,
 } from "./dm-table";
 import {Subject, Subscription} from "rxjs";
@@ -29,11 +30,24 @@ import {SelectionModel} from "@angular/cdk/collections";
 import {MatCheckboxChange, MatCheckboxModule} from "@angular/material/checkbox";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {DmTableRenderPipe} from "./dm-table-render.pipe";
 
 @Component({
     selector: 'dm-table',
     standalone: true,
-    imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatSortModule, MatMenuModule, MatCheckboxModule, MatProgressSpinnerModule, MatProgressBarModule],
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatMenuModule,
+        MatCheckboxModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        DmTableRenderPipe
+    ],
     templateUrl: './dm-table.component.html',
     styleUrl: './dm-table.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -102,6 +116,14 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
      */
     @Input() paginate = true;
     /**
+     * Shows paginator first/last buttons
+     */
+    @Input() showFirstLastButtons = true;
+    /**
+     * Hides paginator page size info
+     */
+    @Input() hidePageSize = false;
+    /**
      * The default page size.
      */
     @Input() pageSize = 10;
@@ -133,6 +155,7 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     constructor(
         private changeDetector: ChangeDetectorRef,
         private http: HttpClient,
+        private injector: Injector
     ) {}
 
     ngOnInit() {
@@ -264,6 +287,20 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
             this.masterCheckboxChecked = true;
             this.masterCheckboxIndeterminate = rowSelectionModel.selected.length !== this.dataSourceAdapter.getTotalResults();
         }
+    }
+
+    protected createRenderComponentInjector(column: DmTableColumnDefinition, columnData: any) {
+        return Injector.create({
+            providers: [{
+                provide: DM_TABLE_RENDER_COMPONENT_DATA,
+                useValue: {
+                    columnId: column.id,
+                    columnData,
+                    arguments: column.renderUsing?.arguments
+                } as DmTableRenderComponentData
+            }],
+            parent: this.injector
+        });
     }
 
     private getColumn(columnId: string) {
