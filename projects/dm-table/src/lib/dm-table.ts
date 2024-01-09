@@ -4,7 +4,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {ngClassCompatible} from "../shared/types";
-import {FormGroup, UntypedFormGroup} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 
 export interface DmTableColumnDefinition {
     /**
@@ -36,7 +36,7 @@ export interface DmTableRow {
 }
 
 export type DmTableDataSource = string | { [columnId: string]: any }[];
-export type DmTableFilters = {[filter: string]: any} | UntypedFormGroup | FormGroup;
+export type DmTableFilters = {[filter: string]: any} | FormGroup;
 
 export interface DmTableDataServerResponse {
     totalResults: number;
