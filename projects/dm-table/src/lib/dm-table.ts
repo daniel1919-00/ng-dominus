@@ -2,7 +2,6 @@ import {BehaviorSubject, catchError, merge, Observable, Subscription, throwError
 import {HttpClient, HttpContext, HttpHeaders, HttpParams} from "@angular/common/http";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {FormGroup, UntypedFormGroup} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
 import {ngClassCompatible} from "../shared/types";
 
@@ -36,6 +35,7 @@ export interface DmTableRow {
 }
 
 export type DmTableDataSource = string | { [columnId: string]: any }[];
+export type DmTableFilters = {[filter: string]: any};
 
 export interface DmTableDataServerResponse {
     totalResults: number;
@@ -78,7 +78,7 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
         private readonly onBeforeRequest: (requestOptions: DmTableRequestOptions) => Promise<DmTableRequestOptions>,
         paginator?: MatPaginator,
         private mapRowsFn?: (rows: any[]) => any[],
-        private filters?: UntypedFormGroup | FormGroup,
+        private filters?: DmTableFilters,
     ) {
         super();
 
@@ -138,7 +138,7 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
             observe: "body"
         };
 
-        const requestData = this.filters?.value || {};
+        const requestData = this.filters || {};
         requestData['dm_sort_col'] = this.sortRef?.active || '';
         requestData['dm_sort_dir'] = this.sortRef?.direction || '';
         requestData['dm_page_index'] = this.paginatorRef?.pageIndex || 0;

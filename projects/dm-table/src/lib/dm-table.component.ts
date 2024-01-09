@@ -16,12 +16,11 @@ import {MatSort, MatSortModule} from "@angular/material/sort";
 import {
     DmTableColumnDefinition, DmTableColumnVisibility,
     DmTableDataSource,
-    DmTableDataSourceAdapter,
+    DmTableDataSourceAdapter, DmTableFilters,
     DmTableRequestOptions,
 } from "./dm-table";
 import {Subject, Subscription} from "rxjs";
 import {MatMenu, MatMenuModule} from "@angular/material/menu";
-import {FormGroup, UntypedFormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
@@ -62,7 +61,7 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     /**
      * Filters that will be sent to the server side data source along with the default parameters (paging, sorting, etc.).
      */
-    @Input() filters?: UntypedFormGroup | FormGroup;
+    @Input() filters?: DmTableFilters;
     /**
      * A function that takes the current request options and returns a promise which resolves the final request options to be passed to the angular HttpClient.
      * This is useful if you need to pass additional headers (e.g. Authorization) or modify the data before sending the request to the backend.
