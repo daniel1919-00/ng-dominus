@@ -160,7 +160,10 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
             this.changeDetector.markForCheck();
         }
 
-        if (changes['dataSource'] && !changes['dataSource'].firstChange) {
+        if (
+            (changes['dataSource'] && !changes['dataSource'].firstChange)
+            || (changes['filters'] && !changes['filters'].firstChange)
+        ) {
             this.setDataSrcAdapter();
         }
     }
