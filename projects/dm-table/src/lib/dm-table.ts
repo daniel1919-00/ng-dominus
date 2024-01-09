@@ -4,6 +4,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {ngClassCompatible} from "../shared/types";
+import {FormGroup, UntypedFormGroup} from "@angular/forms";
 
 export interface DmTableColumnDefinition {
     /**
@@ -35,7 +36,7 @@ export interface DmTableRow {
 }
 
 export type DmTableDataSource = string | { [columnId: string]: any }[];
-export type DmTableFilters = {[filter: string]: any};
+export type DmTableFilters = {[filter: string]: any} | UntypedFormGroup | FormGroup;
 
 export interface DmTableDataServerResponse {
     totalResults: number;
@@ -138,7 +139,16 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
             observe: "body"
         };
 
-        const requestData = this.filters || {};
+
+        const filters = this.filters;
+
+        let requestData;
+        if(filters instanceof FormGroup) {
+            requestData = filters.value || {};
+        } else {
+            requestData = filters || {};
+        }
+
         requestData['dm_sort_col'] = this.sortRef?.active || '';
         requestData['dm_sort_dir'] = this.sortRef?.direction || '';
         requestData['dm_page_index'] = this.paginatorRef?.pageIndex || 0;
