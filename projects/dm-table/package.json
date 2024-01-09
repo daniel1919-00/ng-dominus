@@ -1,6 +1,6 @@
 {
     "name": "@ng-dominus/dm-table",
-    "version": "17.1.3",
+    "version": "17.1.4",
     "description": "Dominus angular material table extension",
     "homepage": "https://daniel1919-00.github.io/ng-dominus/dm-table",
     "publishConfig": {

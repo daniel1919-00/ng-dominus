@@ -144,7 +144,7 @@ export class DmTableDataSourceAdapter extends MatTableDataSource<any> {
 
         let requestData;
         if(filters instanceof FormGroup) {
-            requestData = filters.value || {};
+            requestData = Object.assign({}, filters.value || {});
         } else {
             requestData = filters || {};
         }
