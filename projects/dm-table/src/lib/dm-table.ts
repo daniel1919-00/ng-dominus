@@ -54,6 +54,12 @@ export interface DmTableRenderComponentData {
     arguments: any[] | {[key: string]: any};
 }
 
+export enum DmTableIntl {
+    NO_DATA,
+    LOADING
+}
+
+export const DM_TABLE_INTL = new InjectionToken<Record<DmTableIntl, string>>('Dominus table i18n strings');
 export const DM_TABLE_RENDER_COMPONENT_DATA = new InjectionToken<DmTableRenderComponentData>('DM_TABLE_RENDER_COMPONENT_DATA');
 
 export type DmTableDataSource = string | { [columnId: string]: any }[];

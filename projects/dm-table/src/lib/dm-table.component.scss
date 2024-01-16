@@ -1,6 +1,17 @@
 .dm-table-container{
     position: relative;
-    border: 1px solid var(--dm-table-border-color, rgba(0, 0, 0, .2));
+
+    &.outline {
+        border: 1px solid var(--dm-table-border-color, rgba(0, 0, 0, .2));
+    }
+
+    &.striped {
+        .dm-table {
+            .dm-table-row:nth-child(even) {
+                background: var(--dm-table-striped-row-background, rgba(0, 0, 0, 0.02));
+            }
+        }
+    }
 
     .loading-overlay {
         width: 100%;

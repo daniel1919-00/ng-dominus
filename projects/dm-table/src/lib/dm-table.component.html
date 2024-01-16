@@ -1,4 +1,4 @@
-<div class="dm-table-container">
+<div class="dm-table-container" [ngClass]="containerClasses">
     <div *ngIf="_isLoading" class="loading-overlay">
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
@@ -8,6 +8,7 @@
             <ng-container *ngIf="rowSelectionModel" matColumnDef="dm_table_row_selection_column">
                 <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox *ngIf="rowSelectionModel.isMultipleSelection()" color="primary"
+                                  [disabled]="_isLoading"
                                   (change)="toggleAllRowsSelection($event)"
                                   [checked]="masterCheckboxChecked"
                                   [indeterminate]="masterCheckboxIndeterminate">
@@ -15,6 +16,7 @@
                 </th>
                 <td mat-cell *matCellDef="let row">
                     <mat-checkbox color="primary"
+                                  [disabled]="_isLoading"
                                   (change)="toggleRowSelection(row)"
                                   [checked]="rowSelectionModel.isSelected(row)">
                     </mat-checkbox>
@@ -29,7 +31,8 @@
                 <td mat-cell *matCellDef="let row" [ngClass]="column.classes">
                     <ng-container
                         [ngTemplateOutlet]="!column.renderUsing ? renderDefault : (column.renderUsing.component ? renderComponent : renderPipe)"
-                        [ngTemplateOutletContext]="{column, row}"></ng-container>
+                        [ngTemplateOutletContext]="{column, row}">
+                    </ng-container>
                 </td>
             </ng-container>
 
@@ -37,7 +40,7 @@
             <ng-container *ngIf="rowContextMenu" matColumnDef="dm_table_row_contextual_menu_column">
                 <th mat-header-cell *matHeaderCellDef class="dm-table-row-contextual-menu-column">&nbsp;</th>
                 <td mat-cell *matCellDef="let row">
-                    <button *ngIf="rowContextMenuIsVisibleFn(row)" (click)="$event.stopPropagation()"
+                    <button *ngIf="rowContextMenuIsVisibleFn(row)" [disabled]="_isLoading" (click)="$event.stopPropagation()"
                             mat-icon-button [matMenuTriggerFor]="rowContextMenu" [matMenuTriggerData]="{row: row}">
                         <mat-icon>menu</mat-icon>
                     </button>
@@ -46,10 +49,10 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns" class="dm-table-header-row"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                class="dm-table-row" [ngClass]="{'dm-table-row-hover-effect': rowHoverEffectEnabled, 'dm-table-row-hover-pointer': rowClicked$.observed}" (click)="rowClicked$.next(row)"></tr>
+                class="dm-table-row" [ngClass]="{'dm-table-row-hover-effect': rowHoverEffectEnabled, 'dm-table-row-hover-pointer': rowClicked$.observed}" (click)="!_isLoading && rowClicked$.next(row)"></tr>
 
             <tr *matNoDataRow class="dm-table-row">
-                <td class="dm-no-data-cell" [attr.colspan]="columns.length + (rowContextMenu ? 1 : 0) + (rowSelectionModel ? 1 : 0)">{{ noDataMessage }}</td>
+                <td class="dm-no-data-cell" [attr.colspan]="columns.length + (rowContextMenu ? 1 : 0) + (rowSelectionModel ? 1 : 0)">{{ intl[_isLoading ? DominusTableIntl.LOADING : DominusTableIntl.NO_DATA] }}</td>
             </tr>
         </table>
     </div>

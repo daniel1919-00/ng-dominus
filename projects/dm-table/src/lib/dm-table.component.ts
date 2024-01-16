@@ -2,10 +2,10 @@ import {
     AfterViewInit, booleanAttribute,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Injector,
+    Component, Inject, Injector,
     Input,
     OnChanges,
-    OnDestroy, OnInit,
+    OnDestroy, OnInit, Optional,
     Output,
     SimpleChanges,
     ViewChild
@@ -14,10 +14,11 @@ import {CommonModule} from '@angular/common';
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {
+    DM_TABLE_INTL,
     DM_TABLE_RENDER_COMPONENT_DATA,
     DmTableColumnDefinition, DmTableColumnVisibility,
     DmTableDataSource,
-    DmTableDataSourceAdapter, DmTableFilters, DmTableRenderComponentData,
+    DmTableDataSourceAdapter, DmTableFilters, DmTableIntl, DmTableRenderComponentData,
     DmTableRequestOptions,
 } from "./dm-table";
 import {Subject, Subscription} from "rxjs";
@@ -65,9 +66,10 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     @Input({required: true}) dataSource!: DmTableDataSource;
 
     /**
-     * Message shown when there are no rows to render.
+     * Overrides the i18n default strings AND the string injected by the DM_TABLE_INTL token.
+     * This is mostly useful when dynamic i18n strings are required, or when there are multiple tables on the same page.
      */
-    @Input() noDataMessage = 'No data.';
+    @Input() intl: Record<DmTableIntl, string>;
     /**
      * The request method used when calling the server side data source(GET, POST, etc.).
      */
@@ -106,6 +108,14 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
      * Weather a highlight effect will be rendered when the user hovers the cursor over a row.
      */
     @Input() rowHoverEffectEnabled = false;
+    /**
+     * Highlights even rows
+     */
+    @Input() stripedRows = false;
+    /**
+     * Adds a border to the table
+     */
+    @Input() outline = true;
     /**
      * Whether to display a loading animation when loading data from a server.
      * The animation can also manually be triggered.
@@ -148,6 +158,10 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     protected loadingDataSub?: Subscription;
     protected masterCheckboxChecked = false;
     protected masterCheckboxIndeterminate = false;
+    protected readonly DominusTableIntl = DmTableIntl;
+    protected containerClasses: {
+        [key: string]: boolean
+    } = {};
 
     @ViewChild(MatPaginator) private paginator?: MatPaginator;
     @ViewChild(MatSort) private sort!: MatSort;
@@ -155,11 +169,18 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     constructor(
         private changeDetector: ChangeDetectorRef,
         private http: HttpClient,
-        private injector: Injector
-    ) {}
+        private injector: Injector,
+        @Optional() @Inject(DM_TABLE_INTL) intl?: Record<DmTableIntl, string>
+    ) {
+        this.intl = Object.assign({
+            [DmTableIntl.NO_DATA]: 'No data',
+            [DmTableIntl.LOADING]: 'Loading...'
+        }, intl || {});
+    }
 
     ngOnInit() {
         this.prepareDisplayedColumns();
+        this.updateContainerClasses();
     }
 
     ngAfterViewInit() {
@@ -167,26 +188,30 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        if (
+            (changes['dataSource'] && !changes['dataSource'].firstChange)
+            || (changes['filters'] && !changes['filters'].firstChange)
+        ) {
+            this.setDataSrcAdapter();
+        }
+
         const headerNeedsUpdate = (changes['columns'] && !changes['columns'].firstChange) || (changes['rowSelectionModel'] && !changes['rowSelectionModel'].firstChange);
+        const updateContainerClasses = (changes['outline'] && !changes['outline'].firstChange) || (changes['stripedRows'] && !changes['stripedRows'].firstChange)
 
         if (
             headerNeedsUpdate
+            || updateContainerClasses
             || (changes['rowHoverEffectEnabled'] && !changes['rowHoverEffectEnabled'].firstChange)
             || (changes['pageSizeOptions'] && !changes['pageSizeOptions'].firstChange)
             || (changes['paginate'] && !changes['paginate'].firstChange)
             || (changes['loadingDataOverlay'] && !changes['loadingDataOverlay'].firstChange)
             || (changes['sortingArrowPosition'] && !changes['sortingArrowPosition'].firstChange)
             || (changes['rowContextMenu'] && !changes['rowContextMenu'].firstChange)
+            || (changes['intl'] && !changes['intl'].firstChange)
         ) {
             headerNeedsUpdate && this.prepareDisplayedColumns();
+            updateContainerClasses && this.updateContainerClasses();
             this.changeDetector.markForCheck();
-        }
-
-        if (
-            (changes['dataSource'] && !changes['dataSource'].firstChange)
-            || (changes['filters'] && !changes['filters'].firstChange)
-        ) {
-            this.setDataSrcAdapter();
         }
     }
 
@@ -301,6 +326,13 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
             }],
             parent: this.injector
         });
+    }
+
+    private updateContainerClasses() {
+        this.containerClasses = {
+            'outline': this.outline,
+            'striped': this.stripedRows
+        };
     }
 
     private getColumn(columnId: string) {
