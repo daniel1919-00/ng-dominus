@@ -8,8 +8,9 @@ import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from "@angula
 import {CodeExampleComponent} from "../../components/code-example/code-example.component";
 import {dmTableDocsCodeExample} from "./dm-table-docs-code-example";
 import {
+    DM_TABLE_INTL,
     DM_TABLE_RENDER_COMPONENT_DATA,
-    DmTableColumnDefinition, DmTableColumnVisibility, DmTableRenderComponentData,
+    DmTableColumnDefinition, DmTableColumnVisibility, DmTableIntl, DmTableRenderComponentData,
 } from "../../../../../dm-table/src/lib/dm-table";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
@@ -54,7 +55,14 @@ class MyColumnRenderer {
         MatSlideToggleModule
     ],
     providers: [
-        DatePipe
+        DatePipe,
+        {
+            provide: DM_TABLE_INTL,
+            useValue: {
+                [DmTableIntl.NO_DATA]: 'Nothing here..',
+                [DmTableIntl.LOADING]: 'Loading some data...'
+            }
+        }
     ],
     templateUrl: './dm-table-docs.component.html',
     styleUrl: './dm-table-docs.component.scss',
@@ -64,7 +72,7 @@ export class DmTableDocsComponent implements OnDestroy {
     tableColumns: DmTableColumnDefinition[] = [
         {id: 'column1', name: 'Column 1'},
         {id: 'column2', name: 'Column 2'},
-        {id: 'column3', name: 'pipe rendered column', renderUsing: {pipe: DatePipe}},
+        {id: 'column3', name: 'date pipe rendered column', renderUsing: {pipe: DatePipe}},
         {id: 'column4', name: 'component rendered column', renderUsing: {component: MyColumnRenderer}},
     ];
 
@@ -93,7 +101,6 @@ export class DmTableDocsComponent implements OnDestroy {
     private componentDestroyed$ = new Subject<void>();
     private rowClickedSub?: Subscription;
 
-
     constructor(
         fb: UntypedFormBuilder
     ) {
@@ -102,6 +109,8 @@ export class DmTableDocsComponent implements OnDestroy {
                 tableColumns: [this.tableColumns.map(c => c.id)],
                 dataSource: ['static'],
                 sortingArrowPosition: ['after'],
+                outline: ['1'],
+                stripedRows: ['0'],
                 rowContextMenu: ['0'],
                 rowContextMenuIsVisibleFn: ['all'],
                 rowHoverEffectEnabled: ['0'],

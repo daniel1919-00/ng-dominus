@@ -148,7 +148,6 @@ class MyColumnRenderer {
     }
 }
 
-
 @Component({
     selector: 'app-dm-table-docs',
     standalone: true,
@@ -167,7 +166,14 @@ class MyColumnRenderer {
         MatSlideToggleModule
     ],
     providers: [
-        DatePipe
+        DatePipe,
+        {
+            provide: DM_TABLE_INTL,
+            useValue: {
+                [DmTableIntl.NO_DATA]: 'Nothing here..',
+                [DmTableIntl.LOADING]: 'Loading some data...'
+            }
+        }
     ],
     templateUrl: './dm-table-docs.component.html',
     styleUrl: './dm-table-docs.component.scss',

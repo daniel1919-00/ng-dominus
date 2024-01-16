@@ -50,10 +50,11 @@ export class BackendInterceptor implements HttpInterceptor {
 
         const date = new Date();
         for(let i = 0; i < maxResults; ++i) {
+            date.setDate(date.getDate() + 1);
             data.push({
                 column1: i + 1,
                 column2: i + 2,
-                column3: date.setDate(date.getDate() + 1).toLocaleString(),
+                column3: date.toUTCString(),
                 column4: i + 4,
             });
         }

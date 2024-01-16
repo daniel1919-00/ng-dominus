@@ -23,6 +23,7 @@
                                     <mat-select formControlName="dataSource">
                                         <mat-option value="static">Static</mat-option>
                                         <mat-option value="server">Server</mat-option>
+                                        <mat-option value="empty">No data</mat-option>
                                     </mat-select>
                                 </mat-form-field>
 
@@ -31,6 +32,30 @@
                                     <mat-select formControlName="sortingArrowPosition">
                                         <mat-option value="before">before</mat-option>
                                         <mat-option value="after">after</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[outline]</mat-label>
+                                    <mat-select formControlName="outline">
+                                        <mat-option value="1">true</mat-option>
+                                        <mat-option value="0">false</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[stripedRows]</mat-label>
+                                    <mat-select formControlName="stripedRows">
+                                        <mat-option value="1">true</mat-option>
+                                        <mat-option value="0">false</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[rowHoverEffectEnabled]</mat-label>
+                                    <mat-select formControlName="rowHoverEffectEnabled">
+                                        <mat-option value="1">Enabled</mat-option>
+                                        <mat-option value="0">Disabled</mat-option>
                                     </mat-select>
                                 </mat-form-field>
 
@@ -48,14 +73,6 @@
                                         <mat-option value="all">All rows</mat-option>
                                         <mat-option value="even">Even rows</mat-option>
                                         <mat-option value="odd">Odd rows</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-
-                                <mat-form-field class="dm:col-fixed">
-                                    <mat-label>[rowHoverEffectEnabled]</mat-label>
-                                    <mat-select formControlName="rowHoverEffectEnabled">
-                                        <mat-option value="1">Enabled</mat-option>
-                                        <mat-option value="0">Disabled</mat-option>
                                     </mat-select>
                                 </mat-form-field>
 
@@ -100,12 +117,14 @@
                             <h3>Result</h3>
                             <dm-table
                                 #table
-                                [dataSource]="form.get(['config', 'dataSource'])?.value === 'static' ? tableStaticDataSrc : tableServerSideDataSrc"
+                                [dataSource]="form.get(['config', 'dataSource'])?.value === 'static' ? tableStaticDataSrc : (form.get(['config', 'dataSource'])?.value === 'server' ? tableServerSideDataSrc : [])"
                                 [columns]="tableColumns"
                                 [sortingArrowPosition]="form.get(['config', 'sortingArrowPosition'])?.value || 'after'"
                                 [rowContextMenu]="rowContextMenu"
                                 [rowContextMenuIsVisibleFn]="rowContextMenuIsVisibleFn"
                                 [rowHoverEffectEnabled]="form.get(['config', 'rowHoverEffectEnabled'])?.value === '1'"
+                                [outline]="form.get(['config', 'outline'])?.value === '1'"
+                                [stripedRows]="form.get(['config', 'stripedRows'])?.value === '1'"
                                 [rowSelectionModel]="form.get(['config', 'rowSelectionModel'])?.value === '1' ? rowSelectionModel : undefined"
                                 [pageSize]="5"
                             ></dm-table>
@@ -123,12 +142,32 @@
                     <app-table-docs></app-table-docs>
                 </mat-card-content>
             </mat-tab>
+            <mat-tab label="Internationalization">
+                <mat-card-content>
+                    <p>Internationalization can be achieved by using the <span class="dm:quote">DM_TABLE_INTL</span> injection token,
+                        and passing an object of strings using the <span class="dm:quote">DmTableIntl</span> members as keys.</p>
 
+<pre><code class="dm:quote code">&#64;Component({{ '{' }}
+    ...
+    providers: [{{ '{' }}
+        provide: DM_TABLE_INTL,
+        useValue: {{ '{' }}
+            [DmTableIntl.NO_DATA]: 'No Data'
+            ...
+        {{ '}' }}
+    {{ '}' }}]
+{{ '}' }})
+export class TableDemoComponent {{ '{' }}
+    ...
+{{ '}' }}</code></pre>
+                </mat-card-content>
+            </mat-tab>
             <mat-tab label="Styling">
                 <mat-card-content>
                     <p>Override colors using the following css variables:</p>
                     <ul>
                         <li><span class="dm:quote">--dm-table-overlay-background</span>: Background color of the data loading overlay</li>
+                        <li><span class="dm:quote">--dm-table-striped-row-background</span>: Background color of striped rows</li>
                         <li><span class="dm:quote">--dm-table-hover-background</span>: Background color of a hovered row</li>
                         <li><span class="dm:quote">--dm-table-border-color</span>: Color of the table outline</li>
                     </ul>
