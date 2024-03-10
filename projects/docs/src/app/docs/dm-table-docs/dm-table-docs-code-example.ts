@@ -77,6 +77,19 @@ export const dmTableDocsCodeExample: CodeExample = {
             </mat-select>
         </mat-form-field>
 
+        <mat-form-field class="dm:col-fixed">
+            <mat-label>[freezeHeaderRow]</mat-label>
+            <mat-select formControlName="freezeHeaderRow">
+                <mat-option value="1">Frozen</mat-option>
+                <mat-option value="0">Unfrozen</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="dm:col-fixed">
+            <mat-label>[maxHeight]</mat-label>
+            <input type="text" matInput formControlName="maxHeight">
+        </mat-form-field>
+
         <mat-slide-toggle class="dm:col-fixed" formControlName="isLoading" color="primary">[isLoading]</mat-slide-toggle>
     </section>
 
@@ -94,14 +107,18 @@ export const dmTableDocsCodeExample: CodeExample = {
     <h3>Result</h3>
     <dm-table
         #table
-        [dataSource]="form.get(['config', 'dataSource'])?.value === 'static' ? tableStaticDataSrc : tableServerSideDataSrc"
+        [dataSource]="form.get(['config', 'dataSource'])?.value === 'static' ? tableStaticDataSrc : (form.get(['config', 'dataSource'])?.value === 'server' ? tableServerSideDataSrc : [])"
         [columns]="tableColumns"
         [sortingArrowPosition]="form.get(['config', 'sortingArrowPosition'])?.value || 'after'"
         [rowContextMenu]="rowContextMenu"
         [rowContextMenuIsVisibleFn]="rowContextMenuIsVisibleFn"
         [rowHoverEffectEnabled]="form.get(['config', 'rowHoverEffectEnabled'])?.value === '1'"
+        [outline]="form.get(['config', 'outline'])?.value === '1'"
+        [stripedRows]="form.get(['config', 'stripedRows'])?.value === '1'"
+        [freezeHeaderRow]="form.get(['config', 'freezeHeaderRow'])?.value === '1'"
+        [maxHeight]="form.get(['config', 'maxHeight'])?.value"
         [rowSelectionModel]="form.get(['config', 'rowSelectionModel'])?.value === '1' ? rowSelectionModel : undefined"
-        [pageSize]="5"
+        [pageSize]="10"
     ></dm-table>
 
     <mat-menu #rowContextMenu="matMenu">
@@ -225,7 +242,9 @@ export class DmTableDocsComponent implements OnDestroy {
                 rowSelectionModel: ['0'],
                 rowSelectionModelMultiple: ['0'],
                 rowClicked: ['0'],
-                isLoading: [false]
+                isLoading: [false],
+                freezeHeaderRow: ['1'],
+                maxHeight: ['700px']
             })
         });
 
@@ -291,6 +310,17 @@ export class DmTableDocsComponent implements OnDestroy {
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe(v => {
                 this.table.isLoading = v;
+            });
+
+        this.form.get(['config', 'freezeHeaderRow'])?.valueChanges
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe(v => {
+                if(v === '1') {
+                    const maxHeightControl = this.form.get(['config', 'maxHeight']);
+                    if(maxHeightControl && maxHeightControl.value === '') {
+                        maxHeightControl.setValue('700px');
+                    }
+                }
             });
     }
 

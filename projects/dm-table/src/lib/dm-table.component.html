@@ -2,7 +2,7 @@
     <div *ngIf="_isLoading" class="loading-overlay">
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
-    <div class="dm-table-overflow">
+    <div class="dm-table-overflow" [ngStyle]="{'max-height': maxHeight}">
         <table mat-table matSort [dataSource]="dataSourceAdapter" class="dm-table">
             <!-- ROW SELECTION COLUMN -->
             <ng-container *ngIf="rowSelectionModel" matColumnDef="dm_table_row_selection_column">
@@ -47,7 +47,7 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns" class="dm-table-header-row"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: freezeHeaderRow" class="dm-table-header-row"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
                 class="dm-table-row" [ngClass]="{'dm-table-row-hover-effect': rowHoverEffectEnabled, 'dm-table-row-hover-pointer': rowClicked$.observed}" (click)="!_isLoading && rowClicked$.next(row)"></tr>
 

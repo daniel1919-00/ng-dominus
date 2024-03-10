@@ -20,6 +20,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {Subject, Subscription, takeUntil} from "rxjs";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
     standalone: true,
@@ -52,7 +53,8 @@ class MyColumnRenderer {
         MatSelectModule,
         TableDocsComponent,
         MatMenuModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatInputModule
     ],
     providers: [
         DatePipe,
@@ -117,7 +119,9 @@ export class DmTableDocsComponent implements OnDestroy {
                 rowSelectionModel: ['0'],
                 rowSelectionModelMultiple: ['0'],
                 rowClicked: ['0'],
-                isLoading: [false]
+                isLoading: [false],
+                freezeHeaderRow: ['1'],
+                maxHeight: ['700px'],
             })
         });
 
@@ -183,6 +187,17 @@ export class DmTableDocsComponent implements OnDestroy {
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe(v => {
                 this.table.isLoading = v;
+            });
+
+        this.form.get(['config', 'freezeHeaderRow'])?.valueChanges
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe(v => {
+                if(v === '1') {
+                    const maxHeightControl = this.form.get(['config', 'maxHeight']);
+                    if(maxHeightControl && maxHeightControl.value === '') {
+                        maxHeightControl.setValue('700px');
+                    }
+                }
             });
     }
 

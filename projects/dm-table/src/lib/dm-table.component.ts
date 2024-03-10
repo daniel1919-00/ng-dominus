@@ -147,6 +147,18 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     @Input() sortingArrowPosition: 'before' | 'after' = 'after';
 
     /**
+     * Sets the header row as sticky.
+     * This only works if you set a max height for the table using the [maxHeight] input.
+     */
+    @Input() freezeHeaderRow: boolean = true;
+
+    /**
+     * Set a max height for the table (excluding the paginator).
+     * Should be a value compatible with the css property 'max-height'. Example: '70vh' or '600px'.
+     */
+    @Input() maxHeight?: string;
+
+    /**
      * Event triggered when a row has been clicked.
      * The event contains the row data.
      */
@@ -208,6 +220,7 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
             || (changes['sortingArrowPosition'] && !changes['sortingArrowPosition'].firstChange)
             || (changes['rowContextMenu'] && !changes['rowContextMenu'].firstChange)
             || (changes['intl'] && !changes['intl'].firstChange)
+            || (changes['maxHeight'] && !changes['maxHeight'].firstChange)
         ) {
             headerNeedsUpdate && this.prepareDisplayedColumns();
             updateContainerClasses && this.updateContainerClasses();

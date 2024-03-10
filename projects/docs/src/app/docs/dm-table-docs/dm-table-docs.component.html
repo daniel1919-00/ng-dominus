@@ -100,6 +100,19 @@
                                     </mat-select>
                                 </mat-form-field>
 
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[freezeHeaderRow]</mat-label>
+                                    <mat-select formControlName="freezeHeaderRow">
+                                        <mat-option value="1">Frozen</mat-option>
+                                        <mat-option value="0">Unfrozen</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="dm:col-fixed">
+                                    <mat-label>[maxHeight]</mat-label>
+                                    <input type="text" matInput formControlName="maxHeight">
+                                </mat-form-field>
+
                                 <mat-slide-toggle class="dm:col-fixed" formControlName="isLoading" color="primary">[isLoading]</mat-slide-toggle>
                             </section>
 
@@ -125,8 +138,10 @@
                                 [rowHoverEffectEnabled]="form.get(['config', 'rowHoverEffectEnabled'])?.value === '1'"
                                 [outline]="form.get(['config', 'outline'])?.value === '1'"
                                 [stripedRows]="form.get(['config', 'stripedRows'])?.value === '1'"
+                                [freezeHeaderRow]="form.get(['config', 'freezeHeaderRow'])?.value === '1'"
+                                [maxHeight]="form.get(['config', 'maxHeight'])?.value"
                                 [rowSelectionModel]="form.get(['config', 'rowSelectionModel'])?.value === '1' ? rowSelectionModel : undefined"
-                                [pageSize]="5"
+                                [pageSize]="10"
                             ></dm-table>
 
                             <mat-menu #rowContextMenu="matMenu">
