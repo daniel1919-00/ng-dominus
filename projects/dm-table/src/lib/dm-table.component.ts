@@ -7,7 +7,7 @@ import {
     OnChanges,
     OnDestroy, OnInit, Optional,
     Output,
-    SimpleChanges,
+    SimpleChanges, TrackByFunction,
     ViewChild
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
@@ -104,6 +104,15 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
      * This is useful when you need to alter row data from a server side data source before being rendered.
      */
     @Input() mapRowsFn?: (rows: any[]) => any[];
+
+    /**
+     * Tracking function that will be used to check the differences in data changes.
+     * Used similarly to ngFor trackBy function.
+     * Optimize row operations by identifying a row based on its data relative to the function to know if a row should be added/removed/moved.
+     * Accepts a function that takes two parameters, index and item.
+     */
+    @Input() trackBy: TrackByFunction<any> = (index: number, item: any) => item;
+
     /**
      * Weather a highlight effect will be rendered when the user hovers the cursor over a row.
      */
@@ -287,6 +296,10 @@ export class DmTableComponent implements OnChanges, OnInit, AfterViewInit, OnDes
             this._isLoading = state;
             this.changeDetector.detectChanges();
         }
+    }
+
+    protected identifyColumn(index: number, column: DmTableColumnDefinition) {
+        return column.id;
     }
 
     protected toggleAllRowsSelection($event: MatCheckboxChange) {

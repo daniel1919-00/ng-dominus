@@ -3,7 +3,7 @@
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="dm-table-overflow" [ngStyle]="{'max-height': maxHeight}">
-        <table mat-table matSort [dataSource]="dataSourceAdapter" class="dm-table">
+        <table mat-table matSort [dataSource]="dataSourceAdapter" class="dm-table" [trackBy]="trackBy">
             <!-- ROW SELECTION COLUMN -->
             <ng-container *ngIf="rowSelectionModel" matColumnDef="dm_table_row_selection_column">
                 <th mat-header-cell *matHeaderCellDef>
@@ -24,7 +24,7 @@
             </ng-container>
 
             <!-- NORMAL DATA COLUMN -->
-            <ng-container *ngFor="let column of columns" [matColumnDef]="column.id">
+            <ng-container *ngFor="let column of columns; trackBy: identifyColumn" [matColumnDef]="column.id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="column.classes" [arrowPosition]="sortingArrowPosition" [disabled]="_isLoading || column.sortable === false">
                     {{ column.name }}
                 </th>
